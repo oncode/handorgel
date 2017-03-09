@@ -77,23 +77,7 @@ Markup (use the heading tags that fit into your content):
 ```
 
 ```javascript
-// import
 var accordion = new Handorgel(document.querySelector('.accordon'), {
-
-  // header class if fold is open
-  headerOpenClass: 'handorgel__header--open',
-  // content class if fold is open
-  contentOpenClass: 'handorgel__content--open',
-
-  // header class if fold is open
-  headerDisabledClass: 'handorgel__header--disabled',
-  // content class if fold is open
-  contentDisabledClass: 'handorgel__content--disabled',
-
-  // header class if no transition is active
-  headerNoTransitionClass: 'handorgel__header--notransition'
-  // content class if no transition is active
-  contentDisabledClass: 'handorgel__content--notransition',
 
   // whether multiple folds can be opened at once
   multiSelectable: true,
@@ -110,7 +94,23 @@ var accordion = new Handorgel(document.querySelector('.accordon'), {
   // attribute for the header or content to open folds at initialization
   initialOpenAttribute: 'data-open',
   // whether to use transition at initial open
-  initialOpenTransition: true
+  initialOpenTransition: true,
+
+  // header class if fold is open
+  headerOpenClass: 'handorgel__header--open',
+  // content class if fold is open
+  contentOpenClass: 'handorgel__content--open',
+
+  // header class if fold is open
+  headerDisabledClass: 'handorgel__header--disabled',
+  // content class if fold is open
+  contentDisabledClass: 'handorgel__content--disabled',
+
+  // header class if no transition is active
+  headerNoTransitionClass: 'handorgel__header--notransition'
+  // content class if no transition is active
+  contentDisabledClass: 'handorgel__content--notransition'
+
 })
 ```
 
