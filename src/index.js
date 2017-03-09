@@ -38,8 +38,6 @@ export default class Handorgel extends EventEmitter {
     this._bindEvents()
     this._initAria()
     this.update()
-
-    window.test = this
   }
 
   update() {
