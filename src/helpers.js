@@ -22,25 +22,3 @@ export var rAF = (function() {
 export function isUndefined(value) {
   return typeof value === 'undefined'
 }
-
-/**
- * Transition end event.
- * @type {String}
- */
-export var transitionEndEvent = (function() {
-  var el = document.createElement('div'),
-    properties = {
-      'transition': 'transitionend',
-      'OTransition': 'oTransitionEnd',
-      'MozTransition': 'transitionend',
-      'WebkitTransition': 'webkitTransitionEnd'
-    }
-
-  for (let property in properties) {
-    if (properties.hasOwnProperty(property)
-        && el.style[property] !== 'undefined'
-    ) {
-      return properties[property]
-    }
-  }
-})()

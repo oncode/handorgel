@@ -1,5 +1,3 @@
-import { transitionEndEvent } from './helpers'
-
 var ID_COUNTER = {}
 
 export var INITIAL_OPEN_DELAY = 200
@@ -299,7 +297,7 @@ export default class HandorgelFold {
     this.content.addEventListener('blur', this._listeners.blur)
     this.content.addEventListener('keyup', this._listeners.keyup)
     this.content.addEventListener('keydown', this._listeners.contentKeydown)
-    this.content.addEventListener(transitionEndEvent, this._listeners.contentTransition)
+    this.content.addEventListener('transitionend', this._listeners.contentTransition)
   }
 
   _unbindEvents() {
@@ -310,7 +308,7 @@ export default class HandorgelFold {
     this.button.removeEventListener('keyup', this._listeners.keyup)
     this.button.removeEventListener('keydown', this._listeners.buttonKeydown)
 
-    this.content.removeEventListener(transitionEndEvent, this._listeners.contentTransition)
+    this.content.removeEventListener('transitionend', this._listeners.contentTransition)
     this.content.removeEventListener('focus', this._listeners.focus)
     this.content.removeEventListener('blur', this._listeners.blur)
     this.content.removeEventListener('keyup', this._listeners.keyup)
