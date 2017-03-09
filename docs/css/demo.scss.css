@@ -73,7 +73,6 @@ p {
 .handorgel__content {
   opacity: 0;
   height: 0;
-  overflow: hidden;
   transition: opacity 0.1s ease, height 0.1s ease 0.1s; }
   .handorgel__content--open {
     opacity: 1;

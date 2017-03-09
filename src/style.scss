@@ -112,7 +112,6 @@ $handorgel__header--open-transition:
   &__content {
     opacity: 0;
     height: 0;
-    overflow: hidden;
     transition: $handorgel__content-transition;
 
     &--open {

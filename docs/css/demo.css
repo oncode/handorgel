@@ -95,7 +95,6 @@ p:last-child {
 .handorgel__content {
   opacity: 0;
   height: 0;
-  overflow: hidden;
   -webkit-transition: opacity 0.1s ease, height 0.1s ease 0.1s;
   transition: opacity 0.1s ease, height 0.1s ease 0.1s; }
 
