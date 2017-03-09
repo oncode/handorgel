@@ -33,6 +33,7 @@ export default class Handorgel extends EventEmitter {
     this.collapsible = !isUndefined(options.collapsible) ? !!options.collapsible : true
     this.carouselFocus = !isUndefined(options.carouselFocus) ? !!options.carouselFocus : true
 
+    this._listeners = {}
     this._resizing = false
 
     this._bindEvents()
@@ -156,16 +157,16 @@ export default class Handorgel extends EventEmitter {
   }
 
   _bindEvents() {
-    this._resizeListener = this._handleResize.bind(this)
-    window.addEventListener('resize', this._resizeListener)
+    this._listeners.resize = this._handleResize.bind(this)
+    window.addEventListener('resize', this._listeners.resize)
 
-    this._foldOpenListener = this._handleFoldOpen.bind(this)
-    this.on('fold:open', this._foldOpenListener)
+    this._listeners.foldOpen = this._handleFoldOpen.bind(this)
+    this.on('fold:open', this._listeners.foldOpen)
   }
 
   _unbindEvents() {
-    window.removeEventListener('resize', this._resizeListener)
-    this.off('open', this._foldOpenListener)
+    window.removeEventListener('resize', this._listeners.resize)
+    this.off('open', this._listeners.foldOpen)
   }
 
 }

@@ -27,6 +27,8 @@ export default class HandorgelFold {
     this.focused = false
     this.expanded = false
     this.disabled = false
+
+    this._listeners = {}
     this._ctrlKeyPressed = false
 
     this._bindEvents()
@@ -279,40 +281,40 @@ export default class HandorgelFold {
   }
 
   _bindEvents() {
-    this._focusListener = this._handleFocus.bind(this)
-    this._blurListener = this._handleBlur.bind(this)
-    this._keyupListener = this._handleKeyup.bind(this)
+    this._listeners.focus = this._handleFocus.bind(this)
+    this._listeners.blur = this._handleBlur.bind(this)
+    this._listeners.keyup = this._handleKeyup.bind(this)
 
-    this._buttonClickListener = this._handleButtonClick.bind(this)
-    this._buttonKeydownListener = this._handleButtonKeydown.bind(this)
-    this.button.addEventListener('focus', this._focusListener)
-    this.button.addEventListener('blur', this._blurListener)
-    this.button.addEventListener('keyup', this._keyupListener)
-    this.button.addEventListener('keydown', this._buttonKeydownListener)
-    this.button.addEventListener('click', this._buttonClickListener)
+    this._listeners.buttonClick = this._handleButtonClick.bind(this)
+    this._listeners.buttonKeydown = this._handleButtonKeydown.bind(this)
+    this.button.addEventListener('focus', this._listeners.focus)
+    this.button.addEventListener('blur', this._listeners.blur)
+    this.button.addEventListener('keyup', this._listeners.keyup)
+    this.button.addEventListener('keydown', this._listeners.buttonKeydown)
+    this.button.addEventListener('click', this._listeners.buttonClick)
 
-    this._contentKeydownListener = this._handleContentKeydown.bind(this)
-    this._contentTransitionListener = this._handleTransitionEnd.bind(this)
-    this.content.addEventListener('focus', this._focusListener)
-    this.content.addEventListener('blur', this._blurListener)
-    this.content.addEventListener('keyup', this._keyupListener)
-    this.content.addEventListener('keydown', this._contentKeydownListener)
-    this.content.addEventListener(transitionEndEvent, this._contentTransitionListener)
+    this._listeners.contentKeydown = this._handleContentKeydown.bind(this)
+    this._listeners.contentTransition = this._handleTransitionEnd.bind(this)
+    this.content.addEventListener('focus', this._listeners.focus)
+    this.content.addEventListener('blur', this._listeners.blur)
+    this.content.addEventListener('keyup', this._listeners.keyup)
+    this.content.addEventListener('keydown', this._listeners.contentKeydown)
+    this.content.addEventListener(transitionEndEvent, this._listeners.contentTransition)
   }
 
   _unbindEvents() {
-    this.button.removeEventListener('click', this._buttonClickListener)
+    this.button.removeEventListener('click', this._listeners.buttonClick)
 
-    this.button.removeEventListener('focus', this._focusListener)
-    this.button.removeEventListener('blur', this._blurListener)
-    this.button.removeEventListener('keyup', this._keyupListener)
-    this.button.removeEventListener('keydown', this._buttonKeydownListener)
+    this.button.removeEventListener('focus', this._listeners.focus)
+    this.button.removeEventListener('blur', this._listeners.blur)
+    this.button.removeEventListener('keyup', this._listeners.keyup)
+    this.button.removeEventListener('keydown', this._listeners.buttonKeydown)
 
-    this.content.removeEventListener(transitionEndEvent, this._contentTransitionListener)
-    this.content.removeEventListener('focus', this._focusListener)
-    this.content.removeEventListener('blur', this._blurListener)
-    this.content.removeEventListener('keyup', this._keyupListener)
-    this.content.removeEventListener('keydown', this._contentKeydownListener)
+    this.content.removeEventListener(transitionEndEvent, this._listeners.contentTransition)
+    this.content.removeEventListener('focus', this._listeners.focus)
+    this.content.removeEventListener('blur', this._listeners.blur)
+    this.content.removeEventListener('keyup', this._listeners.keyup)
+    this.content.removeEventListener('keydown', this._listeners.contentKeydown)
   }
 
 }
