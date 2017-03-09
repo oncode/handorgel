@@ -2,6 +2,8 @@ var ID_COUNTER = {}
 
 export var INITIAL_OPEN_DELAY = 200
 
+const TAGS_PREVENT_TOGGLE = ['a', 'button', 'input', 'label', 'select', 'textarea']
+
 export default class HandorgelFold {
 
   constructor(handorgel, header, content) {
@@ -211,7 +213,10 @@ export default class HandorgelFold {
   }
 
   _handleButtonClick(e) {
-    if (this.disabled) {
+    if (this.disabled
+        || (e.target != e.currentTarget
+            && TAGS_PREVENT_TOGGLE.indexOf(e.target.nodeName.toLowerCase()) > -1)
+    ) {
       return
     }
 
