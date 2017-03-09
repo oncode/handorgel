@@ -219,11 +219,7 @@ var __WEBPACK_AMD_DEFINE_FACTORY__, __WEBPACK_AMD_DEFINE_ARRAY__, __WEBPACK_AMD_
     if (superClass) Object.setPrototypeOf ? Object.setPrototypeOf(subClass, superClass) : subClass.__proto__ = superClass;
   }
 
-  var GUID = 0;
-
-  /**
-   * Handorgel.
-   */
+  var ID_COUNTER = 0;
 
   var Handorgel = function (_EventEmitter) {
     _inherits(Handorgel, _EventEmitter);
@@ -241,7 +237,7 @@ var __WEBPACK_AMD_DEFINE_FACTORY__, __WEBPACK_AMD_DEFINE_ARRAY__, __WEBPACK_AMD_
 
       _this.element = element;
       _this.element.handorgel = _this;
-      _this.guid = 'handorgel' + ++GUID;
+      _this.id = 'handorgel' + ++ID_COUNTER;
       _this.folds = [];
 
       _this.initialOpenAttribute = options.initialOpenAttribute || 'data-open';
@@ -264,8 +260,6 @@ var __WEBPACK_AMD_DEFINE_FACTORY__, __WEBPACK_AMD_DEFINE_ARRAY__, __WEBPACK_AMD_
       _this._bindEvents();
       _this._initAria();
       _this.update();
-
-      window.test = _this;
       return _this;
     }
 
@@ -468,7 +462,7 @@ var __WEBPACK_AMD_DEFINE_FACTORY__, __WEBPACK_AMD_DEFINE_ARRAY__, __WEBPACK_AMD_
     };
   }();
 
-  var GUID = {};
+  var ID_COUNTER = {};
 
   var INITIAL_OPEN_DELAY = exports.INITIAL_OPEN_DELAY = 200;
 
@@ -487,11 +481,11 @@ var __WEBPACK_AMD_DEFINE_FACTORY__, __WEBPACK_AMD_DEFINE_ARRAY__, __WEBPACK_AMD_
       this.header.handorgelFold = this;
       this.content.handorgelFold = this;
 
-      if (!GUID[this.handorgel.guid]) {
-        GUID[this.handorgel.guid] = 0;
+      if (!ID_COUNTER[this.handorgel.id]) {
+        ID_COUNTER[this.handorgel.id] = 0;
       }
 
-      this.guid = this.handorgel.guid + '-fold' + ++GUID[this.handorgel.guid];
+      this.id = this.handorgel.id + '-fold' + ++ID_COUNTER[this.handorgel.id];
 
       this.focused = false;
       this.expanded = false;
@@ -650,12 +644,12 @@ var __WEBPACK_AMD_DEFINE_FACTORY__, __WEBPACK_AMD_DEFINE_ARRAY__, __WEBPACK_AMD_
           return;
         }
 
-        this.content.setAttribute('id', this.guid + '-content');
+        this.content.setAttribute('id', this.id + '-content');
         this.content.setAttribute('role', 'region');
-        this.content.setAttribute('aria-labelledby', this.guid + '-header');
+        this.content.setAttribute('aria-labelledby', this.id + '-header');
 
-        this.button.setAttribute('id', this.guid + '-header');
-        this.button.setAttribute('aria-controls', this.guid + '-content');
+        this.button.setAttribute('id', this.id + '-header');
+        this.button.setAttribute('aria-controls', this.id + '-content');
         this.button.setAttribute('aria-expanded', 'false');
         this.button.setAttribute('aria-disabled', 'false');
       }

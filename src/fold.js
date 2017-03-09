@@ -1,6 +1,6 @@
 import { transitionEndEvent } from './helpers'
 
-var GUID = {}
+var ID_COUNTER = {}
 
 export var INITIAL_OPEN_DELAY = 200
 
@@ -18,11 +18,11 @@ export default class HandorgelFold {
     this.header.handorgelFold = this
     this.content.handorgelFold = this
 
-    if (!GUID[this.handorgel.guid]) {
-      GUID[this.handorgel.guid] = 0
+    if (!ID_COUNTER[this.handorgel.id]) {
+      ID_COUNTER[this.handorgel.id] = 0
     }
 
-    this.guid = `${this.handorgel.guid}-fold${++GUID[this.handorgel.guid]}`
+    this.id = `${this.handorgel.id}-fold${++ID_COUNTER[this.handorgel.id]}`
 
     this.focused = false
     this.expanded = false
@@ -159,12 +159,12 @@ export default class HandorgelFold {
       return
     }
 
-    this.content.setAttribute('id', `${this.guid}-content`)
+    this.content.setAttribute('id', `${this.id}-content`)
     this.content.setAttribute('role', 'region')
-    this.content.setAttribute('aria-labelledby', `${this.guid}-header`)
+    this.content.setAttribute('aria-labelledby', `${this.id}-header`)
 
-    this.button.setAttribute('id', `${this.guid}-header`)
-    this.button.setAttribute('aria-controls', `${this.guid}-content`)
+    this.button.setAttribute('id', `${this.id}-header`)
+    this.button.setAttribute('aria-controls', `${this.id}-content`)
     this.button.setAttribute('aria-expanded', 'false')
     this.button.setAttribute('aria-disabled', 'false')
   }

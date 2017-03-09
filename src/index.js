@@ -2,7 +2,7 @@ import EventEmitter from 'ev-emitter'
 import { rAF, isUndefined } from './helpers'
 import Fold from './fold'
 
-var GUID = 0
+var ID_COUNTER = 0
 
 export default class Handorgel extends EventEmitter {
 
@@ -15,7 +15,7 @@ export default class Handorgel extends EventEmitter {
 
     this.element = element
     this.element.handorgel = this
-    this.guid = `handorgel${++GUID}`
+    this.id = `handorgel${++ID_COUNTER}`
     this.folds = []
 
     this.initialOpenAttribute = options.initialOpenAttribute || 'data-open'
