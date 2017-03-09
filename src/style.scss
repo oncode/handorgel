@@ -1,0 +1,132 @@
+// Styling variables
+
+$handorgel-border-color: #eee !default;
+$handorgel-border-width: 2px !default;
+
+$handorgel__header__button-background-color: #fff !default;
+$handorgel__header__button-background-color-transition: .1s ease-in !default;
+$handorgel__header--open__button-background-color: #f8f8f8 !default;
+$handorgel__header--focus__button-background-color: #eee !default;
+
+$handorgel__header__button-padding: 20px 24px !default;
+$handorgel__content__inner-padding: 20px 24px !default;
+
+// Variables for closing transition
+
+$handorgel__content-transition-opacity-time: .1s !default;
+$handorgel__content-transition-opacity-method: ease !default;
+
+$handorgel__content-transition-height-time: .1s !default;
+$handorgel__content-transition-height-delay: $handorgel__content-transition-opacity-time !default;
+$handorgel__content-transition-height-method: ease !default;
+
+$handorgel__content-transition:
+  opacity $handorgel__content-transition-opacity-time $handorgel__content-transition-opacity-method,
+  height $handorgel__content-transition-height-time $handorgel__content-transition-height-method $handorgel__content-transition-height-delay
+  !default;
+
+$handorgel__header-transition:
+  border-bottom-width 0s ease $handorgel__content-transition-height-time + $handorgel__content-transition-height-delay
+  !default;
+
+// Variables for opening transition
+
+$handorgel__content--open-transition-height-time: .2s !default;
+$handorgel__content--open-transition-height-method: ease !default;
+
+$handorgel__content--open-transition-opacity-time: .3s !default;
+$handorgel__content--open-transition-opacity-delay: $handorgel__content-transition-height-time !default;
+$handorgel__content--open-transition-opacity-method: ease !default;
+
+$handorgel__content--open-transition:
+  height $handorgel__content--open-transition-height-time $handorgel__content--open-transition-height-method,
+  opacity $handorgel__content--open-transition-opacity-time $handorgel__content--open-transition-opacity-method $handorgel__content--open-transition-opacity-delay
+  !default;
+
+$handorgel__header--open-transition:
+  border-bottom-width 0s ease
+  !default;
+
+
+.handorgel {
+
+  & {
+    display: block;
+    width: 100%;
+    border: $handorgel-border-width solid $handorgel-border-color;
+  }
+
+  &__header {
+    display: block;
+    user-select: none;
+    margin: 0;
+    border-top: $handorgel-border-width solid $handorgel-border-color;
+    border-bottom: 0px solid $handorgel-border-color;
+    // remove bottom border after height transition of content has finished
+    transition: $handorgel__header-transition;
+
+    &--open {
+      border-bottom-width: $handorgel-border-width;
+      // show bottom border immediately
+      transition: $handorgel__header--open-transition;
+    }
+
+    &--notransition {
+      transition: none;
+    }
+
+    &:first-child {
+      border-top: none;
+    }
+  }
+
+  &__header--open &__header__button {
+    background-color: $handorgel__header--open__button-background-color;
+    transition: background-color $handorgel__header__button-background-color-transition;
+  }
+
+  &__header--notransition &__header__button {
+    transition: none;
+  }
+
+  &__header__button {
+    display: block;
+    width: 100%;
+    background-color: $handorgel__header__button-background-color;
+    border: none;
+    padding: $handorgel__header__button-padding;
+    font-size: inherit;
+    text-align: left;
+    transition: $handorgel__header__button-background-color-transition;
+
+    &:focus {
+      outline: none;
+      background-color: $handorgel__header--focus__button-background-color;
+    }
+
+    &::-moz-focus-inner {
+      border: 0;
+    }
+  }
+
+  &__content {
+    opacity: 0;
+    height: 0;
+    overflow: hidden;
+    transition: $handorgel__content-transition;
+
+    &--open {
+      opacity: 1;
+      transition: $handorgel__content--open-transition;
+    }
+
+    &--notransition {
+      transition: none;
+    }
+
+    &__inner {
+      padding: $handorgel__content__inner-padding;
+    }
+  }
+
+}

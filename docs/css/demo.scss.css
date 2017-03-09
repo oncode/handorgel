@@ -1,0 +1,86 @@
+*, *:after, *:before {
+  box-sizing: inherit; }
+
+body {
+  box-sizing: border-box;
+  margin: 60px;
+  font-size: 16px;
+  line-height: 1.4;
+  background-color: white;
+  font-family: 'Helvetica Neue', Helvetica, sans-serif;
+  text-size-adjust: 100%;
+  -moz-osx-font-smoothing: grayscale;
+  -webkit-font-smoothing: antialiased; }
+
+p {
+  margin-top: 0;
+  margin-bottom: 15px; }
+  p:last-child {
+    margin-bottom: 0; }
+
+.wrapper {
+  display: flex;
+  flex-wrap: wrap;
+  justify-content: space-between; }
+  @media (max-width: 600px) {
+    .wrapper {
+      flex-direction: column; } }
+
+.wrapper > .inner {
+  flex-basis: 48%;
+  margin-bottom: 30px; }
+  @media (max-width: 600px) {
+    .wrapper > .inner {
+      flex-basis: 100%; } }
+
+.handorgel {
+  display: block;
+  width: 100%;
+  border: 2px solid #eee; }
+.handorgel__header {
+  display: block;
+  user-select: none;
+  margin: 0;
+  border-top: 2px solid #eee;
+  border-bottom: 0px solid #eee;
+  transition: border-bottom-width 0s ease 0.2s; }
+  .handorgel__header--open {
+    border-bottom-width: 2px;
+    transition: border-bottom-width 0s ease; }
+  .handorgel__header--notransition {
+    transition: none; }
+  .handorgel__header:first-child {
+    border-top: none; }
+.handorgel__header--open .handorgel__header__button {
+  background-color: #f8f8f8;
+  transition: background-color 0.1s ease-in; }
+.handorgel__header--notransition .handorgel__header__button {
+  transition: none; }
+.handorgel__header__button {
+  display: block;
+  width: 100%;
+  background-color: #fff;
+  border: none;
+  padding: 20px 24px;
+  font-size: inherit;
+  text-align: left;
+  transition: 0.1s ease-in; }
+  .handorgel__header__button:focus {
+    outline: none;
+    background-color: #eee; }
+  .handorgel__header__button::-moz-focus-inner {
+    border: 0; }
+.handorgel__content {
+  opacity: 0;
+  height: 0;
+  overflow: hidden;
+  transition: opacity 0.1s ease, height 0.1s ease 0.1s; }
+  .handorgel__content--open {
+    opacity: 1;
+    transition: height 0.2s ease, opacity 0.3s ease 0.1s; }
+  .handorgel__content--notransition {
+    transition: none; }
+  .handorgel__content__inner {
+    padding: 20px 24px; }
+
+/*# sourceMappingURL=demo.scss.css.map */

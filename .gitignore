@@ -1,0 +1,8 @@
+/node_modules
+/npm-debug.log
+/.sass-cache
+
+/src/style.scss.css
+/src/style.scss.css.map
+
+.env

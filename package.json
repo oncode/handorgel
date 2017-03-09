@@ -1,0 +1,45 @@
+{
+  "name": "handorgel",
+  "version": "0.1.0",
+  "description": "Accessible W3C conform accordion written in ES6.",
+  "main": "lib/handorgel.js",
+  "jsnext:main": "src/index.js",
+  "repository": {
+    "type": "git",
+    "url": "https://github.com/oncode/handorgel.git"
+  },
+  "author": "Manuel Sommerhalder",
+  "license": "MIT",
+  "scripts": {
+    "build": "make build",
+    "dev": "make dev",
+    "test": "make test"
+  },
+  "devDependencies": {
+    "autoprefixer": "^6.7.0",
+    "babel-core": "^6.21.0",
+    "babel-loader": "^6.2.10",
+    "babel-plugin-transform-es2015-modules-umd": "^6.22.0",
+    "babel-preset-es2015": "^6.18.0",
+    "browser-sync": "^2.18.6",
+    "css-mqpacker": "^5.0.1",
+    "cssnano": "^3.10.0",
+    "eslint": "^3.14.0",
+    "postcss-assets": "^4.1.0",
+    "postcss-cli": "^2.6.0",
+    "postcss-import": "^9.1.0",
+    "postcss-pxtorem": "^4.0.0",
+    "webpack": "^2.2.1"
+  },
+  "dependencies": {
+    "ev-emitter": "^1.0.3"
+  },
+  "browserslist": [
+    "> 5%",
+    "last 2 version"
+  ],
+  "bugs": {
+    "url": "https://github.com/oncode/handorgel/issues"
+  },
+  "homepage": "https://github.com/oncode/handorgel"
+}
