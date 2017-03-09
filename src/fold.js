@@ -35,6 +35,10 @@ export default class HandorgelFold {
   }
 
   open(transition = true) {
+    if (this.expanded) {
+      return
+    }
+
     this.expanded = true
     this.handorgel.emitEvent('fold:open', [this])
 
@@ -54,6 +58,10 @@ export default class HandorgelFold {
   }
 
   close(transition = true) {
+    if (!this.expanded) {
+      return
+    }
+
     this.expanded = false
     this.handorgel.emitEvent('fold:close', [this])
 
