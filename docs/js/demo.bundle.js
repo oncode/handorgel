@@ -92,6 +92,8 @@ var __WEBPACK_AMD_DEFINE_FACTORY__, __WEBPACK_AMD_DEFINE_ARRAY__, __WEBPACK_AMD_
     value: true
   });
   exports.isUndefined = isUndefined;
+  exports.isWritable = isWritable;
+  exports.extend = extend;
   /**
    * Request animation frame polyfill method.
    *
@@ -115,24 +117,50 @@ var __WEBPACK_AMD_DEFINE_FACTORY__, __WEBPACK_AMD_DEFINE_ARRAY__, __WEBPACK_AMD_
   }
 
   /**
-   * Transition end event.
-   * @type {String}
+   * Check if an object's property could be overridden.
+   *
+   * @source riot.js
+   * @see https://github.com/riot/riot/blob/master/lib/browser/common/util/check.js
+   *
+   * @param   {Object} obj -
+   * @param   {String} key -
+   * @returns {Boolean}
    */
-  var transitionEndEvent = exports.transitionEndEvent = function () {
-    var el = document.createElement('div'),
-        properties = {
-      'transition': 'transitionend',
-      'OTransition': 'oTransitionEnd',
-      'MozTransition': 'transitionend',
-      'WebkitTransition': 'webkitTransitionEnd'
-    };
+  function isWritable(obj, key) {
+    var descriptor = Object.getOwnPropertyDescriptor(obj, key);
+    return isUndefined(obj[key]) || descriptor && descriptor.writable;
+  }
 
-    for (var property in properties) {
-      if (properties.hasOwnProperty(property) && el.style[property] !== 'undefined') {
-        return properties[property];
+  /**
+   * Extend any object with other properties.
+   *
+   * @source riot.js
+   * @see https://github.com/riot/riot/blob/master/lib/browser/common/util/misc.js
+   *
+   * @param   {Object} src - Source object.
+   * @returns {Object} The resulting extended object.
+   *
+   * @example
+   * var obj = { foo: 'baz' }
+   * extend(obj, {bar: 'bar', foo: 'bar'})
+   * console.log(obj) => {bar: 'bar', foo: 'bar'}
+   *
+   */
+  function extend(src) {
+    var obj,
+        args = arguments;
+
+    for (var i = 1; i < args.length; ++i) {
+      if (obj = args[i]) {
+        for (var key in obj) {
+          // check if this property of the source object could be overridden
+          if (isWritable(src, key)) src[key] = obj[key];
+        }
       }
     }
-  }();
+
+    return src;
+  }
 });
 
 /***/ }),
@@ -239,22 +267,9 @@ var __WEBPACK_AMD_DEFINE_FACTORY__, __WEBPACK_AMD_DEFINE_ARRAY__, __WEBPACK_AMD_
       _this.element.handorgel = _this;
       _this.id = 'handorgel' + ++ID_COUNTER;
       _this.folds = [];
+      _this.options = (0, _helpers.extend)({}, Handorgel.defaultOptions, options);
 
-      _this.initialOpenAttribute = options.initialOpenAttribute || 'data-open';
-      _this.headerOpenClass = options.headerOpenClass || 'handorgel__header--open';
-      _this.contentOpenClass = options.contentOpenClass || 'handorgel__content--open';
-      _this.headerDisabledClass = options.headerDisabledClass || 'handorgel__header--disabled';
-      _this.contentDisabledClass = options.contentDisabledClass || 'handorgel__content--disabled';
-      _this.headerNoTransitionClass = options.headerNoTransitionClass || 'handorgel__header--notransition';
-      _this.contentNoTransitionClass = options.contentNoTransitionClass || 'handorgel__content--notransition';
-
-      _this.initialOpenTransition = !(0, _helpers.isUndefined)(options.initialOpenTransition) ? !!options.initialOpenTransition : true;
-      _this.keyboardInteraction = !(0, _helpers.isUndefined)(options.keyboardInteraction) ? !!options.keyboardInteraction : true;
-      _this.multiSelectable = !(0, _helpers.isUndefined)(options.multiSelectable) ? !!options.multiSelectable : true;
-      _this.ariaEnabled = !(0, _helpers.isUndefined)(options.ariaEnabled) ? !!options.ariaEnabled : true;
-      _this.collapsible = !(0, _helpers.isUndefined)(options.collapsible) ? !!options.collapsible : true;
-      _this.carouselFocus = !(0, _helpers.isUndefined)(options.carouselFocus) ? !!options.carouselFocus : true;
-
+      _this._listeners = {};
       _this._resizing = false;
 
       _this._bindEvents();
@@ -307,12 +322,12 @@ var __WEBPACK_AMD_DEFINE_FACTORY__, __WEBPACK_AMD_DEFINE_ARRAY__, __WEBPACK_AMD_
         }
 
         if (type == 'prev' && currentFocusedIndex == 0) {
-          if (!this.carouselFocus) return;
+          if (!this.options.carouselFocus) return;
           type = 'last';
         }
 
         if (type == 'next' && currentFocusedIndex == foldsLength - 1) {
-          if (!this.carouselFocus) return;
+          if (!this.options.carouselFocus) return;
           type = 'first';
         }
 
@@ -350,7 +365,9 @@ var __WEBPACK_AMD_DEFINE_FACTORY__, __WEBPACK_AMD_DEFINE_ARRAY__, __WEBPACK_AMD_
     }, {
       key: '_handleFoldOpen',
       value: function _handleFoldOpen(openFold) {
-        if (this.multiSelectable) return;
+        if (this.options.multiSelectable) {
+          return;
+        }
 
         this.folds.forEach(function (fold) {
           if (openFold !== fold) fold.close();
@@ -372,13 +389,13 @@ var __WEBPACK_AMD_DEFINE_FACTORY__, __WEBPACK_AMD_DEFINE_ARRAY__, __WEBPACK_AMD_
     }, {
       key: '_initAria',
       value: function _initAria() {
-        if (!this.ariaEnabled) {
+        if (!this.options.ariaEnabled) {
           return;
         }
 
         this.element.setAttribute('role', 'tablist');
 
-        if (this.multiSelectable) {
+        if (this.options.multiSelectable) {
           this.element.setAttribute('aria-multiselectable', 'true');
         }
       }
@@ -391,17 +408,17 @@ var __WEBPACK_AMD_DEFINE_FACTORY__, __WEBPACK_AMD_DEFINE_ARRAY__, __WEBPACK_AMD_
     }, {
       key: '_bindEvents',
       value: function _bindEvents() {
-        this._resizeListener = this._handleResize.bind(this);
-        window.addEventListener('resize', this._resizeListener);
+        this._listeners.resize = this._handleResize.bind(this);
+        window.addEventListener('resize', this._listeners.resize);
 
-        this._foldOpenListener = this._handleFoldOpen.bind(this);
-        this.on('fold:open', this._foldOpenListener);
+        this._listeners.foldOpen = this._handleFoldOpen.bind(this);
+        this.on('fold:open', this._listeners.foldOpen);
       }
     }, {
       key: '_unbindEvents',
       value: function _unbindEvents() {
-        window.removeEventListener('resize', this._resizeListener);
-        this.off('open', this._foldOpenListener);
+        window.removeEventListener('resize', this._listeners.resize);
+        this.off('open', this._listeners.foldOpen);
       }
     }]);
 
@@ -409,6 +426,29 @@ var __WEBPACK_AMD_DEFINE_FACTORY__, __WEBPACK_AMD_DEFINE_ARRAY__, __WEBPACK_AMD_
   }(_evEmitter2.default);
 
   exports.default = Handorgel;
+
+
+  Handorgel.defaultOptions = {
+    keyboardInteraction: true,
+    multiSelectable: true,
+    ariaEnabled: true,
+    collapsible: true,
+    carouselFocus: true,
+
+    initialOpenAttribute: 'data-open',
+    initialOpenTransition: true,
+    initialOpenTransitionDelay: 200,
+
+    headerOpenClass: 'handorgel__header--open',
+    headerOpenedClass: 'handorgel__header--opened',
+    contentOpenClass: 'handorgel__content--open',
+    contentOpenedClass: 'handorgel__content--opened',
+
+    headerDisabledClass: 'handorgel__header--disabled',
+    contentDisabledClass: 'handorgel__content--disabled',
+    headerNoTransitionClass: 'handorgel__header--notransition',
+    contentNoTransitionClass: 'handorgel__content--notransition'
+  };
 });
 
 /***/ }),
@@ -417,26 +457,25 @@ var __WEBPACK_AMD_DEFINE_FACTORY__, __WEBPACK_AMD_DEFINE_ARRAY__, __WEBPACK_AMD_
 
 var __WEBPACK_AMD_DEFINE_FACTORY__, __WEBPACK_AMD_DEFINE_ARRAY__, __WEBPACK_AMD_DEFINE_RESULT__;(function (global, factory) {
   if (true) {
-    !(__WEBPACK_AMD_DEFINE_ARRAY__ = [exports, __webpack_require__(0)], __WEBPACK_AMD_DEFINE_FACTORY__ = (factory),
+    !(__WEBPACK_AMD_DEFINE_ARRAY__ = [exports], __WEBPACK_AMD_DEFINE_FACTORY__ = (factory),
 				__WEBPACK_AMD_DEFINE_RESULT__ = (typeof __WEBPACK_AMD_DEFINE_FACTORY__ === 'function' ?
 				(__WEBPACK_AMD_DEFINE_FACTORY__.apply(exports, __WEBPACK_AMD_DEFINE_ARRAY__)) : __WEBPACK_AMD_DEFINE_FACTORY__),
 				__WEBPACK_AMD_DEFINE_RESULT__ !== undefined && (module.exports = __WEBPACK_AMD_DEFINE_RESULT__));
   } else if (typeof exports !== "undefined") {
-    factory(exports, require('./helpers'));
+    factory(exports);
   } else {
     var mod = {
       exports: {}
     };
-    factory(mod.exports, global.helpers);
+    factory(mod.exports);
     global.fold = mod.exports;
   }
-})(this, function (exports, _helpers) {
+})(this, function (exports) {
   'use strict';
 
   Object.defineProperty(exports, "__esModule", {
     value: true
   });
-  exports.INITIAL_OPEN_DELAY = undefined;
 
   function _classCallCheck(instance, Constructor) {
     if (!(instance instanceof Constructor)) {
@@ -464,7 +503,7 @@ var __WEBPACK_AMD_DEFINE_FACTORY__, __WEBPACK_AMD_DEFINE_ARRAY__, __WEBPACK_AMD_
 
   var ID_COUNTER = {};
 
-  var INITIAL_OPEN_DELAY = exports.INITIAL_OPEN_DELAY = 200;
+  var TAGS_PREVENT_TOGGLE = ['a', 'button', 'input', 'label', 'select', 'textarea'];
 
   var HandorgelFold = function () {
     function HandorgelFold(handorgel, header, content) {
@@ -490,6 +529,8 @@ var __WEBPACK_AMD_DEFINE_FACTORY__, __WEBPACK_AMD_DEFINE_ARRAY__, __WEBPACK_AMD_
       this.focused = false;
       this.expanded = false;
       this.disabled = false;
+
+      this._listeners = {};
       this._ctrlKeyPressed = false;
 
       this._bindEvents();
@@ -502,38 +543,53 @@ var __WEBPACK_AMD_DEFINE_FACTORY__, __WEBPACK_AMD_DEFINE_ARRAY__, __WEBPACK_AMD_
       value: function open() {
         var transition = arguments.length > 0 && arguments[0] !== undefined ? arguments[0] : true;
 
+        if (this.expanded) {
+          return;
+        }
+
         this.expanded = true;
         this.handorgel.emitEvent('fold:open', [this]);
 
-        if (this.handorgel.ariaEnabled) {
+        if (this.handorgel.options.ariaEnabled) {
           this.button.setAttribute('aria-expanded', 'true');
 
-          if (!this.handorgel.collapsible) {
+          if (!this.handorgel.options.collapsible) {
             this.disable();
           }
         }
 
-        this.header.classList.add(this.handorgel.headerOpenClass);
-        this.content.classList.add(this.handorgel.contentOpenClass);
+        this.header.classList.add(this.handorgel.options.headerOpenClass);
+        this.content.classList.add(this.handorgel.options.contentOpenClass);
 
         this.resize(transition);
-        if (!transition) this.handorgel.emitEvent('fold:opened', [this]);
+
+        if (!transition) {
+          this.header.classList.add(this.handorgel.options.headerOpenedClass);
+          this.content.classList.add(this.handorgel.options.contentOpenedClass);
+          this.handorgel.emitEvent('fold:opened', [this]);
+        }
       }
     }, {
       key: 'close',
       value: function close() {
         var transition = arguments.length > 0 && arguments[0] !== undefined ? arguments[0] : true;
 
+        if (!this.expanded) {
+          return;
+        }
+
         this.expanded = false;
         this.handorgel.emitEvent('fold:close', [this]);
 
-        if (this.handorgel.ariaEnabled) {
+        if (this.handorgel.options.ariaEnabled) {
           this.button.setAttribute('aria-expanded', 'false');
           this.enable();
         }
 
-        this.header.classList.remove(this.handorgel.headerOpenClass);
-        this.content.classList.remove(this.handorgel.contentOpenClass);
+        this.header.classList.remove(this.handorgel.options.headerOpenedClass);
+        this.content.classList.remove(this.handorgel.options.contentOpenedClass);
+        this.header.classList.remove(this.handorgel.options.headerOpenClass);
+        this.content.classList.remove(this.handorgel.options.contentOpenClass);
 
         this.resize(transition);
         if (!transition) this.handorgel.emitEvent('fold:closed', [this]);
@@ -543,16 +599,16 @@ var __WEBPACK_AMD_DEFINE_FACTORY__, __WEBPACK_AMD_DEFINE_ARRAY__, __WEBPACK_AMD_
       value: function disable() {
         this.disabled = true;
         this.button.setAttribute('aria-disabled', 'true');
-        this.header.classList.add(this.handorgel.headerDisabledClass);
-        this.content.classList.add(this.handorgel.contentDisabledClass);
+        this.header.classList.add(this.handorgel.options.headerDisabledClass);
+        this.content.classList.add(this.handorgel.options.contentDisabledClass);
       }
     }, {
       key: 'enable',
       value: function enable() {
         this.disabled = false;
         this.button.setAttribute('aria-disabled', 'false');
-        this.header.classList.remove(this.handorgel.headerDisabledClass);
-        this.content.classList.remove(this.handorgel.contentDisabledClass);
+        this.header.classList.remove(this.handorgel.options.headerDisabledClass);
+        this.content.classList.remove(this.handorgel.options.contentDisabledClass);
       }
     }, {
       key: 'focus',
@@ -585,8 +641,8 @@ var __WEBPACK_AMD_DEFINE_FACTORY__, __WEBPACK_AMD_DEFINE_ARRAY__, __WEBPACK_AMD_
         var height = 0;
 
         if (!transition) {
-          this.header.classList.add(this.handorgel.headerNoTransitionClass);
-          this.content.classList.add(this.handorgel.contentNoTransitionClass);
+          this.header.classList.add(this.handorgel.options.headerNoTransitionClass);
+          this.content.classList.add(this.handorgel.options.contentNoTransitionClass);
         }
 
         if (this.expanded) {
@@ -596,8 +652,8 @@ var __WEBPACK_AMD_DEFINE_FACTORY__, __WEBPACK_AMD_DEFINE_ARRAY__, __WEBPACK_AMD_
         this.content.style.height = height + 'px';
 
         window.setTimeout(function () {
-          _this.header.classList.remove(_this.handorgel.headerNoTransitionClass);
-          _this.content.classList.remove(_this.handorgel.contentNoTransitionClass);
+          _this.header.classList.remove(_this.handorgel.options.headerNoTransitionClass);
+          _this.content.classList.remove(_this.handorgel.options.contentNoTransitionClass);
         }, 0);
       }
     }, {
@@ -607,10 +663,10 @@ var __WEBPACK_AMD_DEFINE_FACTORY__, __WEBPACK_AMD_DEFINE_ARRAY__, __WEBPACK_AMD_
         this._cleanAria();
 
         // clean classes
-        this.header.classList.remove(this.handorgel.headerOpenClass);
-        this.header.classList.remove(this.handorgel.headerNoTransitionClass);
-        this.content.classList.remove(this.handorgel.contentOpenClass);
-        this.content.classList.remove(this.handorgel.contentNoTransitionClass);
+        this.header.classList.remove(this.handorgel.options.headerOpenClass);
+        this.header.classList.remove(this.handorgel.options.headerNoTransitionClass);
+        this.content.classList.remove(this.handorgel.options.contentOpenClass);
+        this.content.classList.remove(this.handorgel.options.contentNoTransitionClass);
 
         // hide content
         this.content.style.height = '0px';
@@ -627,11 +683,11 @@ var __WEBPACK_AMD_DEFINE_FACTORY__, __WEBPACK_AMD_DEFINE_ARRAY__, __WEBPACK_AMD_
       value: function _initialOpen() {
         var _this2 = this;
 
-        if (this.header.getAttribute(this.handorgel.initialOpenAttribute) !== null || this.content.getAttribute(this.handorgel.initialOpenAttribute) !== null) {
-          if (this.handorgel.initialOpenTransition) {
+        if (this.header.getAttribute(this.handorgel.options.initialOpenAttribute) !== null || this.content.getAttribute(this.handorgel.options.initialOpenAttribute) !== null) {
+          if (this.handorgel.options.initialOpenTransition) {
             window.setTimeout(function () {
               _this2.open();
-            }, INITIAL_OPEN_DELAY);
+            }, this.handorgel.options.initialOpenTransitionDelay);
           } else {
             this.open(false);
           }
@@ -640,7 +696,7 @@ var __WEBPACK_AMD_DEFINE_FACTORY__, __WEBPACK_AMD_DEFINE_ARRAY__, __WEBPACK_AMD_
     }, {
       key: '_initAria',
       value: function _initAria() {
-        if (!this.handorgel.ariaEnabled) {
+        if (!this.handorgel.options.ariaEnabled) {
           return;
         }
 
@@ -672,6 +728,8 @@ var __WEBPACK_AMD_DEFINE_FACTORY__, __WEBPACK_AMD_DEFINE_ARRAY__, __WEBPACK_AMD_
           this.handorgel.resize(true);
 
           if (this.expanded) {
+            this.header.classList.add(this.handorgel.options.headerOpenedClass);
+            this.content.classList.add(this.handorgel.options.contentOpenedClass);
             this.handorgel.emitEvent('fold:opened', [this]);
           } else {
             this.handorgel.emitEvent('fold:closed', [this]);
@@ -693,7 +751,7 @@ var __WEBPACK_AMD_DEFINE_FACTORY__, __WEBPACK_AMD_DEFINE_ARRAY__, __WEBPACK_AMD_
     }, {
       key: '_handleButtonClick',
       value: function _handleButtonClick(e) {
-        if (this.disabled) {
+        if (this.disabled || e.target != e.currentTarget && TAGS_PREVENT_TOGGLE.indexOf(e.target.nodeName.toLowerCase()) > -1) {
           return;
         }
 
@@ -702,7 +760,7 @@ var __WEBPACK_AMD_DEFINE_FACTORY__, __WEBPACK_AMD_DEFINE_ARRAY__, __WEBPACK_AMD_
     }, {
       key: '_handleButtonKeydown',
       value: function _handleButtonKeydown(e) {
-        if (!this.handorgel.keyboardInteraction) {
+        if (!this.handorgel.options.keyboardInteraction) {
           return;
         }
 
@@ -750,7 +808,7 @@ var __WEBPACK_AMD_DEFINE_FACTORY__, __WEBPACK_AMD_DEFINE_ARRAY__, __WEBPACK_AMD_
     }, {
       key: '_handleContentKeydown',
       value: function _handleContentKeydown(e) {
-        if (!this.handorgel.keyboardInteraction) {
+        if (!this.handorgel.options.keyboardInteraction) {
           return;
         }
 
@@ -783,41 +841,41 @@ var __WEBPACK_AMD_DEFINE_FACTORY__, __WEBPACK_AMD_DEFINE_ARRAY__, __WEBPACK_AMD_
     }, {
       key: '_bindEvents',
       value: function _bindEvents() {
-        this._focusListener = this._handleFocus.bind(this);
-        this._blurListener = this._handleBlur.bind(this);
-        this._keyupListener = this._handleKeyup.bind(this);
+        this._listeners.focus = this._handleFocus.bind(this);
+        this._listeners.blur = this._handleBlur.bind(this);
+        this._listeners.keyup = this._handleKeyup.bind(this);
 
-        this._buttonClickListener = this._handleButtonClick.bind(this);
-        this._buttonKeydownListener = this._handleButtonKeydown.bind(this);
-        this.button.addEventListener('focus', this._focusListener);
-        this.button.addEventListener('blur', this._blurListener);
-        this.button.addEventListener('keyup', this._keyupListener);
-        this.button.addEventListener('keydown', this._buttonKeydownListener);
-        this.button.addEventListener('click', this._buttonClickListener);
+        this._listeners.buttonClick = this._handleButtonClick.bind(this);
+        this._listeners.buttonKeydown = this._handleButtonKeydown.bind(this);
+        this.button.addEventListener('focus', this._listeners.focus);
+        this.button.addEventListener('blur', this._listeners.blur);
+        this.button.addEventListener('keyup', this._listeners.keyup);
+        this.button.addEventListener('keydown', this._listeners.buttonKeydown);
+        this.button.addEventListener('click', this._listeners.buttonClick);
 
-        this._contentKeydownListener = this._handleContentKeydown.bind(this);
-        this._contentTransitionListener = this._handleTransitionEnd.bind(this);
-        this.content.addEventListener('focus', this._focusListener);
-        this.content.addEventListener('blur', this._blurListener);
-        this.content.addEventListener('keyup', this._keyupListener);
-        this.content.addEventListener('keydown', this._contentKeydownListener);
-        this.content.addEventListener(_helpers.transitionEndEvent, this._contentTransitionListener);
+        this._listeners.contentKeydown = this._handleContentKeydown.bind(this);
+        this._listeners.contentTransition = this._handleTransitionEnd.bind(this);
+        this.content.addEventListener('focus', this._listeners.focus);
+        this.content.addEventListener('blur', this._listeners.blur);
+        this.content.addEventListener('keyup', this._listeners.keyup);
+        this.content.addEventListener('keydown', this._listeners.contentKeydown);
+        this.content.addEventListener('transitionend', this._listeners.contentTransition);
       }
     }, {
       key: '_unbindEvents',
       value: function _unbindEvents() {
-        this.button.removeEventListener('click', this._buttonClickListener);
+        this.button.removeEventListener('click', this._listeners.buttonClick);
 
-        this.button.removeEventListener('focus', this._focusListener);
-        this.button.removeEventListener('blur', this._blurListener);
-        this.button.removeEventListener('keyup', this._keyupListener);
-        this.button.removeEventListener('keydown', this._buttonKeydownListener);
+        this.button.removeEventListener('focus', this._listeners.focus);
+        this.button.removeEventListener('blur', this._listeners.blur);
+        this.button.removeEventListener('keyup', this._listeners.keyup);
+        this.button.removeEventListener('keydown', this._listeners.buttonKeydown);
 
-        this.content.removeEventListener(_helpers.transitionEndEvent, this._contentTransitionListener);
-        this.content.removeEventListener('focus', this._focusListener);
-        this.content.removeEventListener('blur', this._blurListener);
-        this.content.removeEventListener('keyup', this._keyupListener);
-        this.content.removeEventListener('keydown', this._contentKeydownListener);
+        this.content.removeEventListener('transitionend', this._listeners.contentTransition);
+        this.content.removeEventListener('focus', this._listeners.focus);
+        this.content.removeEventListener('blur', this._listeners.blur);
+        this.content.removeEventListener('keyup', this._listeners.keyup);
+        this.content.removeEventListener('keydown', this._listeners.contentKeydown);
       }
     }]);
 

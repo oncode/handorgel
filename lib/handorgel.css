@@ -37,6 +37,7 @@
   transition: none;
 }
 .handorgel__header__button {
+  cursor: pointer;
   display: block;
   width: 100%;
   background-color: #fff;
@@ -65,6 +66,9 @@
   opacity: 1;
   -webkit-transition: height 0.2s ease, opacity 0.3s ease 0.1s;
   transition: height 0.2s ease, opacity 0.3s ease 0.1s;
+}
+.handorgel__content--opened {
+  overflow: visible;
 }
 .handorgel__content--notransition {
   -webkit-transition: none;

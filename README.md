@@ -22,26 +22,26 @@ npm: `npm install handorgel --save-dev`
 ### Download
 
 * CSS:
-  - [handorgel.min.css](https://unpkg.com/handorgel@0.1/lib/handorgel.min.css) minified, or
-  - [handorgel.css](https://unpkg.com/handorgel@0.1/lib/handorgel.css) un-minified
+  - [handorgel.min.css](https://unpkg.com/handorgel@0.2/lib/handorgel.min.css) minified, or
+  - [handorgel.css](https://unpkg.com/handorgel@0.2/lib/handorgel.css) un-minified
 * JavaScript:
-  - [handorgel.min.js](https://unpkg.com/handorgel@0.1/lib/handorgel.min.js) minified, or
-  - [handorgel.js](https://unpkg.com/handorgel@0.1/lib/handorgel.js) un-minified
+  - [handorgel.min.js](https://unpkg.com/handorgel@0.2/lib/handorgel.min.js) minified, or
+  - [handorgel.js](https://unpkg.com/handorgel@0.2/lib/handorgel.js) un-minified
 
 ### CDN
 
 Link directly to Handorgel files on [unpkg](https://unpkg.com).
 
 ``` html
-<link rel="stylesheet" href="https://unpkg.com/handorgel@0.1/lib/handorgel.min.css">
+<link rel="stylesheet" href="https://unpkg.com/handorgel@0.2/lib/handorgel.min.css">
 <!-- or -->
-<link rel="stylesheet" href="https://unpkg.com/handorgel@0.1/lib/handorgel.css">
+<link rel="stylesheet" href="https://unpkg.com/handorgel@0.2/lib/handorgel.css">
 ```
 
 ``` html
-<script src="https://unpkg.com/handorgel@0.1/lib/handorgel.min.js"></script>
+<script src="https://unpkg.com/handorgel@0.2/lib/handorgel.min.js"></script>
 <!-- or -->
-<script src="https://unpkg.com/handorgel@0.1/lib/handorgel.js"></script>
+<script src="https://unpkg.com/handorgel@0.2/lib/handorgel.js"></script>
 ```
 
 ## Usage
@@ -95,11 +95,18 @@ var accordion = new Handorgel(document.querySelector('.accordon'), {
   initialOpenAttribute: 'data-open',
   // whether to use transition at initial open
   initialOpenTransition: true,
+  // delay used to show initial transition
+  initialOpenTransitionDelay: 200
 
   // header class if fold is open
   headerOpenClass: 'handorgel__header--open',
+  // content class if fold has been opened (transition finished)
+  headerOpenedClass: 'handorgel__header--opened',
+
   // content class if fold is open
   contentOpenClass: 'handorgel__content--open',
+  // content class if fold has been opened (transition finished)
+  contentOpenedClass: 'handorgel__content--opened',
 
   // header class if fold is open
   headerDisabledClass: 'handorgel__header--disabled',

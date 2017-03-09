@@ -57,6 +57,7 @@ p {
 .handorgel__header--notransition .handorgel__header__button {
   transition: none; }
 .handorgel__header__button {
+  cursor: pointer;
   display: block;
   width: 100%;
   background-color: #fff;
@@ -73,10 +74,13 @@ p {
 .handorgel__content {
   opacity: 0;
   height: 0;
+  overflow: hidden;
   transition: opacity 0.1s ease, height 0.1s ease 0.1s; }
   .handorgel__content--open {
     opacity: 1;
     transition: height 0.2s ease, opacity 0.3s ease 0.1s; }
+  .handorgel__content--opened {
+    overflow: visible; }
   .handorgel__content--notransition {
     transition: none; }
   .handorgel__content__inner {

@@ -1,7 +1,5 @@
 var ID_COUNTER = {}
 
-export var INITIAL_OPEN_DELAY = 200
-
 const TAGS_PREVENT_TOGGLE = ['a', 'button', 'input', 'label', 'select', 'textarea']
 
 export default class HandorgelFold {
@@ -44,19 +42,24 @@ export default class HandorgelFold {
     this.expanded = true
     this.handorgel.emitEvent('fold:open', [this])
 
-    if (this.handorgel.ariaEnabled) {
+    if (this.handorgel.options.ariaEnabled) {
       this.button.setAttribute('aria-expanded', 'true')
 
-      if (!this.handorgel.collapsible) {
+      if (!this.handorgel.options.collapsible) {
         this.disable()
       }
     }
 
-    this.header.classList.add(this.handorgel.headerOpenClass)
-    this.content.classList.add(this.handorgel.contentOpenClass)
+    this.header.classList.add(this.handorgel.options.headerOpenClass)
+    this.content.classList.add(this.handorgel.options.contentOpenClass)
 
     this.resize(transition)
-    if (!transition) this.handorgel.emitEvent('fold:opened', [this])
+
+    if (!transition) {
+      this.header.classList.add(this.handorgel.options.headerOpenedClass)
+      this.content.classList.add(this.handorgel.options.contentOpenedClass)
+      this.handorgel.emitEvent('fold:opened', [this])
+    }
   }
 
   close(transition = true) {
@@ -67,13 +70,15 @@ export default class HandorgelFold {
     this.expanded = false
     this.handorgel.emitEvent('fold:close', [this])
 
-    if (this.handorgel.ariaEnabled) {
+    if (this.handorgel.options.ariaEnabled) {
       this.button.setAttribute('aria-expanded', 'false')
       this.enable()
     }
 
-    this.header.classList.remove(this.handorgel.headerOpenClass)
-    this.content.classList.remove(this.handorgel.contentOpenClass)
+    this.header.classList.remove(this.handorgel.options.headerOpenedClass)
+    this.content.classList.remove(this.handorgel.options.contentOpenedClass)
+    this.header.classList.remove(this.handorgel.options.headerOpenClass)
+    this.content.classList.remove(this.handorgel.options.contentOpenClass)
 
     this.resize(transition)
     if (!transition) this.handorgel.emitEvent('fold:closed', [this])
@@ -82,15 +87,15 @@ export default class HandorgelFold {
   disable() {
     this.disabled = true
     this.button.setAttribute('aria-disabled', 'true')
-    this.header.classList.add(this.handorgel.headerDisabledClass)
-    this.content.classList.add(this.handorgel.contentDisabledClass)
+    this.header.classList.add(this.handorgel.options.headerDisabledClass)
+    this.content.classList.add(this.handorgel.options.contentDisabledClass)
   }
 
   enable() {
     this.disabled = false
     this.button.setAttribute('aria-disabled', 'false')
-    this.header.classList.remove(this.handorgel.headerDisabledClass)
-    this.content.classList.remove(this.handorgel.contentDisabledClass)
+    this.header.classList.remove(this.handorgel.options.headerDisabledClass)
+    this.content.classList.remove(this.handorgel.options.contentDisabledClass)
   }
 
   focus() {
@@ -113,8 +118,8 @@ export default class HandorgelFold {
     var height = 0
 
     if (!transition) {
-      this.header.classList.add(this.handorgel.headerNoTransitionClass)
-      this.content.classList.add(this.handorgel.contentNoTransitionClass)
+      this.header.classList.add(this.handorgel.options.headerNoTransitionClass)
+      this.content.classList.add(this.handorgel.options.contentNoTransitionClass)
     }
 
     if (this.expanded) {
@@ -124,8 +129,8 @@ export default class HandorgelFold {
     this.content.style.height = height +'px'
 
     window.setTimeout(() => {
-      this.header.classList.remove(this.handorgel.headerNoTransitionClass)
-      this.content.classList.remove(this.handorgel.contentNoTransitionClass)
+      this.header.classList.remove(this.handorgel.options.headerNoTransitionClass)
+      this.content.classList.remove(this.handorgel.options.contentNoTransitionClass)
     }, 0)
   }
 
@@ -134,10 +139,10 @@ export default class HandorgelFold {
     this._cleanAria()
 
     // clean classes
-    this.header.classList.remove(this.handorgel.headerOpenClass)
-    this.header.classList.remove(this.handorgel.headerNoTransitionClass)
-    this.content.classList.remove(this.handorgel.contentOpenClass)
-    this.content.classList.remove(this.handorgel.contentNoTransitionClass)
+    this.header.classList.remove(this.handorgel.options.headerOpenClass)
+    this.header.classList.remove(this.handorgel.options.headerNoTransitionClass)
+    this.content.classList.remove(this.handorgel.options.contentOpenClass)
+    this.content.classList.remove(this.handorgel.options.contentNoTransitionClass)
 
     // hide content
     this.content.style.height = '0px'
@@ -151,13 +156,13 @@ export default class HandorgelFold {
   }
 
   _initialOpen() {
-    if (this.header.getAttribute(this.handorgel.initialOpenAttribute) !== null
-        || this.content.getAttribute(this.handorgel.initialOpenAttribute) !== null
+    if (this.header.getAttribute(this.handorgel.options.initialOpenAttribute) !== null
+        || this.content.getAttribute(this.handorgel.options.initialOpenAttribute) !== null
     ) {
-      if (this.handorgel.initialOpenTransition) {
+      if (this.handorgel.options.initialOpenTransition) {
         window.setTimeout(() => {
           this.open()
-        }, INITIAL_OPEN_DELAY)
+        }, this.handorgel.options.initialOpenTransitionDelay)
       } else {
         this.open(false)
       }
@@ -165,7 +170,7 @@ export default class HandorgelFold {
   }
 
   _initAria() {
-    if (!this.handorgel.ariaEnabled) {
+    if (!this.handorgel.options.ariaEnabled) {
       return
     }
 
@@ -195,6 +200,8 @@ export default class HandorgelFold {
       this.handorgel.resize(true)
 
       if (this.expanded) {
+        this.header.classList.add(this.handorgel.options.headerOpenedClass)
+        this.content.classList.add(this.handorgel.options.contentOpenedClass)
         this.handorgel.emitEvent('fold:opened', [this])
       } else {
         this.handorgel.emitEvent('fold:closed', [this])
@@ -224,7 +231,7 @@ export default class HandorgelFold {
   }
 
   _handleButtonKeydown(e) {
-    if (!this.handorgel.keyboardInteraction) {
+    if (!this.handorgel.options.keyboardInteraction) {
       return
     }
 
@@ -264,7 +271,7 @@ export default class HandorgelFold {
   }
 
   _handleContentKeydown(e) {
-    if (!this.handorgel.keyboardInteraction) {
+    if (!this.handorgel.options.keyboardInteraction) {
       return
     }
 

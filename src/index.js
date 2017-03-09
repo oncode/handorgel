@@ -1,5 +1,5 @@
 import EventEmitter from 'ev-emitter'
-import { rAF, isUndefined } from './helpers'
+import { rAF, extend } from './helpers'
 import Fold from './fold'
 
 var ID_COUNTER = 0
@@ -17,21 +17,7 @@ export default class Handorgel extends EventEmitter {
     this.element.handorgel = this
     this.id = `handorgel${++ID_COUNTER}`
     this.folds = []
-
-    this.initialOpenAttribute = options.initialOpenAttribute || 'data-open'
-    this.headerOpenClass = options.headerOpenClass || 'handorgel__header--open'
-    this.contentOpenClass = options.contentOpenClass || 'handorgel__content--open'
-    this.headerDisabledClass = options.headerDisabledClass || 'handorgel__header--disabled'
-    this.contentDisabledClass = options.contentDisabledClass || 'handorgel__content--disabled'
-    this.headerNoTransitionClass = options.headerNoTransitionClass || 'handorgel__header--notransition'
-    this.contentNoTransitionClass = options.contentNoTransitionClass || 'handorgel__content--notransition'
-
-    this.initialOpenTransition = !isUndefined(options.initialOpenTransition) ? !!options.initialOpenTransition : true
-    this.keyboardInteraction = !isUndefined(options.keyboardInteraction) ? !!options.keyboardInteraction : true
-    this.multiSelectable = !isUndefined(options.multiSelectable) ? !!options.multiSelectable : true
-    this.ariaEnabled = !isUndefined(options.ariaEnabled) ? !!options.ariaEnabled : true
-    this.collapsible = !isUndefined(options.collapsible) ? !!options.collapsible : true
-    this.carouselFocus = !isUndefined(options.carouselFocus) ? !!options.carouselFocus : true
+    this.options = extend({}, Handorgel.defaultOptions, options)
 
     this._listeners = {}
     this._resizing = false
@@ -81,12 +67,12 @@ export default class Handorgel extends EventEmitter {
     }
 
     if (type == 'prev' && currentFocusedIndex == 0) {
-      if (!this.carouselFocus) return
+      if (!this.options.carouselFocus) return
       type = 'last'
     }
 
     if (type == 'next' && currentFocusedIndex == foldsLength - 1) {
-      if (!this.carouselFocus) return
+      if (!this.options.carouselFocus) return
       type = 'first'
     }
 
@@ -122,7 +108,9 @@ export default class Handorgel extends EventEmitter {
   }
 
   _handleFoldOpen(openFold) {
-    if (this.multiSelectable) return
+    if (this.options.multiSelectable) {
+      return
+    }
 
     this.folds.forEach((fold) => {
       if (openFold !== fold) fold.close()
@@ -140,13 +128,13 @@ export default class Handorgel extends EventEmitter {
   }
 
   _initAria() {
-    if (!this.ariaEnabled) {
+    if (!this.options.ariaEnabled) {
       return
     }
 
     this.element.setAttribute('role', 'tablist')
 
-    if (this.multiSelectable) {
+    if (this.options.multiSelectable) {
       this.element.setAttribute('aria-multiselectable', 'true')
     }
   }
@@ -169,4 +157,26 @@ export default class Handorgel extends EventEmitter {
     this.off('open', this._listeners.foldOpen)
   }
 
+}
+
+Handorgel.defaultOptions = {
+  keyboardInteraction: true,
+  multiSelectable: true,
+  ariaEnabled: true,
+  collapsible: true,
+  carouselFocus: true,
+
+  initialOpenAttribute: 'data-open',
+  initialOpenTransition: true,
+  initialOpenTransitionDelay: 200,
+
+  headerOpenClass: 'handorgel__header--open',
+  headerOpenedClass: 'handorgel__header--opened',
+  contentOpenClass: 'handorgel__content--open',
+  contentOpenedClass: 'handorgel__content--opened',
+
+  headerDisabledClass: 'handorgel__header--disabled',
+  contentDisabledClass: 'handorgel__content--disabled',
+  headerNoTransitionClass: 'handorgel__header--notransition',
+  contentNoTransitionClass: 'handorgel__content--notransition'
 }

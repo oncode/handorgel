@@ -90,6 +90,7 @@ $handorgel__header--open-transition:
   }
 
   &__header__button {
+    cursor: pointer;
     display: block;
     width: 100%;
     background-color: $handorgel__header__button-background-color;
@@ -112,11 +113,16 @@ $handorgel__header--open-transition:
   &__content {
     opacity: 0;
     height: 0;
+    overflow: hidden;
     transition: $handorgel__content-transition;
 
     &--open {
       opacity: 1;
       transition: $handorgel__content--open-transition;
+    }
+
+    &--opened {
+      overflow: visible;
     }
 
     &--notransition {

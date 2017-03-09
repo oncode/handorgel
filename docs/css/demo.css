@@ -75,6 +75,7 @@ p:last-child {
   transition: none; }
 
 .handorgel__header__button {
+  cursor: pointer;
   display: block;
   width: 100%;
   background-color: #fff;
@@ -95,6 +96,7 @@ p:last-child {
 .handorgel__content {
   opacity: 0;
   height: 0;
+  overflow: hidden;
   -webkit-transition: opacity 0.1s ease, height 0.1s ease 0.1s;
   transition: opacity 0.1s ease, height 0.1s ease 0.1s; }
 
@@ -102,6 +104,9 @@ p:last-child {
     opacity: 1;
     -webkit-transition: height 0.2s ease, opacity 0.3s ease 0.1s;
     transition: height 0.2s ease, opacity 0.3s ease 0.1s; }
+
+.handorgel__content--opened {
+    overflow: visible; }
 
 .handorgel__content--notransition {
     -webkit-transition: none;
