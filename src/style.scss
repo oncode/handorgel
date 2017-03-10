@@ -71,16 +71,13 @@ $handorgel__header--open__button-transition:
     display: block;
     width: 100%;
     border: $handorgel-border-width solid $handorgel-border-color;
+    border-top: none;
   }
 
   &__header {
     display: block;
     user-select: none;
     margin: 0;
-  }
-
-  &__header:first-child &__header__button {
-      border-top: none;
   }
 
   &__header--open &__header__button {
