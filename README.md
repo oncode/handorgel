@@ -90,7 +90,7 @@ Alternatively you can just include the built CSS file inside the `/lib` folder f
 
 ### Javascript
 
-Initialization with all options and their defaults:
+Initialization (with all options and their defaults):
 
 ```javascript
 var accordion = new Handorgel(document.querySelector('.accordon'), {

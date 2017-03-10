@@ -30,7 +30,7 @@ p:last-child {
   max-width: 700px;
   margin: 0 auto; }
 
-.wrapper > .inner {
+.wrapper .example {
   margin-bottom: 30px; }
 
 .usage {

@@ -33,7 +33,7 @@ p {
     .wrapper {
       width: 100%; } }
 
-.wrapper > .inner {
+.wrapper .example {
   margin-bottom: 30px; }
 
 .usage {

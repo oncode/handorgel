@@ -20,7 +20,7 @@
       <div class="handorgel default">
         <h3 class="handorgel__header">
           <button class="handorgel__header__button" autofocus>
-            Lorem ipsum
+            Lorem ipsum (autofocused)
           </button>
         </h3>
         <div class="handorgel__content">
@@ -30,7 +30,7 @@
         </div>
         <h3 class="handorgel__header">
           <button class="handorgel__header__button">
-            Lorem ipsum (default)
+            Lorem ipsum (default opened)
           </button>
         </h3>
         <div class="handorgel__content" data-open>
@@ -103,7 +103,9 @@
 
       <h2>Examples</h2>
 
-      <div class="inner">
+      <div class="example">
+        <h3>Maximum one item opened</h3>
+
         <pre><code class="javascript">new Handorgel(document.querySelector('.handorgel'), {
   multiSelectable: false
 })</code></pre>
@@ -153,7 +155,8 @@
       </div>
 
 
-      <div class="inner">
+      <div class="example">
+        <h3>Maximum one item opened and not toggable</h3>
         <pre><code class="javascript">new Handorgel(document.querySelector('.handorgel'), {
   multiSelectable: false,
   collapsible: false
