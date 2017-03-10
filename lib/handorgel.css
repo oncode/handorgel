@@ -1,7 +1,7 @@
 .handorgel {
   display: block;
   width: 100%;
-  border: 2px solid #eee;
+  border: 1px solid #eee;
 }
 .handorgel__header {
   display: block;
@@ -10,13 +10,13 @@
       -ms-user-select: none;
           user-select: none;
   margin: 0;
-  border-top: 2px solid #eee;
+  border-top: 1px solid #eee;
   border-bottom: 0px solid #eee;
   -webkit-transition: border-bottom-width 0s ease 0.2s;
   transition: border-bottom-width 0s ease 0.2s;
 }
 .handorgel__header--open {
-  border-bottom-width: 2px;
+  border-bottom-width: 1px;
   -webkit-transition: border-bottom-width 0s ease;
   transition: border-bottom-width 0s ease;
 }
