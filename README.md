@@ -46,7 +46,9 @@ Link directly to Handorgel files on [unpkg](https://unpkg.com).
 
 ## Usage
 
-Markup (use the heading tags that fit into your content):
+### Markup
+
+Use the heading tags that fit into your content:
 
 ```html
 <div class="handorgel">
@@ -75,6 +77,20 @@ Markup (use the heading tags that fit into your content):
 
 </div>
 ```
+
+### CSS
+
+Import SASS file:
+
+```sass
+@import 'NODE_MODULES_PATH/handorgel/src/style';
+```
+
+Alternatively you can just include the built CSS file inside the `/lib` folder file.
+
+### Javascript
+
+Initialization with all options and their defaults:
 
 ```javascript
 var accordion = new Handorgel(document.querySelector('.accordon'), {

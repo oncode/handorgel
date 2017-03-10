@@ -4,14 +4,23 @@
 
 body {
   box-sizing: border-box;
-  margin: 60px;
+  margin: 80px 60px;
   font-size: 16px;
   line-height: 1.4;
-  background-color: white;
+  color: #dadada;
+  background-color: #202328;
   font-family: 'Helvetica Neue', Helvetica, sans-serif;
   text-size-adjust: 100%;
   -moz-osx-font-smoothing: grayscale;
   -webkit-font-smoothing: antialiased;
+
+  @media (max-width: 600px) {
+    margin: 80px 40px;
+  }
+}
+
+a {
+  color: #dadada;
 }
 
 p {
@@ -24,22 +33,52 @@ p {
 }
 
 .wrapper {
-  display: flex;
-  flex-wrap: wrap;
-  justify-content: space-between;
+  width: 80%;
+  max-width: 700px;
+  margin: 0 auto;
 
   @media (max-width: 600px) {
-    flex-direction: column;
+    width: 100%;
   }
 }
 
 .wrapper > .inner {
-  flex-basis: 48%;
   margin-bottom: 30px;
-
-  @media (max-width: 600px) {
-    flex-basis: 100%;
-  }
 }
+
+.usage {
+  margin-top: 80px;
+}
+
+h1 {
+  text-align: center;
+  margin-top: 0;
+  margin-bottom: 40px;
+  font-size: 40px;
+}
+
+h2 {
+  font-size: 28px;
+  margin-top: 40px;
+  margin-bottom: 10px;
+}
+
+h3 {
+  font-size: 20px;
+  margin-top: 20px;
+  margin-bottom: 10px;
+}
+
+pre {
+  margin: 0;
+  margin-bottom: 30px;
+}
+
+.handorgel {
+  color: #333;
+  margin-bottom: 80px;
+}
+
+$handorgel-border-width: 1px;
 
 @import '../src/style';

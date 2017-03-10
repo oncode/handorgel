@@ -72,104 +72,7 @@
 
 var __WEBPACK_AMD_DEFINE_FACTORY__, __WEBPACK_AMD_DEFINE_ARRAY__, __WEBPACK_AMD_DEFINE_RESULT__;(function (global, factory) {
   if (true) {
-    !(__WEBPACK_AMD_DEFINE_ARRAY__ = [exports], __WEBPACK_AMD_DEFINE_FACTORY__ = (factory),
-				__WEBPACK_AMD_DEFINE_RESULT__ = (typeof __WEBPACK_AMD_DEFINE_FACTORY__ === 'function' ?
-				(__WEBPACK_AMD_DEFINE_FACTORY__.apply(exports, __WEBPACK_AMD_DEFINE_ARRAY__)) : __WEBPACK_AMD_DEFINE_FACTORY__),
-				__WEBPACK_AMD_DEFINE_RESULT__ !== undefined && (module.exports = __WEBPACK_AMD_DEFINE_RESULT__));
-  } else if (typeof exports !== "undefined") {
-    factory(exports);
-  } else {
-    var mod = {
-      exports: {}
-    };
-    factory(mod.exports);
-    global.helpers = mod.exports;
-  }
-})(this, function (exports) {
-  'use strict';
-
-  Object.defineProperty(exports, "__esModule", {
-    value: true
-  });
-  exports.isUndefined = isUndefined;
-  exports.isWritable = isWritable;
-  exports.extend = extend;
-  /**
-   * Request animation frame polyfill method.
-   *
-   * @see https://www.paulirish.com/2011/requestanimationframe-for-smart-animating/
-   * @see https://developer.mozilla.org/de/docs/Web/API/window/requestAnimationFrame
-   */
-  var rAF = exports.rAF = function () {
-    return window.requestAnimationFrame || window.webkitRequestAnimationFrame || window.mozRequestAnimationFrame || function (callback) {
-      window.setTimeout(callback, 1000 / 60);
-    };
-  }();
-
-  /**
-   * Check if given value is undefined.
-   *
-   * @param   {*} value - Value to check.
-   * @returns {Boolean}
-   */
-  function isUndefined(value) {
-    return typeof value === 'undefined';
-  }
-
-  /**
-   * Check if an object's property could be overridden.
-   *
-   * @source riot.js
-   * @see https://github.com/riot/riot/blob/master/lib/browser/common/util/check.js
-   *
-   * @param   {Object} obj -
-   * @param   {String} key -
-   * @returns {Boolean}
-   */
-  function isWritable(obj, key) {
-    var descriptor = Object.getOwnPropertyDescriptor(obj, key);
-    return isUndefined(obj[key]) || descriptor && descriptor.writable;
-  }
-
-  /**
-   * Extend any object with other properties.
-   *
-   * @source riot.js
-   * @see https://github.com/riot/riot/blob/master/lib/browser/common/util/misc.js
-   *
-   * @param   {Object} src - Source object.
-   * @returns {Object} The resulting extended object.
-   *
-   * @example
-   * var obj = { foo: 'baz' }
-   * extend(obj, {bar: 'bar', foo: 'bar'})
-   * console.log(obj) => {bar: 'bar', foo: 'bar'}
-   *
-   */
-  function extend(src) {
-    var obj,
-        args = arguments;
-
-    for (var i = 1; i < args.length; ++i) {
-      if (obj = args[i]) {
-        for (var key in obj) {
-          // check if this property of the source object could be overridden
-          if (isWritable(src, key)) src[key] = obj[key];
-        }
-      }
-    }
-
-    return src;
-  }
-});
-
-/***/ }),
-/* 1 */
-/***/ (function(module, exports, __webpack_require__) {
-
-var __WEBPACK_AMD_DEFINE_FACTORY__, __WEBPACK_AMD_DEFINE_ARRAY__, __WEBPACK_AMD_DEFINE_RESULT__;(function (global, factory) {
-  if (true) {
-    !(__WEBPACK_AMD_DEFINE_ARRAY__ = [exports, __webpack_require__(3), __webpack_require__(0), __webpack_require__(2)], __WEBPACK_AMD_DEFINE_FACTORY__ = (factory),
+    !(__WEBPACK_AMD_DEFINE_ARRAY__ = [exports, __webpack_require__(3), __webpack_require__(2), __webpack_require__(1)], __WEBPACK_AMD_DEFINE_FACTORY__ = (factory),
 				__WEBPACK_AMD_DEFINE_RESULT__ = (typeof __WEBPACK_AMD_DEFINE_FACTORY__ === 'function' ?
 				(__WEBPACK_AMD_DEFINE_FACTORY__.apply(exports, __WEBPACK_AMD_DEFINE_ARRAY__)) : __WEBPACK_AMD_DEFINE_FACTORY__),
 				__WEBPACK_AMD_DEFINE_RESULT__ !== undefined && (module.exports = __WEBPACK_AMD_DEFINE_RESULT__));
@@ -393,8 +296,6 @@ var __WEBPACK_AMD_DEFINE_FACTORY__, __WEBPACK_AMD_DEFINE_ARRAY__, __WEBPACK_AMD_
           return;
         }
 
-        this.element.setAttribute('role', 'tablist');
-
         if (this.options.multiSelectable) {
           this.element.setAttribute('aria-multiselectable', 'true');
         }
@@ -452,7 +353,7 @@ var __WEBPACK_AMD_DEFINE_FACTORY__, __WEBPACK_AMD_DEFINE_ARRAY__, __WEBPACK_AMD_
 });
 
 /***/ }),
-/* 2 */
+/* 1 */
 /***/ (function(module, exports, __webpack_require__) {
 
 var __WEBPACK_AMD_DEFINE_FACTORY__, __WEBPACK_AMD_DEFINE_ARRAY__, __WEBPACK_AMD_DEFINE_RESULT__;(function (global, factory) {
@@ -886,6 +787,103 @@ var __WEBPACK_AMD_DEFINE_FACTORY__, __WEBPACK_AMD_DEFINE_ARRAY__, __WEBPACK_AMD_
 });
 
 /***/ }),
+/* 2 */
+/***/ (function(module, exports, __webpack_require__) {
+
+var __WEBPACK_AMD_DEFINE_FACTORY__, __WEBPACK_AMD_DEFINE_ARRAY__, __WEBPACK_AMD_DEFINE_RESULT__;(function (global, factory) {
+  if (true) {
+    !(__WEBPACK_AMD_DEFINE_ARRAY__ = [exports], __WEBPACK_AMD_DEFINE_FACTORY__ = (factory),
+				__WEBPACK_AMD_DEFINE_RESULT__ = (typeof __WEBPACK_AMD_DEFINE_FACTORY__ === 'function' ?
+				(__WEBPACK_AMD_DEFINE_FACTORY__.apply(exports, __WEBPACK_AMD_DEFINE_ARRAY__)) : __WEBPACK_AMD_DEFINE_FACTORY__),
+				__WEBPACK_AMD_DEFINE_RESULT__ !== undefined && (module.exports = __WEBPACK_AMD_DEFINE_RESULT__));
+  } else if (typeof exports !== "undefined") {
+    factory(exports);
+  } else {
+    var mod = {
+      exports: {}
+    };
+    factory(mod.exports);
+    global.helpers = mod.exports;
+  }
+})(this, function (exports) {
+  'use strict';
+
+  Object.defineProperty(exports, "__esModule", {
+    value: true
+  });
+  exports.isUndefined = isUndefined;
+  exports.isWritable = isWritable;
+  exports.extend = extend;
+  /**
+   * Request animation frame polyfill method.
+   *
+   * @see https://www.paulirish.com/2011/requestanimationframe-for-smart-animating/
+   * @see https://developer.mozilla.org/de/docs/Web/API/window/requestAnimationFrame
+   */
+  var rAF = exports.rAF = function () {
+    return window.requestAnimationFrame || window.webkitRequestAnimationFrame || window.mozRequestAnimationFrame || function (callback) {
+      window.setTimeout(callback, 1000 / 60);
+    };
+  }();
+
+  /**
+   * Check if given value is undefined.
+   *
+   * @param   {*} value - Value to check.
+   * @returns {Boolean}
+   */
+  function isUndefined(value) {
+    return typeof value === 'undefined';
+  }
+
+  /**
+   * Check if an object's property could be overridden.
+   *
+   * @source riot.js
+   * @see https://github.com/riot/riot/blob/master/lib/browser/common/util/check.js
+   *
+   * @param   {Object} obj -
+   * @param   {String} key -
+   * @returns {Boolean}
+   */
+  function isWritable(obj, key) {
+    var descriptor = Object.getOwnPropertyDescriptor(obj, key);
+    return isUndefined(obj[key]) || descriptor && descriptor.writable;
+  }
+
+  /**
+   * Extend any object with other properties.
+   *
+   * @source riot.js
+   * @see https://github.com/riot/riot/blob/master/lib/browser/common/util/misc.js
+   *
+   * @param   {Object} src - Source object.
+   * @returns {Object} The resulting extended object.
+   *
+   * @example
+   * var obj = { foo: 'baz' }
+   * extend(obj, {bar: 'bar', foo: 'bar'})
+   * console.log(obj) => {bar: 'bar', foo: 'bar'}
+   *
+   */
+  function extend(src) {
+    var obj,
+        args = arguments;
+
+    for (var i = 1; i < args.length; ++i) {
+      if (obj = args[i]) {
+        for (var key in obj) {
+          // check if this property of the source object could be overridden
+          if (isWritable(src, key)) src[key] = obj[key];
+        }
+      }
+    }
+
+    return src;
+  }
+});
+
+/***/ }),
 /* 3 */
 /***/ (function(module, exports, __webpack_require__) {
 
@@ -1010,7 +1008,7 @@ return EvEmitter;
 
 var __WEBPACK_AMD_DEFINE_FACTORY__, __WEBPACK_AMD_DEFINE_ARRAY__, __WEBPACK_AMD_DEFINE_RESULT__;(function (global, factory) {
   if (true) {
-    !(__WEBPACK_AMD_DEFINE_ARRAY__ = [__webpack_require__(1)], __WEBPACK_AMD_DEFINE_FACTORY__ = (factory),
+    !(__WEBPACK_AMD_DEFINE_ARRAY__ = [__webpack_require__(0)], __WEBPACK_AMD_DEFINE_FACTORY__ = (factory),
 				__WEBPACK_AMD_DEFINE_RESULT__ = (typeof __WEBPACK_AMD_DEFINE_FACTORY__ === 'function' ?
 				(__WEBPACK_AMD_DEFINE_FACTORY__.apply(exports, __WEBPACK_AMD_DEFINE_ARRAY__)) : __WEBPACK_AMD_DEFINE_FACTORY__),
 				__WEBPACK_AMD_DEFINE_RESULT__ !== undefined && (module.exports = __WEBPACK_AMD_DEFINE_RESULT__));

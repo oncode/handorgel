@@ -28,7 +28,7 @@
   border-top: none;
 }
 .handorgel__header--open .handorgel__header__button {
-  background-color: #f8f8f8;
+  background-color: #eee;
   -webkit-transition: background-color 0.1s ease-in;
   transition: background-color 0.1s ease-in;
 }
@@ -37,6 +37,7 @@
   transition: none;
 }
 .handorgel__header__button {
+  color: inherit;
   cursor: pointer;
   display: block;
   width: 100%;
@@ -50,22 +51,21 @@
 }
 .handorgel__header__button:focus {
   outline: none;
-  background-color: #eee;
+  background-color: #dfdfdf;
 }
 .handorgel__header__button::-moz-focus-inner {
   border: 0;
 }
 .handorgel__content {
-  opacity: 0;
   height: 0;
   overflow: hidden;
-  -webkit-transition: opacity 0.1s ease, height 0.1s ease 0.1s;
-  transition: opacity 0.1s ease, height 0.1s ease 0.1s;
+  background-color: #fff;
+  -webkit-transition: height 0.1s ease 0.1s;
+  transition: height 0.1s ease 0.1s;
 }
 .handorgel__content--open {
-  opacity: 1;
-  -webkit-transition: height 0.2s ease, opacity 0.3s ease 0.1s;
-  transition: height 0.2s ease, opacity 0.3s ease 0.1s;
+  -webkit-transition: height 0.2s ease;
+  transition: height 0.2s ease;
 }
 .handorgel__content--opened {
   overflow: visible;
@@ -75,7 +75,15 @@
   transition: none;
 }
 .handorgel__content__inner {
+  opacity: 0;
   padding: 20px 24px;
+  -webkit-transition: opacity 0.1s ease;
+  transition: opacity 0.1s ease;
+}
+.handorgel__content--opened .handorgel__content__inner {
+  opacity: 1;
+  -webkit-transition: opacity 0.3s ease;
+  transition: opacity 0.3s ease;
 }
 
 /*# sourceMappingURL=handorgel.css.map */

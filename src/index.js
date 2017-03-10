@@ -132,8 +132,6 @@ export default class Handorgel extends EventEmitter {
       return
     }
 
-    this.element.setAttribute('role', 'tablist')
-
     if (this.options.multiSelectable) {
       this.element.setAttribute('aria-multiselectable', 'true')
     }
