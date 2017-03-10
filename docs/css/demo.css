@@ -71,28 +71,20 @@ pre {
      -moz-user-select: none;
       -ms-user-select: none;
           user-select: none;
-  margin: 0;
-  border-top: 1px solid #eee;
-  border-bottom: 0px solid #eee;
-  -webkit-transition: border-bottom-width 0s ease 0.2s;
-  transition: border-bottom-width 0s ease 0.2s; }
+  margin: 0; }
 
-.handorgel__header--open {
-    border-bottom-width: 1px;
-    -webkit-transition: border-bottom-width 0s ease;
-    transition: border-bottom-width 0s ease; }
-
-.handorgel__header--notransition {
-    -webkit-transition: none;
-    transition: none; }
-
-.handorgel__header:first-child {
-    border-top: none; }
+.handorgel__header:first-child .handorgel__header__button {
+  border-top: none; }
 
 .handorgel__header--open .handorgel__header__button {
+  border-bottom-width: 1px;
   background-color: #eee;
-  -webkit-transition: background-color 0.1s ease-in;
-  transition: background-color 0.1s ease-in; }
+  -webkit-transition: background-color 0.2s ease, border-bottom-width 0s ease;
+  transition: background-color 0.2s ease, border-bottom-width 0s ease; }
+
+.handorgel__header--notransition {
+  -webkit-transition: none;
+  transition: none; }
 
 .handorgel__header--notransition .handorgel__header__button {
   -webkit-transition: none;
@@ -108,8 +100,10 @@ pre {
   padding: 20px 24px;
   font-size: inherit;
   text-align: left;
-  -webkit-transition: 0.1s ease-in;
-  transition: 0.1s ease-in; }
+  border-top: 1px solid #eee;
+  border-bottom: 0px solid #eee;
+  -webkit-transition: background-color 0.2s ease, border-bottom-width 0s ease 0.2s;
+  transition: background-color 0.2s ease, border-bottom-width 0s ease 0.2s; }
 
 .handorgel__header__button:focus {
     outline: none;
