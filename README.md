@@ -2,6 +2,8 @@
 
 Accessible [W3C](https://www.w3.org/TR/wai-aria-practices/#accordion) conform accordion written in ES6. `Handorgel` is the Swiss German name for accordion.
 
+[Demo](https://oncode.github.io/handorgel/)
+
 ## Features
 
 * ARIA accessible
