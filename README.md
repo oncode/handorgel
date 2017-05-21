@@ -48,7 +48,7 @@ Link directly to Handorgel files on [unpkg](https://unpkg.com).
 
 ## Usage
 
-### Markup
+### Markup
 
 Use the heading tags that fit into your content:
 
@@ -141,7 +141,7 @@ var accordion = new Handorgel(document.querySelector('.accordon'), {
 
 ## API
 
-### Events
+### Events
 
 * `fold:open`: Accordeon fold is about to be opened.
   - `HandorgelFold`: Fold instance
@@ -193,7 +193,7 @@ var handorgel = new Handorgel(document.querySelector('.handorgel'))
 handorgel.resize()
 ```
 
-#### HandorgelFold:
+#### HandorgelFold:
 
 * `open`: Open content.
   - `transition=true`: If transition should be active during resizing.
