@@ -134,7 +134,7 @@ var accordion = new Handorgel(document.querySelector('.accordon'), {
   // header class if no transition is active
   headerNoTransitionClass: 'handorgel__header--notransition'
   // content class if no transition is active
-  contentDisabledClass: 'handorgel__content--notransition'
+  contentNoTransitionClass: 'handorgel__content--notransition'
 
 })
 ```
