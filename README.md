@@ -82,7 +82,7 @@ Use the heading tags that fit into your content:
 
 ### CSS
 
-Import SASS file from you `node_modules` folder:
+Import SASS file from your `node_modules` folder:
 
 ```sass
 @import '~handorgel/src/style';
