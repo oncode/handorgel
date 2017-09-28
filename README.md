@@ -82,10 +82,10 @@ Use the heading tags that fit into your content:
 
 ### CSS
 
-Import SASS file:
+Import SASS file from you `node_modules` folder:
 
 ```sass
-@import 'NODE_MODULES_PATH/handorgel/src/style';
+@import '~handorgel/src/style';
 ```
 
 Alternatively you can just include the built CSS file inside the `/lib` folder file.
