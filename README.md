@@ -2,12 +2,13 @@
 
 Accessible [W3C](https://www.w3.org/TR/wai-aria-practices/#accordion) conform accordion written in ES6. `Handorgel` is the Swiss German name for accordion.
 
-[Demo](https://oncode.github.io/handorgel/)
+[Visit the demo](https://oncode.github.io/handorgel/)
 
 ## Features
 
 * ARIA accessible
 * Keyboard interaction
+* Extensive [API](#api)
 * Animated collapsing
 * Fully customizable via CSS
 * No external dependencies
@@ -17,40 +18,25 @@ Accessible [W3C](https://www.w3.org/TR/wai-aria-practices/#accordion) conform ac
 
 ### Package manager
 
-yarn: `yarn add handorgel`
+Manager | Command
+--- | ---
+npm | `npm install handorgel --save`
+yarn | `yarn add handorgel`
 
-npm: `npm install handorgel --save-dev`
 
-### Download
+### CDN / Download
 
-* CSS:
-  - [handorgel.min.css](https://unpkg.com/handorgel@0.2/lib/handorgel.min.css) minified, or
-  - [handorgel.css](https://unpkg.com/handorgel@0.2/lib/handorgel.css) un-minified
-* JavaScript:
-  - [handorgel.min.js](https://unpkg.com/handorgel@0.2/lib/handorgel.min.js) minified, or
-  - [handorgel.js](https://unpkg.com/handorgel@0.2/lib/handorgel.js) un-minified
+File | CDN
+--- | ---
+CSS | https://unpkg.com/handorgel@0.3/lib/handorgel.css
+CSS (minified) | https://unpkg.com/handorgel@0.3/lib/handorgel.min.css
+JS | https://unpkg.com/handorgel@0.3/lib/handorgel.js
+JS (minified) | https://unpkg.com/handorgel@0.3/lib/handorgel.min.js
 
-### CDN
-
-Link directly to Handorgel files on [unpkg](https://unpkg.com).
-
-``` html
-<link rel="stylesheet" href="https://unpkg.com/handorgel@0.2/lib/handorgel.min.css">
-<!-- or -->
-<link rel="stylesheet" href="https://unpkg.com/handorgel@0.2/lib/handorgel.css">
-```
-
-``` html
-<script src="https://unpkg.com/handorgel@0.2/lib/handorgel.min.js"></script>
-<!-- or -->
-<script src="https://unpkg.com/handorgel@0.2/lib/handorgel.js"></script>
-```
 
 ## Usage
 
 ### Markup
-
-Use the heading tags that fit into your content:
 
 ```html
 <div class="handorgel">
@@ -80,15 +66,26 @@ Use the heading tags that fit into your content:
 </div>
 ```
 
+**Note**: Use the heading tags that fit into your content to output semantic markup.
+
+
 ### CSS
 
-Import SASS file:
+Import the SASS file from your `node_modules` folder to make use of the variables:
 
 ```sass
-@import 'NODE_MODULES_PATH/handorgel/src/style';
+// e.g. changing opening/closing transition times
+$handorgel__content--open-transition-height-time: .1s;
+$handorgel__content--open-transition-opacity-time: .2s;
+$handorgel__content-transition-height-time: .05s
+$handorgel__content-transition-opacity-time: .05s
+//...
+
+@import '~handorgel/src/style';
 ```
 
-Alternatively you can just include the built CSS file inside the `/lib` folder file.
+Alternatively you can just include the built CSS file inside the `/lib` folder file or from the CDN.
+
 
 ### Javascript
 
@@ -126,37 +123,42 @@ var accordion = new Handorgel(document.querySelector('.accordon'), {
   // content class if fold has been opened (transition finished)
   contentOpenedClass: 'handorgel__content--opened',
 
+  // header class if fold has been focused
+  headerFocusClass: 'handorgel__header--focus',
+  // content class if fold has been focused
+  contentFocusClass: 'handorgel__content--focus',
+
   // header class if fold is disabled
   headerDisabledClass: 'handorgel__header--disabled',
   // content class if fold is disabled
   contentDisabledClass: 'handorgel__content--disabled',
 
-  // header class if no transition is active
-  headerNoTransitionClass: 'handorgel__header--notransition'
-  // content class if no transition is active
+  // header class if no transition should be active (applied on resize)
+  headerNoTransitionClass: 'handorgel__header--notransition',
+  // content class if no transition should be active (applied on resize)
   contentNoTransitionClass: 'handorgel__content--notransition'
 
 })
 ```
 
+
 ## API
 
 ### Events
 
-* `fold:open`: Accordeon fold is about to be opened.
-  - `HandorgelFold`: Fold instance
-* `fold:opened`: Accordeon fold has opened.
-  - `HandorgelFold`: Fold instance
-* `fold:close`:  Accordeon fold is about to be closed.
-  - `HandorgelFold`: Fold instance
-* `fold:closed`: Accordeon fold has closed.
-  - `HandorgelFold`: Fold instance
-* `fold:focus`: Accordeon fold button has been focused.
-  - `HandorgelFold`: Fold instance
-* `fold:blur`: Accordeon fold button has lost focus.
-  - `HandorgelFold`: Fold instance
-* `destroy`: Accordeon is about to be destroyed.
-* `destroyed`: Accordeon has been destroyed.
+Event | Description | Parameters
+--- | --- | ---
+`destroy` | Accordeon is about to be destroyed. | 
+`destroyed` | Accordeon has been destroyed. | 
+`fold:open` | Fold is about to be opened. | `HandorgelFold`: Fold instance
+`fold:opened` | Fold has opened. | `HandorgelFold`: Fold instance
+`fold:close` |  Fold is about to be closed. | `HandorgelFold`: Fold instance
+`fold:closed` | Fold has closed. | `HandorgelFold`: Fold instance
+`fold:focus` | Fold button has been focused. | `HandorgelFold`: Fold instance
+`fold:blur` | Fold button has lost focus. | `HandorgelFold`: Fold instance
+
+
+How to listen for events:
 
 ```javascript
 var handorgel = new Handorgel(document.querySelector('.handorgel'))
@@ -179,12 +181,15 @@ handorgel.off('fold:open', fn)
 
 #### Handorgel:
 
-* `update`: Update fold instances (use if you dynamically append/remove DOM nodes).
-* `resize`: Resize all fold instances.
-  - `transition=false`: If transition should be active during resizing.
-* `focus`: Set focus to a new header button (you can also directly use the native `focus()` method on the button)
-  - `type`: `next`, `previous`, `last` or `first`
-* `destroy`: Destroy fold instances and removes event listeners and ARIA attributes. 
+Method | Description | Parameters
+--- | --- | ---
+`update` | Update fold instances (use if you dynamically append/remove DOM nodes). |
+`resize` | Resize all fold instances. | `transition`: Whether transition should be active during resizing. (default: `false`)
+`focus` | Set focus to a new header button (you can also directly use the native `focus()` method on the button). | `target`: New header button to focus (`next`, `previous`, `last` or `first`)
+`destroy` | Destroy fold instances, remove event listeners and ARIA attributes. |
+
+
+Example:
 
 ```javascript
 var handorgel = new Handorgel(document.querySelector('.handorgel'))
@@ -195,25 +200,25 @@ handorgel.resize()
 
 #### HandorgelFold:
 
-* `open`: Open content.
-  - `transition=true`: If transition should be active during resizing.
-* `close`: Open content.
-  - `transition=true`: If transition should be active during resizing.
-* `toggle`: Toggle content.
-  - `transition=true`: If transition should be active during resizing.
-* `resize`: Resize content height.
-  - `transition=false`: If transition should be active during resizing.
-* `disable`: Disable fold.
-* `enable`: Enable fold.
-* `focus`: Set focus to fold button.
-* `blur`: Remove focus from fold button.
-* `destroy`: Removes event listeners and ARIA attributes.
+Method | Description | Parameters
+--- | --- | ---
+`open` | Open content. | `transition`: Whether transition should be active during opening (default: `true`).
+`close` | Close content. | `transition`: Whether transition should be active during closing (default: `true`).
+`toggle` | Toggle content. | `transition`: Whether transition should be active during toggling (default: `true`).
+`resize` | Resize content height. | `transition`: Whether transition should be active during resizing (default: `false`).
+`disable` | Disable fold. |
+`enable` | Enable fold. |
+`focus` | Set focus to fold button. |
+`blur` | Remove focus from fold button. |
+`destroy` | Remove event listeners and ARIA attributes. |
+
+Example:
 
 ```javascript
 var handorgel = new Handorgel(document.querySelector('.handorgel'))
 
-// resize
-handorgel.folds[0].resize()
+// close first fold
+handorgel.folds[0].close()
 ```
 
 ## Browser compatibility
