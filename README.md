@@ -118,7 +118,7 @@ var accordion = new Handorgel(document.querySelector('.accordon'), {
   // content class if fold is open
   contentOpenClass: 'handorgel__content--open',
 
-  // content class if fold has been opened (transition finished)
+  // header class if fold has been opened (transition finished)
   headerOpenedClass: 'handorgel__header--opened',
   // content class if fold has been opened (transition finished)
   contentOpenedClass: 'handorgel__content--opened',
