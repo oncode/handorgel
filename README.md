@@ -113,29 +113,24 @@ var accordion = new Handorgel(document.querySelector('.accordon'), {
   // delay used to show initial transition
   initialOpenTransitionDelay: 200
 
-  // header class if fold is open
+  // header/content class if fold is open
   headerOpenClass: 'handorgel__header--open',
-  // content class if fold is open
   contentOpenClass: 'handorgel__content--open',
 
-  // header class if fold has been opened (transition finished)
+  // header/content class if fold has been opened (transition finished)
   headerOpenedClass: 'handorgel__header--opened',
-  // content class if fold has been opened (transition finished)
   contentOpenedClass: 'handorgel__content--opened',
 
-  // header class if fold has been focused
+  // header/content class if fold has been focused
   headerFocusClass: 'handorgel__header--focus',
-  // content class if fold has been focused
   contentFocusClass: 'handorgel__content--focus',
 
-  // header class if fold is disabled
+  // header/content class if fold is disabled
   headerDisabledClass: 'handorgel__header--disabled',
-  // content class if fold is disabled
   contentDisabledClass: 'handorgel__content--disabled',
 
-  // header class if no transition should be active (applied on resize)
+  // header/content class if no transition should be active (applied on resize)
   headerNoTransitionClass: 'handorgel__header--notransition',
-  // content class if no transition should be active (applied on resize)
   contentNoTransitionClass: 'handorgel__content--notransition'
 
 })
