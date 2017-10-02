@@ -4,7 +4,7 @@
  * @see https://www.paulirish.com/2011/requestanimationframe-for-smart-animating/
  * @see https://developer.mozilla.org/de/docs/Web/API/window/requestAnimationFrame
  */
-export var rAF = (function() {
+export let rAF = (function() {
   return window.requestAnimationFrame
     || window.webkitRequestAnimationFrame
     || window.mozRequestAnimationFrame
@@ -45,13 +45,13 @@ export function isWritable(obj, key) {
  * @returns {Object} The resulting extended object.
  *
  * @example
- * var obj = { foo: 'baz' }
+ * let obj = { foo: 'baz' }
  * extend(obj, {bar: 'bar', foo: 'bar'})
  * console.log(obj) => {bar: 'bar', foo: 'bar'}
  *
  */
  export function extend(src) {
-  var obj, args = arguments
+  let obj, args = arguments
 
   for (let i = 1; i < args.length; ++i) {
     if (obj = args[i]) {

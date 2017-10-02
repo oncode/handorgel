@@ -2,7 +2,7 @@ import EventEmitter from 'ev-emitter'
 import { rAF, extend } from './helpers'
 import Fold from './fold'
 
-var ID_COUNTER = 0
+let ID_COUNTER = 0
 
 
 export default class Handorgel extends EventEmitter {
@@ -31,12 +31,12 @@ export default class Handorgel extends EventEmitter {
 
   update() {
     this.folds = []
-    var children = this.element.children
+    const children = this.element.children
 
     for (let i = 0, childrenLength = children.length; i < childrenLength; i = i + 2) {
-      var header = children[i],
-        content = children[i+1],
-        fold = header.handorgelFold
+      const header = children[i]
+      const content = children[i+1]
+      let fold = header.handorgelFold
 
       if (!fold) {
         fold = new Fold(this, children[i], children[i+1])
@@ -56,8 +56,8 @@ export default class Handorgel extends EventEmitter {
   }
 
   focus(target) {
-    var currentFocusedIndex = null,
-      foldsLength = this.folds.length
+    const foldsLength = this.folds.length
+    let currentFocusedIndex = null
 
     for (let i = 0; i < foldsLength && currentFocusedIndex === null; i++) {
       if (this.folds[i].focused) currentFocusedIndex = i

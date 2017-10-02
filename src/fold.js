@@ -1,6 +1,6 @@
 import { rAF } from './helpers'
 
-var ID_COUNTER = {}
+let ID_COUNTER = {}
 
 const ARIA_ATTRIBUTES = {
   button: {
@@ -136,7 +136,7 @@ export default class HandorgelFold {
   }
 
   resize(transition = false) {
-    var height = 0
+    let height = 0
 
     if (!transition) {
       this.header.classList.add(this.handorgel.options.headerNoTransitionClass)
@@ -229,7 +229,7 @@ export default class HandorgelFold {
     }
 
     if (property) {
-      let newValue = ARIA_ATTRIBUTES[element][property].call(this)
+      const newValue = ARIA_ATTRIBUTES[element][property].call(this)
       this[element].setAttribute(property, newValue)
     } else {
       for (let property in ARIA_ATTRIBUTES[element]) {
@@ -237,7 +237,7 @@ export default class HandorgelFold {
           if (remove) {
             this[element].removeAttribute(property)
           } else {
-            let newValue = ARIA_ATTRIBUTES[element][property].call(this)
+            const newValue = ARIA_ATTRIBUTES[element][property].call(this)
             this[element].setAttribute(property, newValue)
           }
         }
@@ -274,12 +274,13 @@ export default class HandorgelFold {
   }
 
   _handleButtonClick(e) {
+    // ensure focus is on button (click is not seting focus on firefox mac)
+    this.focus()
+
     if (this.disabled) {
       return
     }
 
-    // ensure focus is on button (click is not seting focus on firefox mac)
-    this.focus()
     this.toggle()
   }
 
@@ -288,7 +289,7 @@ export default class HandorgelFold {
       return
     }
 
-    var action = null
+    let action = null
 
     switch (e.which) {
       case KEYS.arrowDown:
@@ -326,7 +327,7 @@ export default class HandorgelFold {
       return
     }
 
-    var action = null
+    let action = null
 
     switch (e.which) {
       case KEYS.pageDown:
@@ -357,7 +358,7 @@ export default class HandorgelFold {
 
     for (let key in this._listeners) {
       if (this._listeners.hasOwnProperty(key)) {
-        let listener = this._listeners[key]
+        const listener = this._listeners[key]
         listener[1].addEventListener(listener[0], listener[2])
       }
     }
@@ -366,7 +367,7 @@ export default class HandorgelFold {
   _unbindEvents() {
     for (let key in this._listeners) {
       if (this._listeners.hasOwnProperty(key)) {
-        let listener = this._listeners[key]
+        const listener = this._listeners[key]
         listener[1].removeEventListener(listener[0], listener[2])
       }
     }
