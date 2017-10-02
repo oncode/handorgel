@@ -1,6 +1,27 @@
+import { rAF } from './helpers'
+
 var ID_COUNTER = {}
 
-const TAGS_PREVENT_TOGGLE = ['a', 'button', 'input', 'label', 'select', 'textarea']
+const ARIA_ATTRIBUTES = {
+  button: {
+    'aria-controls': function() { return this.id +'-content' },
+    'aria-expanded': function() { return this.expanded ? 'true' : 'false' },
+    'aria-disabled': function() { return this.disabled ? 'true' : 'false' }
+  },
+  content: {
+    'role': function() { return 'region' },
+    'aria-labelledby': function() { return this.id +'-header' }
+  }
+}
+
+const KEYS = {
+  arrowDown: 40,
+  arrowUp: 38,
+  pageUp: 33,
+  pageDown: 34,
+  end: 35,
+  home: 36
+}
 
 export default class HandorgelFold {
 
@@ -22,12 +43,14 @@ export default class HandorgelFold {
 
     this.id = `${this.handorgel.id}-fold${++ID_COUNTER[this.handorgel.id]}`
 
+    this.header.setAttribute('id', this.id +'-header')
+    this.content.setAttribute('id', this.id +'-content')
+
     this.focused = false
     this.expanded = false
     this.disabled = false
 
     this._listeners = {}
-    this._ctrlKeyPressed = false
 
     this._bindEvents()
     this._initAria()
@@ -39,16 +62,14 @@ export default class HandorgelFold {
       return
     }
 
-    this.expanded = true
     this.handorgel.emitEvent('fold:open', [this])
+    this.expanded = true
 
-    if (this.handorgel.options.ariaEnabled) {
-      this.button.setAttribute('aria-expanded', 'true')
-
-      if (!this.handorgel.options.collapsible) {
-        this.disable()
-      }
+    if (!this.handorgel.options.collapsible) {
+      this.disable()
     }
+
+    this._updateAria('button', 'aria-expanded')
 
     this.header.classList.add(this.handorgel.options.headerOpenClass)
     this.content.classList.add(this.handorgel.options.contentOpenClass)
@@ -56,9 +77,7 @@ export default class HandorgelFold {
     this.resize(transition)
 
     if (!transition) {
-      this.header.classList.add(this.handorgel.options.headerOpenedClass)
-      this.content.classList.add(this.handorgel.options.contentOpenedClass)
-      this.handorgel.emitEvent('fold:opened', [this])
+      this._opened()
     }
   }
 
@@ -67,33 +86,35 @@ export default class HandorgelFold {
       return
     }
 
-    this.expanded = false
     this.handorgel.emitEvent('fold:close', [this])
+    this.expanded = false
 
-    if (this.handorgel.options.ariaEnabled) {
-      this.button.setAttribute('aria-expanded', 'false')
+    if (!this.handorgel.options.collapsible) {
       this.enable()
     }
 
+    this._updateAria('button', 'aria-expanded')
+
     this.header.classList.remove(this.handorgel.options.headerOpenedClass)
     this.content.classList.remove(this.handorgel.options.contentOpenedClass)
-    this.header.classList.remove(this.handorgel.options.headerOpenClass)
-    this.content.classList.remove(this.handorgel.options.contentOpenClass)
 
     this.resize(transition)
-    if (!transition) this.handorgel.emitEvent('fold:closed', [this])
+
+    if (!transition) {
+      this._closed()
+    }
   }
 
   disable() {
     this.disabled = true
-    this.button.setAttribute('aria-disabled', 'true')
+    this._updateAria('button', 'aria-disabled')
     this.header.classList.add(this.handorgel.options.headerDisabledClass)
     this.content.classList.add(this.handorgel.options.contentDisabledClass)
   }
 
   enable() {
     this.disabled = false
-    this.button.setAttribute('aria-disabled', 'false')
+    this._updateAria('button', 'aria-disabled')
     this.header.classList.remove(this.handorgel.options.headerDisabledClass)
     this.content.classList.remove(this.handorgel.options.contentDisabledClass)
   }
@@ -108,9 +129,9 @@ export default class HandorgelFold {
 
   toggle(transition = true) {
     if (this.expanded) {
-      this.close()
+      this.close(transition)
     } else {
-      this.open()
+      this.open(transition)
     }
   }
 
@@ -128,10 +149,12 @@ export default class HandorgelFold {
 
     this.content.style.height = height +'px'
 
-    window.setTimeout(() => {
-      this.header.classList.remove(this.handorgel.options.headerNoTransitionClass)
-      this.content.classList.remove(this.handorgel.options.contentNoTransitionClass)
-    }, 0)
+    if (!transition) {
+      rAF(() => {
+        this.header.classList.remove(this.handorgel.options.headerNoTransitionClass)
+        this.content.classList.remove(this.handorgel.options.contentNoTransitionClass)
+      })
+    }
   }
 
   destroy() {
@@ -140,8 +163,13 @@ export default class HandorgelFold {
 
     // clean classes
     this.header.classList.remove(this.handorgel.options.headerOpenClass)
+    this.header.classList.remove(this.handorgel.options.headerOpenedClass)
+    this.header.classList.remove(this.handorgel.options.headerFocusClass)
     this.header.classList.remove(this.handorgel.options.headerNoTransitionClass)
+
     this.content.classList.remove(this.handorgel.options.contentOpenClass)
+    this.content.classList.remove(this.handorgel.options.contentOpenedClass)
+    this.content.classList.remove(this.handorgel.options.contentFocusClass)
     this.content.classList.remove(this.handorgel.options.contentNoTransitionClass)
 
     // hide content
@@ -151,8 +179,24 @@ export default class HandorgelFold {
     this.header.handorgelFold = null
     this.content.handorgelFold = null
 
+    // remove ids
+    this.header.removeAttribute('id')
+    this.content.removeAttribute('id')
+
     // clean reference to handorgel instance
     this.handorgel = null
+  }
+
+  _opened() {
+    this.header.classList.add(this.handorgel.options.headerOpenedClass)
+    this.content.classList.add(this.handorgel.options.contentOpenedClass)
+    this.handorgel.emitEvent('fold:opened', [this])
+  }
+
+  _closed() {
+    this.header.classList.remove(this.handorgel.options.headerOpenClass)
+    this.content.classList.remove(this.handorgel.options.contentOpenClass)
+    this.handorgel.emitEvent('fold:closed', [this])
   }
 
   _initialOpen() {
@@ -170,63 +214,72 @@ export default class HandorgelFold {
   }
 
   _initAria() {
+    this._updateAria('button')
+    this._updateAria('content')
+  }
+
+  _cleanAria() {
+    this._updateAria('button', null, true)
+    this._updateAria('content', null, true)
+  }
+
+  _updateAria(element, property = null, remove = false) {
     if (!this.handorgel.options.ariaEnabled) {
       return
     }
 
-    this.content.setAttribute('id', `${this.id}-content`)
-    this.content.setAttribute('role', 'region')
-    this.content.setAttribute('aria-labelledby', `${this.id}-header`)
-
-    this.button.setAttribute('id', `${this.id}-header`)
-    this.button.setAttribute('aria-controls', `${this.id}-content`)
-    this.button.setAttribute('aria-expanded', 'false')
-    this.button.setAttribute('aria-disabled', 'false')
+    if (property) {
+      let newValue = ARIA_ATTRIBUTES[element][property].call(this)
+      this[element].setAttribute(property, newValue)
+    } else {
+      for (let property in ARIA_ATTRIBUTES[element]) {
+        if (ARIA_ATTRIBUTES[element].hasOwnProperty(property)) {
+          if (remove) {
+            this[element].removeAttribute(property)
+          } else {
+            let newValue = ARIA_ATTRIBUTES[element][property].call(this)
+            this[element].setAttribute(property, newValue)
+          }
+        }
+      }
+    }
   }
 
-  _cleanAria() {
-    this.content.removeAttribute('id')
-    this.content.removeAttribute('role')
-    this.content.removeAttribute('aria-labelledby')
-
-    this.button.removeAttribute('id')
-    this.button.removeAttribute('aria-controls')
-    this.button.removeAttribute('aria-expanded')
-    this.button.removeAttribute('aria-disabled')
-  }
-
-  _handleTransitionEnd(e) {
-    if (e.propertyName == 'height') {
+  _handleContentTransitionEnd(e) {
+    if (e.target === e.currentTarget
+        && e.propertyName == 'height'
+    ) {
       this.handorgel.resize(true)
 
       if (this.expanded) {
-        this.header.classList.add(this.handorgel.options.headerOpenedClass)
-        this.content.classList.add(this.handorgel.options.contentOpenedClass)
-        this.handorgel.emitEvent('fold:opened', [this])
+        this._opened()
       } else {
-        this.handorgel.emitEvent('fold:closed', [this])
+        this._closed()
       }
     }
   }
 
   _handleFocus() {
     this.focused = true
+    this.header.classList.add(this.handorgel.options.headerFocusClass)
+    this.content.classList.add(this.handorgel.options.contentFocusClass)
     this.handorgel.emitEvent('fold:focus', [this])
   }
 
   _handleBlur() {
     this.focused = false
+    this.header.classList.remove(this.handorgel.options.headerFocusClass)
+    this.content.classList.remove(this.handorgel.options.contentFocusClass)
     this.handorgel.emitEvent('fold:blur', [this])
   }
 
   _handleButtonClick(e) {
-    if (this.disabled
-        || (e.target != e.currentTarget
-            && TAGS_PREVENT_TOGGLE.indexOf(e.target.nodeName.toLowerCase()) > -1)
-    ) {
+    if (this.disabled) {
       return
     }
 
+    // ensure focus is on button (click is not seting focus on firefox mac)
+    this.focus()
     this.toggle()
   }
 
@@ -235,104 +288,88 @@ export default class HandorgelFold {
       return
     }
 
+    var action = null
+
     switch (e.which) {
-      case 40: // down arrow
-        e.preventDefault()
-        this.handorgel.focus('next')
+      case KEYS.arrowDown:
+        action = 'next'
         break
-      case 38: // up arrow
-        e.preventDefault()
-        this.handorgel.focus('prev')
+      case KEYS.arrowUp:
+        action = 'prev'
         break
-      case 36: // home
-        e.preventDefault()
-        this.handorgel.focus('first')
+      case KEYS.home:
+        action = 'first'
         break
-      case 35: // end
-        e.preventDefault()
-        this.handorgel.focus('last')
+      case KEYS.end:
+        action = 'last'
         break
-      case 34: // page down
-        if (this._ctrlKeyPressed) {
-          e.preventDefault()
-          this.handorgel.focus('next')
+      case KEYS.pageDown:
+        if (e.ctrlKey) {
+          action = 'next'
         }
         break
-      case 33: // page up
-        if (this._ctrlKeyPressed) {
-          e.preventDefault()
-          this.handorgel.focus('prev')
+      case KEYS.pageUp:
+        if (e.ctrlKey) {
+          action = 'prev'
         }
         break
-      case 17: // ctrl
-        this._ctrlKeyPressed = true
-        break
+    }
+
+    if (action) {
+      e.preventDefault()
+      this.handorgel.focus(action)
     }
   }
 
   _handleContentKeydown(e) {
-    if (!this.handorgel.options.keyboardInteraction) {
+    if (!this.handorgel.options.keyboardInteraction || !e.ctrlKey) {
       return
     }
 
+    var action = null
+
     switch (e.which) {
-      case 34: // page down
-        if (this._ctrlKeyPressed) {
-          e.preventDefault()
-          this.handorgel.focus('next')
-        }
+      case KEYS.pageDown:
+        action = 'next'
         break
-      case 33: // page up
-        if (this._ctrlKeyPressed) {
-          e.preventDefault()
-          this.handorgel.focus('prev')
-        }
+      case KEYS.pageUp:
+        action = 'prev'
         break
-      case 17: // ctrl
-        this._ctrlKeyPressed = true
-        break
+    }
+
+    if (action) {
+      e.preventDefault()
+      this.handorgel.focus(action)
     }
   }
 
-  _handleKeyup() {
-    this._ctrlKeyPressed = false
-  }
-
   _bindEvents() {
-    this._listeners.focus = this._handleFocus.bind(this)
-    this._listeners.blur = this._handleBlur.bind(this)
-    this._listeners.keyup = this._handleKeyup.bind(this)
+    this._listeners = {
+      // button listeners
+      bFocus: ['focus', this.button, this._handleFocus.bind(this)],
+      bBlur: ['blur', this.button, this._handleBlur.bind(this)],
+      bClick: ['click', this.button, this._handleButtonClick.bind(this)],
+      bKeydown: ['keydown', this.button, this._handleButtonKeydown.bind(this)],
+      // content listeners
+      cKeydown: ['keydown', this.content, this._handleContentKeydown.bind(this)],
+      cTransition: ['transitionend', this.content, this._handleContentTransitionEnd.bind(this)]
+    }
 
-    this._listeners.buttonClick = this._handleButtonClick.bind(this)
-    this._listeners.buttonKeydown = this._handleButtonKeydown.bind(this)
-    this.button.addEventListener('focus', this._listeners.focus)
-    this.button.addEventListener('blur', this._listeners.blur)
-    this.button.addEventListener('keyup', this._listeners.keyup)
-    this.button.addEventListener('keydown', this._listeners.buttonKeydown)
-    this.button.addEventListener('click', this._listeners.buttonClick)
-
-    this._listeners.contentKeydown = this._handleContentKeydown.bind(this)
-    this._listeners.contentTransition = this._handleTransitionEnd.bind(this)
-    this.content.addEventListener('focus', this._listeners.focus)
-    this.content.addEventListener('blur', this._listeners.blur)
-    this.content.addEventListener('keyup', this._listeners.keyup)
-    this.content.addEventListener('keydown', this._listeners.contentKeydown)
-    this.content.addEventListener('transitionend', this._listeners.contentTransition)
+    for (let key in this._listeners) {
+      if (this._listeners.hasOwnProperty(key)) {
+        let listener = this._listeners[key]
+        listener[1].addEventListener(listener[0], listener[2])
+      }
+    }
   }
 
   _unbindEvents() {
-    this.button.removeEventListener('click', this._listeners.buttonClick)
-
-    this.button.removeEventListener('focus', this._listeners.focus)
-    this.button.removeEventListener('blur', this._listeners.blur)
-    this.button.removeEventListener('keyup', this._listeners.keyup)
-    this.button.removeEventListener('keydown', this._listeners.buttonKeydown)
-
-    this.content.removeEventListener('transitionend', this._listeners.contentTransition)
-    this.content.removeEventListener('focus', this._listeners.focus)
-    this.content.removeEventListener('blur', this._listeners.blur)
-    this.content.removeEventListener('keyup', this._listeners.keyup)
-    this.content.removeEventListener('keydown', this._listeners.contentKeydown)
+    for (let key in this._listeners) {
+      if (this._listeners.hasOwnProperty(key)) {
+        let listener = this._listeners[key]
+        listener[1].removeEventListener(listener[0], listener[2])
+      }
+    }
   }
 
 }

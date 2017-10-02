@@ -6,44 +6,36 @@
 }
 .handorgel__header {
   display: block;
-  -webkit-user-select: none;
-     -moz-user-select: none;
-      -ms-user-select: none;
-          user-select: none;
   margin: 0;
 }
 .handorgel__header--open .handorgel__header__button {
-  border-bottom-width: 1px;
   background-color: #eee;
-  -webkit-transition: background-color 0.2s ease, border-bottom-width 0s ease;
-  transition: background-color 0.2s ease, border-bottom-width 0s ease;
-}
-.handorgel__header--notransition {
-  -webkit-transition: none;
-  transition: none;
 }
 .handorgel__header--notransition .handorgel__header__button {
   -webkit-transition: none;
   transition: none;
+}
+.handorgel__header--focus .handorgel__header__button {
+  outline: none;
+  background-color: #dfdfdf;
 }
 .handorgel__header__button {
   color: inherit;
   cursor: pointer;
   display: block;
   width: 100%;
+  -webkit-user-select: none;
+     -moz-user-select: none;
+      -ms-user-select: none;
+          user-select: none;
   background-color: #fff;
   border: none;
   padding: 20px 24px;
   font-size: inherit;
   text-align: left;
   border-top: 1px solid #eee;
-  border-bottom: 0px solid #eee;
-  -webkit-transition: background-color 0.2s ease, border-bottom-width 0s ease 0.2s;
-  transition: background-color 0.2s ease, border-bottom-width 0s ease 0.2s;
-}
-.handorgel__header__button:focus {
-  outline: none;
-  background-color: #dfdfdf;
+  -webkit-transition: background-color 0.2s ease;
+  transition: background-color 0.2s ease;
 }
 .handorgel__header__button::-moz-focus-inner {
   border: 0;
@@ -51,11 +43,14 @@
 .handorgel__content {
   height: 0;
   overflow: hidden;
+  display: none;
   background-color: #fff;
   -webkit-transition: height 0.1s ease 0.1s;
   transition: height 0.1s ease 0.1s;
+  border-top: 1px solid #eee;
 }
 .handorgel__content--open {
+  display: block;
   -webkit-transition: height 0.2s ease;
   transition: height 0.2s ease;
 }
@@ -77,5 +72,3 @@
   -webkit-transition: opacity 0.3s ease;
   transition: opacity 0.3s ease;
 }
-
-/*# sourceMappingURL=handorgel.css.map */

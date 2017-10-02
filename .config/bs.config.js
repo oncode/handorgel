@@ -20,7 +20,7 @@ module.exports = {
   browser: process.env.BROWSER.split(','),
   files: [
     process.env.DEV_PATH +'/index.html',
-    process.env.DEV_CSS_PATH +'/demo.css',
-    process.env.DEV_JS_PATH +'/demo.bundle.js'
+    process.env.DEV_PATH +'/css/demo.css',
+    process.env.DEV_PATH +'/js/demo.bundle.js'
   ]
 }

@@ -4,6 +4,7 @@ import Fold from './fold'
 
 var ID_COUNTER = 0
 
+
 export default class Handorgel extends EventEmitter {
 
   constructor(element, options = {}) {
@@ -16,6 +17,7 @@ export default class Handorgel extends EventEmitter {
     this.element = element
     this.element.handorgel = this
     this.id = `handorgel${++ID_COUNTER}`
+    this.element.setAttribute('id', this.id)
     this.folds = []
     this.options = extend({}, Handorgel.defaultOptions, options)
 
@@ -45,6 +47,7 @@ export default class Handorgel extends EventEmitter {
   }
 
   resize(transition = false) {
+    // resize each fold
     this.folds.forEach((fold) => {
       fold.resize(transition)
     })
@@ -52,7 +55,7 @@ export default class Handorgel extends EventEmitter {
     this._resizing = false
   }
 
-  focus(type) {
+  focus(target) {
     var currentFocusedIndex = null,
       foldsLength = this.folds.length
 
@@ -60,23 +63,23 @@ export default class Handorgel extends EventEmitter {
       if (this.folds[i].focused) currentFocusedIndex = i
     }
 
-    if ((type == 'prev' || type == 'next')
+    if ((target == 'prev' || target == 'next')
         && currentFocusedIndex === null
     ) {
-      type = type == 'prev' ? 'last' : 'first'
+      target = target == 'prev' ? 'last' : 'first'
     }
 
-    if (type == 'prev' && currentFocusedIndex == 0) {
+    if (target == 'prev' && currentFocusedIndex == 0) {
       if (!this.options.carouselFocus) return
-      type = 'last'
+      target = 'last'
     }
 
-    if (type == 'next' && currentFocusedIndex == foldsLength - 1) {
+    if (target == 'next' && currentFocusedIndex == foldsLength - 1) {
       if (!this.options.carouselFocus) return
-      type = 'first'
+      target = 'first'
     }
 
-    switch (type) {
+    switch (target) {
       case 'prev':
         this.folds[--currentFocusedIndex].focus()
         break
@@ -94,6 +97,7 @@ export default class Handorgel extends EventEmitter {
 
   destroy() {
     this.emitEvent('destroy')
+    this.element.removeAttribute('id')
 
     this.folds.forEach((fold) => {
       fold.destroy()
@@ -113,7 +117,9 @@ export default class Handorgel extends EventEmitter {
     }
 
     this.folds.forEach((fold) => {
-      if (openFold !== fold) fold.close()
+      if (openFold !== fold) {
+        fold.close()
+      }
     })
   }
 
@@ -131,6 +137,8 @@ export default class Handorgel extends EventEmitter {
     if (!this.options.ariaEnabled) {
       return
     }
+
+    this.element.setAttribute('role', 'presentation')
 
     if (this.options.multiSelectable) {
       this.element.setAttribute('aria-multiselectable', 'true')
@@ -152,7 +160,7 @@ export default class Handorgel extends EventEmitter {
 
   _unbindEvents() {
     window.removeEventListener('resize', this._listeners.resize)
-    this.off('open', this._listeners.foldOpen)
+    this.off('fold:open', this._listeners.foldOpen)
   }
 
 }
@@ -169,12 +177,17 @@ Handorgel.defaultOptions = {
   initialOpenTransitionDelay: 200,
 
   headerOpenClass: 'handorgel__header--open',
-  headerOpenedClass: 'handorgel__header--opened',
   contentOpenClass: 'handorgel__content--open',
+
+  headerOpenedClass: 'handorgel__header--opened',
   contentOpenedClass: 'handorgel__content--opened',
 
   headerDisabledClass: 'handorgel__header--disabled',
   contentDisabledClass: 'handorgel__content--disabled',
+
+  headerFocusClass: 'handorgel__header--focus',
+  contentFocusClass: 'handorgel__content--focus',
+
   headerNoTransitionClass: 'handorgel__header--notransition',
   contentNoTransitionClass: 'handorgel__content--notransition'
 }
