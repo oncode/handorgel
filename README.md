@@ -224,11 +224,10 @@ handorgel.folds[0].close()
 ## Development
 
 * `make build` or `npm run build` - Build production version of the feature.
-* `make dev` or `npm run dev` - Build demo of the feature, run a watcher and start browser-sync.
+* `make dev` or `npm run dev` - Build demo of the feature, run watchers and start browser-sync.
 * `make test` or `npm run test` - Test the feature.
-* `make jsdoc` - Update documentation inside the `docs` folder.
 
 ## License
 
-© 2016 [Manuel Sommerhalder](https://github.com/oncode)  
+© 2016 [Manuel Sommerhalder](https://github.com/oncode)
 Released under the [MIT LICENSE](http://opensource.org/licenses/MIT)
