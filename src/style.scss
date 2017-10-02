@@ -29,9 +29,7 @@ $handorgel__content-transition:
   !default;
 
 $handorgel__header__button-transition:
-  background-color $handorgel__header__button-transition-background-color-time $handorgel__header__button-transition-background-color-method,
-  // remove bottom border after height transition of content has finished
-  border-bottom-width 0s ease $handorgel__content-transition-height-time + $handorgel__content-transition-height-delay
+  background-color $handorgel__header__button-transition-background-color-time $handorgel__header__button-transition-background-color-method
   !default;
 
 $handorgel__content__inner-transition:
@@ -47,21 +45,12 @@ $handorgel__content--open-transition-height-method: ease !default;
 $handorgel__content--open-transition-opacity-time: .3s !default;
 $handorgel__content--open-transition-opacity-method: ease !default;
 
-$handorgel__header--open__button-transition-background-color-time: .2s !default;
-$handorgel__header--open__button-transition-background-color-method: ease !default;
-
 $handorgel__content--open-transition:
   height $handorgel__content--open-transition-height-time $handorgel__content--open-transition-height-method,
   !default;
 
 $handorgel__content--opened__inner-transition:
   opacity $handorgel__content--open-transition-opacity-time $handorgel__content--open-transition-opacity-method
-  !default;
-
-$handorgel__header--open__button-transition:
-  background-color $handorgel__header--open__button-transition-background-color-time $handorgel__header--open__button-transition-background-color-method,
-  // show bottom border immediately
-  border-bottom-width 0s ease
   !default;
 
 
@@ -76,22 +65,20 @@ $handorgel__header--open__button-transition:
 
   &__header {
     display: block;
-    user-select: none;
     margin: 0;
   }
 
   &__header--open &__header__button {
-    border-bottom-width: $handorgel-border-width;
     background-color: $handorgel__header--open__button-background-color;
-    transition: $handorgel__header--open__button-transition;
-  }
-
-  &__header--notransition {
-    transition: none;
   }
 
   &__header--notransition &__header__button {
     transition: none;
+  }
+
+  &__header--focus &__header__button {
+    outline: none;
+    background-color: $handorgel__header--focus__button-background-color;
   }
 
   &__header__button {
@@ -99,19 +86,14 @@ $handorgel__header--open__button-transition:
     cursor: pointer;
     display: block;
     width: 100%;
+    user-select: none;
     background-color: $handorgel__header__button-background-color;
     border: none;
     padding: $handorgel__header__button-padding;
     font-size: inherit;
     text-align: left;
     border-top: $handorgel-border-width solid $handorgel-border-color;
-    border-bottom: 0px solid $handorgel-border-color;
     transition: $handorgel__header__button-transition;
-
-    &:focus {
-      outline: none;
-      background-color: $handorgel__header--focus__button-background-color;
-    }
 
     &::-moz-focus-inner {
       border: 0;
@@ -121,10 +103,13 @@ $handorgel__header--open__button-transition:
   &__content {
     height: 0;
     overflow: hidden;
+    display: none;
     background-color: $handorgel__content-background;
     transition: $handorgel__content-transition;
+    border-top: $handorgel-border-width solid $handorgel-border-color;
 
     &--open {
+      display: block;
       transition: $handorgel__content--open-transition;
     }
 
