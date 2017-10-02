@@ -1,6 +1,6 @@
 {
   "name": "handorgel",
-  "version": "0.3.1",
+  "version": "0.3.2",
   "description": "Accessible W3C conform accordion written in ES6.",
   "main": "lib/handorgel.js",
   "module": "src/index.js",

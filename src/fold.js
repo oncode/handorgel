@@ -55,6 +55,7 @@ export default class HandorgelFold {
     this._bindEvents()
     this._initAria()
     this._initialOpen()
+    this._initialFocus()
   }
 
   open(transition = true) {
@@ -211,6 +212,17 @@ export default class HandorgelFold {
         this.open(false)
       }
     }
+  }
+
+  _initialFocus() {
+    if (this.button.getAttribute('autofocus') === null) {
+      return
+    }
+
+    // to ensure focus styles
+    // if autofocus was applied
+    // before focus listener was added
+    this._handleFocus()
   }
 
   _initAria() {

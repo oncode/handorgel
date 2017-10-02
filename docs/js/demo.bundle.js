@@ -441,6 +441,7 @@ var HandorgelFold = function () {
     this._bindEvents();
     this._initAria();
     this._initialOpen();
+    this._initialFocus();
   }
 
   createClass(HandorgelFold, [{
@@ -620,6 +621,18 @@ var HandorgelFold = function () {
           this.open(false);
         }
       }
+    }
+  }, {
+    key: '_initialFocus',
+    value: function _initialFocus() {
+      if (this.button.getAttribute('autofocus') === null) {
+        return;
+      }
+
+      // to ensure focus styles
+      // if autofocus was applied
+      // before focus listener was added
+      this._handleFocus();
     }
   }, {
     key: '_initAria',
