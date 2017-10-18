@@ -219,8 +219,7 @@ export default class HandorgelFold {
       return
     }
 
-    // to ensure focus styles
-    // if autofocus was applied
+    // to ensure focus styles if autofocus was applied
     // before focus listener was added
     this._handleFocus()
   }
