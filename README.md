@@ -77,8 +77,8 @@ Import the SASS file from your `node_modules` folder to make use of the variable
 // e.g. changing opening/closing transition times
 $handorgel__content--open-transition-height-time: .1s;
 $handorgel__content--open-transition-opacity-time: .2s;
-$handorgel__content-transition-height-time: .05s
-$handorgel__content-transition-opacity-time: .05s
+$handorgel__content-transition-height-time: .05s;
+$handorgel__content-transition-opacity-time: .05s;
 //...
 
 @import '~handorgel/src/style';
