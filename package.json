@@ -1,10 +1,10 @@
 {
   "name": "handorgel",
-  "version": "0.3.2",
+  "version": "0.4.1",
   "description": "Accessible W3C conform accordion written in ES6.",
-  "main": "lib/handorgel.js",
-  "module": "src/index.js",
-  "jsnext:main": "src/index.js",
+  "main": "lib/js/umd/handorgel.js",
+  "module": "lib/js/esm/handorgel.js",
+  "jsnext:main": "lib/js/esm/handorgel.js",
   "repository": {
     "type": "git",
     "url": "https://github.com/oncode/handorgel.git"
@@ -18,8 +18,10 @@
   },
   "devDependencies": {
     "autoprefixer": "^6.7.0",
+    "babel-core": "^6.26.0",
     "babel-plugin-external-helpers": "^6.22.0",
     "babel-preset-env": "^1.6.0",
+    "babel-preset-stage-2": "^6.24.1",
     "browser-sync": "^2.18.13",
     "css-mqpacker": "^5.0.1",
     "cssnano": "^3.10.0",
@@ -31,12 +33,11 @@
     "rollup": "^0.50.0",
     "rollup-plugin-babel": "^3.0.2",
     "rollup-plugin-commonjs": "^8.2.1",
-    "rollup-plugin-node-resolve": "^3.0.0"
+    "rollup-plugin-node-resolve": "^3.0.0",
+    "uglify-es": "^3.1.3"
   },
   "dependencies": {
-    "babel-core": "^6.26.0",
-    "ev-emitter": "^1.1.1",
-    "uglify-js": "^3.1.3"
+    "ev-emitter": "^1.1.1"
   },
   "browserslist": [
     "> 5%",

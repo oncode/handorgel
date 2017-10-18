@@ -1,6 +1,0 @@
-{
-  "plugins": ["external-helpers"],
-  "presets": [
-    ["env", { "modules": false }]
-  ]
-}

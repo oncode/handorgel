@@ -28,11 +28,10 @@ yarn | `yarn add handorgel`
 
 File | CDN
 --- | ---
-CSS | https://unpkg.com/handorgel@0.3/lib/handorgel.css
-CSS (minified) | https://unpkg.com/handorgel@0.3/lib/handorgel.min.css
-JS | https://unpkg.com/handorgel@0.3/lib/handorgel.js
-JS (minified) | https://unpkg.com/handorgel@0.3/lib/handorgel.min.js
-
+CSS | https://unpkg.com/handorgel@0.4/lib/css/handorgel.css
+CSS (minified) | https://unpkg.com/handorgel@0.4/lib/css/handorgel.min.css
+JS | https://unpkg.com/handorgel@0.4/lib/js/umd/handorgel.js
+JS (minified) | https://unpkg.com/handorgel@0.4/lib/js/umd/handorgel.min.js
 
 ## Usage
 

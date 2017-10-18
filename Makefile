@@ -11,7 +11,7 @@ ROLLUP=$(NODE_MODULES)/.bin/rollup
 POSTCSS=$(NODE_MODULES)/.bin/postcss
 ESLINT=$(NODE_MODULES)/.bin/eslint
 BROWSERSYNC=$(NODE_MODULES)/.bin/browser-sync
-UGLIFYJS=$(NODE_MODULES)/uglify-js/bin/uglifyjs
+UGLIFYJS=$(NODE_MODULES)/uglify-es/bin/uglifyjs
 
 ROLLUP_CONFIG=$(CONFIG_PATH)/rollup.config.js
 ROLLUP_CONFIG_DEV=$(CONFIG_PATH)/demo.rollup.config.js
@@ -36,16 +36,35 @@ test:
 js:
 	# create umd lib
 	@ SOURCE_PATH=$(SOURCE_PATH) \
+		LIBRARY_PATH=$(LIBRARY_PATH) \
+		LIBRARY_NAME=$(LIBRARY_NAME) \
 		$(ROLLUP) --config $(ROLLUP_CONFIG)
 
 js-minify:
-	# minify js
-	@ $(UGLIFYJS) $(LIBRARY_PATH)/$(LIBRARY_NAME).js \
+	# minify stage 2 build
+	@ $(UGLIFYJS) $(LIBRARY_PATH)/js/$(LIBRARY_NAME).js \
 		--compress \
 		--mangle \
 		--toplevel \
-		--output $(LIBRARY_PATH)/$(LIBRARY_NAME).min.js \
+		--output $(LIBRARY_PATH)/js/$(LIBRARY_NAME).min.js \
 		--comments "/@preserve|@license|@cc_on/i"
+
+	# minify UMD build
+	@ $(UGLIFYJS) $(LIBRARY_PATH)/js/umd/$(LIBRARY_NAME).js \
+		--compress \
+		--mangle \
+		--toplevel \
+		--output $(LIBRARY_PATH)/js/umd/$(LIBRARY_NAME).min.js \
+		--comments "/@preserve|@license|@cc_on/i"
+
+	# minify environment module build
+	@ $(UGLIFYJS) $(LIBRARY_PATH)/js/esm/$(LIBRARY_NAME).js \
+		--compress \
+		--mangle \
+		--toplevel \
+		--output $(LIBRARY_PATH)/js/esm/$(LIBRARY_NAME).min.js \
+		--comments "/@preserve|@license|@cc_on/i"
+
 
 css: sass postcss
 
@@ -54,7 +73,7 @@ css-minify: postcss-minified
 sass:
 	# compile the sass files
 	@ scss -I $(NODE_MODULES) \
-		$(SOURCE_PATH)/style.scss:$(SOURCE_PATH)/style.scss.css \
+		$(SOURCE_PATH)/scss/style.scss:$(SOURCE_PATH)/scss/style.scss.css \
 		--sourcemap=none \
 		--style expanded \
 		-r sass-json-vars
@@ -63,7 +82,7 @@ postcss:
 	# modify the normal css with postcss
 	@ ASSETS_PATH=$(ASSETS_PATH) \
 		$(POSTCSS) --config $(POSTCSS_CONFIG) \
-		$(SOURCE_PATH)/style.scss.css -o $(LIBRARY_PATH)/$(LIBRARY_NAME).css \
+		$(SOURCE_PATH)/scss/style.scss.css -o $(LIBRARY_PATH)/css/$(LIBRARY_NAME).css \
 		--no-map
 
 postcss-minified:
@@ -71,7 +90,7 @@ postcss-minified:
 	@ MODE=minified \
 	  ASSETS_PATH=$(ASSETS_PATH) \
 		$(POSTCSS) --config $(POSTCSS_CONFIG) \
-		$(SOURCE_PATH)/style.scss.css -o $(LIBRARY_PATH)/$(LIBRARY_NAME).min.css \
+		$(SOURCE_PATH)/scss/style.scss.css -o $(LIBRARY_PATH)/css/$(LIBRARY_NAME).min.css \
 		--no-map
 
 dev:
