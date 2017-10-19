@@ -1,4 +1,4 @@
-import Handorgel from '../src'
+import Handorgel from '../src/js'
 
 var accordeon = new Handorgel(document.querySelector('.default'))
 

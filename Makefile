@@ -94,10 +94,9 @@ postcss-minified:
 		--no-map
 
 dev:
-	@ $(SCRIPTS_PATH)/utils/parallel \
-		"make dev-js" \
-		"make dev-css" \
-		"make dev-sync"
+	@ make dev-js & \
+		make dev-css & \
+		make dev-sync
 
 dev-sync:
 	# starting browser sync server for demo
@@ -114,9 +113,8 @@ dev-js:
 
 dev-css:
 	# watch demo sass
-	@ $(SCRIPTS_PATH)/utils/parallel \
-		"make dev-sass" \
-		"make dev-postcss"
+	@ make dev-sass & \
+		make dev-postcss
 
 dev-sass:
 	# watch the sass files
