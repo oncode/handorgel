@@ -40,8 +40,8 @@
     "demo:watch:sass": "scss --load-path 'node_modules' 'docs/demo.scss':'docs/css/demo.scss.css' --sourcemap=none --watch",
     "demo:watch:postcss": "postcss --config '.config/postcss.config.json' 'docs/css/demo.scss.css' --output 'docs/css/demo.css' --no-map --watch",
     "demo:browsersync": "cross-env DEMO_PATH='docs' browser-sync start --config '.config/demo/browsersync.config.js'",
-    "prepublishOnly": "run-p format test build",
-    "precommit": "yarn prepublishOnly"
+    "precommit": "run-p format test build",
+    "prepublishOnly": "yarn precommit"
   },
   "devDependencies": {
     "autoprefixer": "^7.1.5",
