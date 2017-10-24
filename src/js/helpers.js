@@ -5,9 +5,11 @@
  * @see https://developer.mozilla.org/de/docs/Web/API/window/requestAnimationFrame
  */
 export let rAF = (function() {
-  return window.requestAnimationFrame
-    || window.webkitRequestAnimationFrame
-    || window.mozRequestAnimationFrame
+  return (
+    window.requestAnimationFrame ||
+    window.webkitRequestAnimationFrame ||
+    window.mozRequestAnimationFrame
+  )
 })()
 
 /**
@@ -32,7 +34,7 @@ export function isUndefined(value) {
  */
 export function isWritable(obj, key) {
   const descriptor = Object.getOwnPropertyDescriptor(obj, key)
-  return isUndefined(obj[key]) || descriptor && descriptor.writable
+  return isUndefined(obj[key]) || (descriptor && descriptor.writable)
 }
 
 /**
@@ -50,15 +52,15 @@ export function isWritable(obj, key) {
  * console.log(obj) => {bar: 'bar', foo: 'bar'}
  *
  */
- export function extend(src) {
-  let obj, args = arguments
+export function extend(src) {
+  let obj
+  let args = arguments
 
   for (let i = 1; i < args.length; ++i) {
-    if (obj = args[i]) {
+    if ((obj = args[i])) {
       for (let key in obj) {
         // check if this property of the source object could be overridden
-        if (isWritable(src, key))
-          src[key] = obj[key]
+        if (isWritable(src, key)) src[key] = obj[key]
       }
     }
   }

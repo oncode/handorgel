@@ -1,20 +1,22 @@
 @import '../src/scss/style';
 
-*, *:after, *:before {
+*,
+*::after,
+*::before {
   box-sizing: inherit;
 }
 
 body {
   box-sizing: border-box;
   margin: 80px 60px;
-  font-size: 16px;
-  line-height: 1.4;
-  color: #dadada;
   background-color: #202328;
+  color: #dadada;
   font-family: 'Helvetica Neue', Helvetica, sans-serif;
-  text-size-adjust: 100%;
+  font-size: 16px;
   -moz-osx-font-smoothing: grayscale;
-  -webkit-font-smoothing: antialiased;
+   -webkit-font-smoothing: antialiased;
+  line-height: 1.4;
+  text-size-adjust: 100%;
 
   @media (max-width: 600px) {
     margin: 80px 40px;
@@ -58,22 +60,22 @@ p {
 }
 
 h1 {
-  text-align: center;
   margin-top: 0;
   margin-bottom: 10px;
   font-size: 40px;
+  text-align: center;
 }
 
 h2 {
-  font-size: 28px;
   margin-top: 40px;
   margin-bottom: 10px;
+  font-size: 28px;
 }
 
 h3 {
-  font-size: 20px;
   margin-top: 20px;
   margin-bottom: 10px;
+  font-size: 20px;
 }
 
 pre {
@@ -82,6 +84,6 @@ pre {
 }
 
 .handorgel {
-  color: #333;
   margin-bottom: 80px;
+  color: #333;
 }

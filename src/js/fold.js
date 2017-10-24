@@ -4,13 +4,23 @@ let ID_COUNTER = {}
 
 const ARIA_ATTRIBUTES = {
   button: {
-    'aria-controls': function() { return this.id +'-content' },
-    'aria-expanded': function() { return this.expanded ? 'true' : 'false' },
-    'aria-disabled': function() { return this.disabled ? 'true' : 'false' }
+    'aria-controls': function() {
+      return this.id + '-content'
+    },
+    'aria-expanded': function() {
+      return this.expanded ? 'true' : 'false'
+    },
+    'aria-disabled': function() {
+      return this.disabled ? 'true' : 'false'
+    }
   },
   content: {
-    'role': function() { return 'region' },
-    'aria-labelledby': function() { return this.id +'-header' }
+    role: function() {
+      return 'region'
+    },
+    'aria-labelledby': function() {
+      return this.id + '-header'
+    }
   }
 }
 
@@ -24,7 +34,6 @@ const KEYS = {
 }
 
 export default class HandorgelFold {
-
   constructor(handorgel, header, content) {
     if (header.handorgelFold) {
       return
@@ -43,8 +52,8 @@ export default class HandorgelFold {
 
     this.id = `${this.handorgel.id}-fold${++ID_COUNTER[this.handorgel.id]}`
 
-    this.header.setAttribute('id', this.id +'-header')
-    this.content.setAttribute('id', this.id +'-content')
+    this.header.setAttribute('id', this.id + '-header')
+    this.content.setAttribute('id', this.id + '-content')
 
     this.focused = false
     this.expanded = false
@@ -148,7 +157,7 @@ export default class HandorgelFold {
       height = this.content.firstElementChild.offsetHeight
     }
 
-    this.content.style.height = height +'px'
+    this.content.style.height = height + 'px'
 
     if (!transition) {
       rAF(() => {
@@ -201,8 +210,9 @@ export default class HandorgelFold {
   }
 
   _initialOpen() {
-    if (this.header.getAttribute(this.handorgel.options.initialOpenAttribute) !== null
-        || this.content.getAttribute(this.handorgel.options.initialOpenAttribute) !== null
+    if (
+      this.header.getAttribute(this.handorgel.options.initialOpenAttribute) !== null ||
+      this.content.getAttribute(this.handorgel.options.initialOpenAttribute) !== null
     ) {
       if (this.handorgel.options.initialOpenTransition) {
         window.setTimeout(() => {
@@ -257,9 +267,7 @@ export default class HandorgelFold {
   }
 
   _handleContentTransitionEnd(e) {
-    if (e.target === e.currentTarget
-        && e.propertyName == 'height'
-    ) {
+    if (e.target === e.currentTarget && e.propertyName === 'height') {
       this.handorgel.resize(true)
 
       if (this.expanded) {
@@ -383,5 +391,4 @@ export default class HandorgelFold {
       }
     }
   }
-
 }

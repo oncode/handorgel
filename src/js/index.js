@@ -4,9 +4,7 @@ import Fold from './fold'
 
 let ID_COUNTER = 0
 
-
 export default class Handorgel extends EventEmitter {
-
   constructor(element, options = {}) {
     super()
 
@@ -35,11 +33,11 @@ export default class Handorgel extends EventEmitter {
 
     for (let i = 0, childrenLength = children.length; i < childrenLength; i = i + 2) {
       const header = children[i]
-      const content = children[i+1]
+      const content = children[i + 1]
       let fold = header.handorgelFold
 
       if (!fold) {
-        fold = new Fold(this, children[i], children[i+1])
+        fold = new Fold(this, header, content)
       }
 
       this.folds.push(fold)
@@ -48,7 +46,7 @@ export default class Handorgel extends EventEmitter {
 
   resize(transition = false) {
     // resize each fold
-    this.folds.forEach((fold) => {
+    this.folds.forEach(fold => {
       fold.resize(transition)
     })
 
@@ -63,18 +61,16 @@ export default class Handorgel extends EventEmitter {
       if (this.folds[i].focused) currentFocusedIndex = i
     }
 
-    if ((target == 'prev' || target == 'next')
-        && currentFocusedIndex === null
-    ) {
-      target = target == 'prev' ? 'last' : 'first'
+    if ((target === 'prev' || target === 'next') && currentFocusedIndex === null) {
+      target = target === 'prev' ? 'last' : 'first'
     }
 
-    if (target == 'prev' && currentFocusedIndex == 0) {
+    if (target === 'prev' && currentFocusedIndex === 0) {
       if (!this.options.carouselFocus) return
       target = 'last'
     }
 
-    if (target == 'next' && currentFocusedIndex == foldsLength - 1) {
+    if (target === 'next' && currentFocusedIndex === foldsLength - 1) {
       if (!this.options.carouselFocus) return
       target = 'first'
     }
@@ -99,7 +95,7 @@ export default class Handorgel extends EventEmitter {
     this.emitEvent('destroy')
     this.element.removeAttribute('id')
 
-    this.folds.forEach((fold) => {
+    this.folds.forEach(fold => {
       fold.destroy()
     })
 
@@ -116,7 +112,7 @@ export default class Handorgel extends EventEmitter {
       return
     }
 
-    this.folds.forEach((fold) => {
+    this.folds.forEach(fold => {
       if (openFold !== fold) {
         fold.close()
       }
@@ -162,7 +158,6 @@ export default class Handorgel extends EventEmitter {
     window.removeEventListener('resize', this._listeners.resize)
     this.off('fold:open', this._listeners.foldOpen)
   }
-
 }
 
 Handorgel.defaultOptions = {

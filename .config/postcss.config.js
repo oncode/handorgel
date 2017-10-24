@@ -6,7 +6,7 @@ var plugins = [
   'css-mqpacker'
 ]
 
-if (process.env.MODE == 'minified') {
+if (process.env.MODE === 'minified') {
   plugins.push('cssnano')
 }
 
@@ -24,7 +24,6 @@ module.exports = {
     minPixelValue: 2
   },
   'postcss-assets': {
-    basePath: process.env.ASSETS_PATH,
     relative: true,
     cachebuster: true
   }

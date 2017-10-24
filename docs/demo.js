@@ -1,12 +1,12 @@
 import Handorgel from '../src/js'
 
-var accordeon = new Handorgel(document.querySelector('.default'))
+let accordion = new Handorgel(document.querySelector('.default'))
 
-var accordeon2 = new Handorgel(document.querySelector('.single-select'), {
+let accordion2 = new Handorgel(document.querySelector('.single-select'), {
   multiSelectable: false
 })
 
-var accordeon3 = new Handorgel(document.querySelector('.single-select-not-collapsible'), {
+let accordion3 = new Handorgel(document.querySelector('.single-select-not-collapsible'), {
   multiSelectable: false,
   collapsible: false
 })

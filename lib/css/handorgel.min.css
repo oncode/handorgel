@@ -1,1 +1,65 @@
-.handorgel{display:block;width:100%;border:1px solid #eee;border-top:none}.handorgel__header{display:block;margin:0}.handorgel__header--open .handorgel__header__button{background-color:#eee}.handorgel__header--notransition .handorgel__header__button{-webkit-transition:none;transition:none}.handorgel__header--focus .handorgel__header__button{outline:none;background-color:#dfdfdf}.handorgel__header__button{color:inherit;cursor:pointer;display:block;width:100%;-webkit-user-select:none;-moz-user-select:none;-ms-user-select:none;user-select:none;background-color:#fff;border:none;padding:20px 24px;font-size:inherit;text-align:left;border-top:1px solid #eee;-webkit-transition:background-color .2s ease;transition:background-color .2s ease}.handorgel__header__button::-moz-focus-inner{border:0}.handorgel__content{height:0;overflow:hidden;display:none;background-color:#fff;-webkit-transition:height .1s ease .1s;transition:height .1s ease .1s;border-top:1px solid #eee}.handorgel__content--open{display:block;-webkit-transition:height .2s ease;transition:height .2s ease}.handorgel__content--opened{overflow:visible}.handorgel__content--notransition{-webkit-transition:none;transition:none}.handorgel__content__inner{opacity:0;padding:20px 24px;-webkit-transition:opacity .1s ease;transition:opacity .1s ease}.handorgel__content--opened .handorgel__content__inner{opacity:1;-webkit-transition:opacity .3s ease;transition:opacity .3s ease}
+.handorgel {
+  display: block;
+  width: 100%;
+  border: 1px solid #eee;
+  border-top: none;
+}
+.handorgel__header {
+  display: block;
+  margin: 0;
+}
+.handorgel__header--open .handorgel__header__button {
+  background-color: #eee;
+}
+.handorgel__header--notransition .handorgel__header__button {
+  transition: none;
+}
+.handorgel__header--focus .handorgel__header__button {
+  background-color: #dfdfdf;
+  outline: none;
+}
+.handorgel__header__button {
+  display: block;
+  width: 100%;
+  padding: 20px 24px;
+  border: none;
+  border-top: 1px solid #eee;
+  margin: 0;
+  background-color: #fff;
+  color: inherit;
+  cursor: pointer;
+  font-size: inherit;
+  text-align: left;
+  transition: background-color 0.2s ease;
+  user-select: none;
+}
+.handorgel__header__button::-moz-focus-inner {
+  border: 0;
+}
+.handorgel__content {
+  display: none;
+  overflow: hidden;
+  height: 0;
+  border-top: 1px solid #eee;
+  background-color: #fff;
+  transition: height 0.1s ease 0.1s;
+}
+.handorgel__content--open {
+  display: block;
+  transition: height 0.2s ease;
+}
+.handorgel__content--opened {
+  overflow: visible;
+}
+.handorgel__content--notransition {
+  transition: none;
+}
+.handorgel__content__inner {
+  padding: 20px 24px;
+  opacity: 0;
+  transition: opacity 0.1s ease;
+}
+.handorgel__content--opened .handorgel__content__inner {
+  opacity: 1;
+  transition: opacity 0.3s ease;
+}

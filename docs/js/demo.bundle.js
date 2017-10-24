@@ -132,7 +132,7 @@ return EvEmitter;
  * @see https://www.paulirish.com/2011/requestanimationframe-for-smart-animating/
  * @see https://developer.mozilla.org/de/docs/Web/API/window/requestAnimationFrame
  */
-let rAF = function () {
+var rAF = function () {
   return window.requestAnimationFrame || window.webkitRequestAnimationFrame || window.mozRequestAnimationFrame;
 }();
 
@@ -157,7 +157,7 @@ function isUndefined(value) {
  * @returns {Boolean}
  */
 function isWritable(obj, key) {
-  const descriptor = Object.getOwnPropertyDescriptor(obj, key);
+  var descriptor = Object.getOwnPropertyDescriptor(obj, key);
   return isUndefined(obj[key]) || descriptor && descriptor.writable;
 }
 
@@ -177,12 +177,12 @@ function isWritable(obj, key) {
  *
  */
 function extend(src) {
-  let obj,
-      args = arguments;
+  var obj = void 0;
+  var args = arguments;
 
-  for (let i = 1; i < args.length; ++i) {
+  for (var i = 1; i < args.length; ++i) {
     if (obj = args[i]) {
-      for (let key in obj) {
+      for (var key in obj) {
         // check if this property of the source object could be overridden
         if (isWritable(src, key)) src[key] = obj[key];
       }
@@ -192,31 +192,214 @@ function extend(src) {
   return src;
 }
 
-let ID_COUNTER$1 = {};
+var asyncGenerator = function () {
+  function AwaitValue(value) {
+    this.value = value;
+  }
 
-const ARIA_ATTRIBUTES = {
+  function AsyncGenerator(gen) {
+    var front, back;
+
+    function send(key, arg) {
+      return new Promise(function (resolve, reject) {
+        var request = {
+          key: key,
+          arg: arg,
+          resolve: resolve,
+          reject: reject,
+          next: null
+        };
+
+        if (back) {
+          back = back.next = request;
+        } else {
+          front = back = request;
+          resume(key, arg);
+        }
+      });
+    }
+
+    function resume(key, arg) {
+      try {
+        var result = gen[key](arg);
+        var value = result.value;
+
+        if (value instanceof AwaitValue) {
+          Promise.resolve(value.value).then(function (arg) {
+            resume("next", arg);
+          }, function (arg) {
+            resume("throw", arg);
+          });
+        } else {
+          settle(result.done ? "return" : "normal", result.value);
+        }
+      } catch (err) {
+        settle("throw", err);
+      }
+    }
+
+    function settle(type, value) {
+      switch (type) {
+        case "return":
+          front.resolve({
+            value: value,
+            done: true
+          });
+          break;
+
+        case "throw":
+          front.reject(value);
+          break;
+
+        default:
+          front.resolve({
+            value: value,
+            done: false
+          });
+          break;
+      }
+
+      front = front.next;
+
+      if (front) {
+        resume(front.key, front.arg);
+      } else {
+        back = null;
+      }
+    }
+
+    this._invoke = send;
+
+    if (typeof gen.return !== "function") {
+      this.return = undefined;
+    }
+  }
+
+  if (typeof Symbol === "function" && Symbol.asyncIterator) {
+    AsyncGenerator.prototype[Symbol.asyncIterator] = function () {
+      return this;
+    };
+  }
+
+  AsyncGenerator.prototype.next = function (arg) {
+    return this._invoke("next", arg);
+  };
+
+  AsyncGenerator.prototype.throw = function (arg) {
+    return this._invoke("throw", arg);
+  };
+
+  AsyncGenerator.prototype.return = function (arg) {
+    return this._invoke("return", arg);
+  };
+
+  return {
+    wrap: function (fn) {
+      return function () {
+        return new AsyncGenerator(fn.apply(this, arguments));
+      };
+    },
+    await: function (value) {
+      return new AwaitValue(value);
+    }
+  };
+}();
+
+
+
+
+
+var classCallCheck = function (instance, Constructor) {
+  if (!(instance instanceof Constructor)) {
+    throw new TypeError("Cannot call a class as a function");
+  }
+};
+
+var createClass = function () {
+  function defineProperties(target, props) {
+    for (var i = 0; i < props.length; i++) {
+      var descriptor = props[i];
+      descriptor.enumerable = descriptor.enumerable || false;
+      descriptor.configurable = true;
+      if ("value" in descriptor) descriptor.writable = true;
+      Object.defineProperty(target, descriptor.key, descriptor);
+    }
+  }
+
+  return function (Constructor, protoProps, staticProps) {
+    if (protoProps) defineProperties(Constructor.prototype, protoProps);
+    if (staticProps) defineProperties(Constructor, staticProps);
+    return Constructor;
+  };
+}();
+
+
+
+
+
+
+
+
+
+var inherits = function (subClass, superClass) {
+  if (typeof superClass !== "function" && superClass !== null) {
+    throw new TypeError("Super expression must either be null or a function, not " + typeof superClass);
+  }
+
+  subClass.prototype = Object.create(superClass && superClass.prototype, {
+    constructor: {
+      value: subClass,
+      enumerable: false,
+      writable: true,
+      configurable: true
+    }
+  });
+  if (superClass) Object.setPrototypeOf ? Object.setPrototypeOf(subClass, superClass) : subClass.__proto__ = superClass;
+};
+
+
+
+
+
+
+
+
+
+
+
+var possibleConstructorReturn = function (self, call) {
+  if (!self) {
+    throw new ReferenceError("this hasn't been initialised - super() hasn't been called");
+  }
+
+  return call && (typeof call === "object" || typeof call === "function") ? call : self;
+};
+
+var ID_COUNTER$1 = {};
+
+var ARIA_ATTRIBUTES = {
   button: {
-    'aria-controls': function () {
+    'aria-controls': function ariaControls() {
       return this.id + '-content';
     },
-    'aria-expanded': function () {
+    'aria-expanded': function ariaExpanded() {
       return this.expanded ? 'true' : 'false';
     },
-    'aria-disabled': function () {
+    'aria-disabled': function ariaDisabled() {
       return this.disabled ? 'true' : 'false';
     }
   },
   content: {
-    'role': function () {
+    role: function role() {
       return 'region';
     },
-    'aria-labelledby': function () {
+    'aria-labelledby': function ariaLabelledby() {
       return this.id + '-header';
     }
   }
 };
 
-const KEYS = {
+var KEYS = {
   arrowDown: 40,
   arrowUp: 38,
   pageUp: 33,
@@ -225,9 +408,10 @@ const KEYS = {
   home: 36
 };
 
-class HandorgelFold {
+var HandorgelFold = function () {
+  function HandorgelFold(handorgel, header, content) {
+    classCallCheck(this, HandorgelFold);
 
-  constructor(handorgel, header, content) {
     if (header.handorgelFold) {
       return;
     }
@@ -243,7 +427,7 @@ class HandorgelFold {
       ID_COUNTER$1[this.handorgel.id] = 0;
     }
 
-    this.id = `${this.handorgel.id}-fold${++ID_COUNTER$1[this.handorgel.id]}`;
+    this.id = this.handorgel.id + '-fold' + ++ID_COUNTER$1[this.handorgel.id];
 
     this.header.setAttribute('id', this.id + '-header');
     this.content.setAttribute('id', this.id + '-content');
@@ -260,488 +444,551 @@ class HandorgelFold {
     this._initialFocus();
   }
 
-  open(transition = true) {
-    if (this.expanded) {
-      return;
-    }
+  createClass(HandorgelFold, [{
+    key: 'open',
+    value: function open() {
+      var transition = arguments.length > 0 && arguments[0] !== undefined ? arguments[0] : true;
 
-    this.handorgel.emitEvent('fold:open', [this]);
-    this.expanded = true;
+      if (this.expanded) {
+        return;
+      }
 
-    if (!this.handorgel.options.collapsible) {
-      this.disable();
-    }
+      this.handorgel.emitEvent('fold:open', [this]);
+      this.expanded = true;
 
-    this._updateAria('button', 'aria-expanded');
+      if (!this.handorgel.options.collapsible) {
+        this.disable();
+      }
 
-    this.header.classList.add(this.handorgel.options.headerOpenClass);
-    this.content.classList.add(this.handorgel.options.contentOpenClass);
+      this._updateAria('button', 'aria-expanded');
 
-    this.resize(transition);
+      this.header.classList.add(this.handorgel.options.headerOpenClass);
+      this.content.classList.add(this.handorgel.options.contentOpenClass);
 
-    if (!transition) {
-      this._opened();
-    }
-  }
+      this.resize(transition);
 
-  close(transition = true) {
-    if (!this.expanded) {
-      return;
-    }
-
-    this.handorgel.emitEvent('fold:close', [this]);
-    this.expanded = false;
-
-    if (!this.handorgel.options.collapsible) {
-      this.enable();
-    }
-
-    this._updateAria('button', 'aria-expanded');
-
-    this.header.classList.remove(this.handorgel.options.headerOpenedClass);
-    this.content.classList.remove(this.handorgel.options.contentOpenedClass);
-
-    this.resize(transition);
-
-    if (!transition) {
-      this._closed();
-    }
-  }
-
-  disable() {
-    this.disabled = true;
-    this._updateAria('button', 'aria-disabled');
-    this.header.classList.add(this.handorgel.options.headerDisabledClass);
-    this.content.classList.add(this.handorgel.options.contentDisabledClass);
-  }
-
-  enable() {
-    this.disabled = false;
-    this._updateAria('button', 'aria-disabled');
-    this.header.classList.remove(this.handorgel.options.headerDisabledClass);
-    this.content.classList.remove(this.handorgel.options.contentDisabledClass);
-  }
-
-  focus() {
-    this.button.focus();
-  }
-
-  blur() {
-    this.button.blur();
-  }
-
-  toggle(transition = true) {
-    if (this.expanded) {
-      this.close(transition);
-    } else {
-      this.open(transition);
-    }
-  }
-
-  resize(transition = false) {
-    let height = 0;
-
-    if (!transition) {
-      this.header.classList.add(this.handorgel.options.headerNoTransitionClass);
-      this.content.classList.add(this.handorgel.options.contentNoTransitionClass);
-    }
-
-    if (this.expanded) {
-      height = this.content.firstElementChild.offsetHeight;
-    }
-
-    this.content.style.height = height + 'px';
-
-    if (!transition) {
-      rAF(() => {
-        this.header.classList.remove(this.handorgel.options.headerNoTransitionClass);
-        this.content.classList.remove(this.handorgel.options.contentNoTransitionClass);
-      });
-    }
-  }
-
-  destroy() {
-    this._unbindEvents();
-    this._cleanAria();
-
-    // clean classes
-    this.header.classList.remove(this.handorgel.options.headerOpenClass);
-    this.header.classList.remove(this.handorgel.options.headerOpenedClass);
-    this.header.classList.remove(this.handorgel.options.headerFocusClass);
-    this.header.classList.remove(this.handorgel.options.headerNoTransitionClass);
-
-    this.content.classList.remove(this.handorgel.options.contentOpenClass);
-    this.content.classList.remove(this.handorgel.options.contentOpenedClass);
-    this.content.classList.remove(this.handorgel.options.contentFocusClass);
-    this.content.classList.remove(this.handorgel.options.contentNoTransitionClass);
-
-    // hide content
-    this.content.style.height = '0px';
-
-    // clean reference to this instance
-    this.header.handorgelFold = null;
-    this.content.handorgelFold = null;
-
-    // remove ids
-    this.header.removeAttribute('id');
-    this.content.removeAttribute('id');
-
-    // clean reference to handorgel instance
-    this.handorgel = null;
-  }
-
-  _opened() {
-    this.header.classList.add(this.handorgel.options.headerOpenedClass);
-    this.content.classList.add(this.handorgel.options.contentOpenedClass);
-    this.handorgel.emitEvent('fold:opened', [this]);
-  }
-
-  _closed() {
-    this.header.classList.remove(this.handorgel.options.headerOpenClass);
-    this.content.classList.remove(this.handorgel.options.contentOpenClass);
-    this.handorgel.emitEvent('fold:closed', [this]);
-  }
-
-  _initialOpen() {
-    if (this.header.getAttribute(this.handorgel.options.initialOpenAttribute) !== null || this.content.getAttribute(this.handorgel.options.initialOpenAttribute) !== null) {
-      if (this.handorgel.options.initialOpenTransition) {
-        window.setTimeout(() => {
-          this.open();
-        }, this.handorgel.options.initialOpenTransitionDelay);
-      } else {
-        this.open(false);
+      if (!transition) {
+        this._opened();
       }
     }
-  }
+  }, {
+    key: 'close',
+    value: function close() {
+      var transition = arguments.length > 0 && arguments[0] !== undefined ? arguments[0] : true;
 
-  _initialFocus() {
-    if (this.button.getAttribute('autofocus') === null) {
-      return;
+      if (!this.expanded) {
+        return;
+      }
+
+      this.handorgel.emitEvent('fold:close', [this]);
+      this.expanded = false;
+
+      if (!this.handorgel.options.collapsible) {
+        this.enable();
+      }
+
+      this._updateAria('button', 'aria-expanded');
+
+      this.header.classList.remove(this.handorgel.options.headerOpenedClass);
+      this.content.classList.remove(this.handorgel.options.contentOpenedClass);
+
+      this.resize(transition);
+
+      if (!transition) {
+        this._closed();
+      }
     }
-
-    // to ensure focus styles if autofocus was applied
-    // before focus listener was added
-    this._handleFocus();
-  }
-
-  _initAria() {
-    this._updateAria('button');
-    this._updateAria('content');
-  }
-
-  _cleanAria() {
-    this._updateAria('button', null, true);
-    this._updateAria('content', null, true);
-  }
-
-  _updateAria(element, property = null, remove = false) {
-    if (!this.handorgel.options.ariaEnabled) {
-      return;
+  }, {
+    key: 'disable',
+    value: function disable() {
+      this.disabled = true;
+      this._updateAria('button', 'aria-disabled');
+      this.header.classList.add(this.handorgel.options.headerDisabledClass);
+      this.content.classList.add(this.handorgel.options.contentDisabledClass);
     }
+  }, {
+    key: 'enable',
+    value: function enable() {
+      this.disabled = false;
+      this._updateAria('button', 'aria-disabled');
+      this.header.classList.remove(this.handorgel.options.headerDisabledClass);
+      this.content.classList.remove(this.handorgel.options.contentDisabledClass);
+    }
+  }, {
+    key: 'focus',
+    value: function focus() {
+      this.button.focus();
+    }
+  }, {
+    key: 'blur',
+    value: function blur() {
+      this.button.blur();
+    }
+  }, {
+    key: 'toggle',
+    value: function toggle() {
+      var transition = arguments.length > 0 && arguments[0] !== undefined ? arguments[0] : true;
 
-    if (property) {
-      const newValue = ARIA_ATTRIBUTES[element][property].call(this);
-      this[element].setAttribute(property, newValue);
-    } else {
-      for (let property in ARIA_ATTRIBUTES[element]) {
-        if (ARIA_ATTRIBUTES[element].hasOwnProperty(property)) {
-          if (remove) {
-            this[element].removeAttribute(property);
-          } else {
-            const newValue = ARIA_ATTRIBUTES[element][property].call(this);
-            this[element].setAttribute(property, newValue);
+      if (this.expanded) {
+        this.close(transition);
+      } else {
+        this.open(transition);
+      }
+    }
+  }, {
+    key: 'resize',
+    value: function resize() {
+      var _this = this;
+
+      var transition = arguments.length > 0 && arguments[0] !== undefined ? arguments[0] : false;
+
+      var height = 0;
+
+      if (!transition) {
+        this.header.classList.add(this.handorgel.options.headerNoTransitionClass);
+        this.content.classList.add(this.handorgel.options.contentNoTransitionClass);
+      }
+
+      if (this.expanded) {
+        height = this.content.firstElementChild.offsetHeight;
+      }
+
+      this.content.style.height = height + 'px';
+
+      if (!transition) {
+        rAF(function () {
+          _this.header.classList.remove(_this.handorgel.options.headerNoTransitionClass);
+          _this.content.classList.remove(_this.handorgel.options.contentNoTransitionClass);
+        });
+      }
+    }
+  }, {
+    key: 'destroy',
+    value: function destroy() {
+      this._unbindEvents();
+      this._cleanAria();
+
+      // clean classes
+      this.header.classList.remove(this.handorgel.options.headerOpenClass);
+      this.header.classList.remove(this.handorgel.options.headerOpenedClass);
+      this.header.classList.remove(this.handorgel.options.headerFocusClass);
+      this.header.classList.remove(this.handorgel.options.headerNoTransitionClass);
+
+      this.content.classList.remove(this.handorgel.options.contentOpenClass);
+      this.content.classList.remove(this.handorgel.options.contentOpenedClass);
+      this.content.classList.remove(this.handorgel.options.contentFocusClass);
+      this.content.classList.remove(this.handorgel.options.contentNoTransitionClass);
+
+      // hide content
+      this.content.style.height = '0px';
+
+      // clean reference to this instance
+      this.header.handorgelFold = null;
+      this.content.handorgelFold = null;
+
+      // remove ids
+      this.header.removeAttribute('id');
+      this.content.removeAttribute('id');
+
+      // clean reference to handorgel instance
+      this.handorgel = null;
+    }
+  }, {
+    key: '_opened',
+    value: function _opened() {
+      this.header.classList.add(this.handorgel.options.headerOpenedClass);
+      this.content.classList.add(this.handorgel.options.contentOpenedClass);
+      this.handorgel.emitEvent('fold:opened', [this]);
+    }
+  }, {
+    key: '_closed',
+    value: function _closed() {
+      this.header.classList.remove(this.handorgel.options.headerOpenClass);
+      this.content.classList.remove(this.handorgel.options.contentOpenClass);
+      this.handorgel.emitEvent('fold:closed', [this]);
+    }
+  }, {
+    key: '_initialOpen',
+    value: function _initialOpen() {
+      var _this2 = this;
+
+      if (this.header.getAttribute(this.handorgel.options.initialOpenAttribute) !== null || this.content.getAttribute(this.handorgel.options.initialOpenAttribute) !== null) {
+        if (this.handorgel.options.initialOpenTransition) {
+          window.setTimeout(function () {
+            _this2.open();
+          }, this.handorgel.options.initialOpenTransitionDelay);
+        } else {
+          this.open(false);
+        }
+      }
+    }
+  }, {
+    key: '_initialFocus',
+    value: function _initialFocus() {
+      if (this.button.getAttribute('autofocus') === null) {
+        return;
+      }
+
+      // to ensure focus styles if autofocus was applied
+      // before focus listener was added
+      this._handleFocus();
+    }
+  }, {
+    key: '_initAria',
+    value: function _initAria() {
+      this._updateAria('button');
+      this._updateAria('content');
+    }
+  }, {
+    key: '_cleanAria',
+    value: function _cleanAria() {
+      this._updateAria('button', null, true);
+      this._updateAria('content', null, true);
+    }
+  }, {
+    key: '_updateAria',
+    value: function _updateAria(element) {
+      var property = arguments.length > 1 && arguments[1] !== undefined ? arguments[1] : null;
+      var remove = arguments.length > 2 && arguments[2] !== undefined ? arguments[2] : false;
+
+      if (!this.handorgel.options.ariaEnabled) {
+        return;
+      }
+
+      if (property) {
+        var newValue = ARIA_ATTRIBUTES[element][property].call(this);
+        this[element].setAttribute(property, newValue);
+      } else {
+        for (var _property in ARIA_ATTRIBUTES[element]) {
+          if (ARIA_ATTRIBUTES[element].hasOwnProperty(_property)) {
+            if (remove) {
+              this[element].removeAttribute(_property);
+            } else {
+              var _newValue = ARIA_ATTRIBUTES[element][_property].call(this);
+              this[element].setAttribute(_property, _newValue);
+            }
           }
         }
       }
     }
-  }
+  }, {
+    key: '_handleContentTransitionEnd',
+    value: function _handleContentTransitionEnd(e) {
+      if (e.target === e.currentTarget && e.propertyName === 'height') {
+        this.handorgel.resize(true);
 
-  _handleContentTransitionEnd(e) {
-    if (e.target === e.currentTarget && e.propertyName == 'height') {
-      this.handorgel.resize(true);
-
-      if (this.expanded) {
-        this._opened();
-      } else {
-        this._closed();
+        if (this.expanded) {
+          this._opened();
+        } else {
+          this._closed();
+        }
       }
     }
-  }
-
-  _handleFocus() {
-    this.focused = true;
-    this.header.classList.add(this.handorgel.options.headerFocusClass);
-    this.content.classList.add(this.handorgel.options.contentFocusClass);
-    this.handorgel.emitEvent('fold:focus', [this]);
-  }
-
-  _handleBlur() {
-    this.focused = false;
-    this.header.classList.remove(this.handorgel.options.headerFocusClass);
-    this.content.classList.remove(this.handorgel.options.contentFocusClass);
-    this.handorgel.emitEvent('fold:blur', [this]);
-  }
-
-  _handleButtonClick(e) {
-    // ensure focus is on button (click is not seting focus on firefox mac)
-    this.focus();
-
-    if (this.disabled) {
-      return;
+  }, {
+    key: '_handleFocus',
+    value: function _handleFocus() {
+      this.focused = true;
+      this.header.classList.add(this.handorgel.options.headerFocusClass);
+      this.content.classList.add(this.handorgel.options.contentFocusClass);
+      this.handorgel.emitEvent('fold:focus', [this]);
     }
-
-    this.toggle();
-  }
-
-  _handleButtonKeydown(e) {
-    if (!this.handorgel.options.keyboardInteraction) {
-      return;
+  }, {
+    key: '_handleBlur',
+    value: function _handleBlur() {
+      this.focused = false;
+      this.header.classList.remove(this.handorgel.options.headerFocusClass);
+      this.content.classList.remove(this.handorgel.options.contentFocusClass);
+      this.handorgel.emitEvent('fold:blur', [this]);
     }
+  }, {
+    key: '_handleButtonClick',
+    value: function _handleButtonClick(e) {
+      // ensure focus is on button (click is not seting focus on firefox mac)
+      this.focus();
 
-    let action = null;
+      if (this.disabled) {
+        return;
+      }
 
-    switch (e.which) {
-      case KEYS.arrowDown:
-        action = 'next';
-        break;
-      case KEYS.arrowUp:
-        action = 'prev';
-        break;
-      case KEYS.home:
-        action = 'first';
-        break;
-      case KEYS.end:
-        action = 'last';
-        break;
-      case KEYS.pageDown:
-        if (e.ctrlKey) {
+      this.toggle();
+    }
+  }, {
+    key: '_handleButtonKeydown',
+    value: function _handleButtonKeydown(e) {
+      if (!this.handorgel.options.keyboardInteraction) {
+        return;
+      }
+
+      var action = null;
+
+      switch (e.which) {
+        case KEYS.arrowDown:
           action = 'next';
-        }
-        break;
-      case KEYS.pageUp:
-        if (e.ctrlKey) {
+          break;
+        case KEYS.arrowUp:
           action = 'prev';
+          break;
+        case KEYS.home:
+          action = 'first';
+          break;
+        case KEYS.end:
+          action = 'last';
+          break;
+        case KEYS.pageDown:
+          if (e.ctrlKey) {
+            action = 'next';
+          }
+          break;
+        case KEYS.pageUp:
+          if (e.ctrlKey) {
+            action = 'prev';
+          }
+          break;
+      }
+
+      if (action) {
+        e.preventDefault();
+        this.handorgel.focus(action);
+      }
+    }
+  }, {
+    key: '_handleContentKeydown',
+    value: function _handleContentKeydown(e) {
+      if (!this.handorgel.options.keyboardInteraction || !e.ctrlKey) {
+        return;
+      }
+
+      var action = null;
+
+      switch (e.which) {
+        case KEYS.pageDown:
+          action = 'next';
+          break;
+        case KEYS.pageUp:
+          action = 'prev';
+          break;
+      }
+
+      if (action) {
+        e.preventDefault();
+        this.handorgel.focus(action);
+      }
+    }
+  }, {
+    key: '_bindEvents',
+    value: function _bindEvents() {
+      this._listeners = {
+        // button listeners
+        bFocus: ['focus', this.button, this._handleFocus.bind(this)],
+        bBlur: ['blur', this.button, this._handleBlur.bind(this)],
+        bClick: ['click', this.button, this._handleButtonClick.bind(this)],
+        bKeydown: ['keydown', this.button, this._handleButtonKeydown.bind(this)],
+        // content listeners
+        cKeydown: ['keydown', this.content, this._handleContentKeydown.bind(this)],
+        cTransition: ['transitionend', this.content, this._handleContentTransitionEnd.bind(this)]
+      };
+
+      for (var key in this._listeners) {
+        if (this._listeners.hasOwnProperty(key)) {
+          var listener = this._listeners[key];
+          listener[1].addEventListener(listener[0], listener[2]);
         }
-        break;
-    }
-
-    if (action) {
-      e.preventDefault();
-      this.handorgel.focus(action);
-    }
-  }
-
-  _handleContentKeydown(e) {
-    if (!this.handorgel.options.keyboardInteraction || !e.ctrlKey) {
-      return;
-    }
-
-    let action = null;
-
-    switch (e.which) {
-      case KEYS.pageDown:
-        action = 'next';
-        break;
-      case KEYS.pageUp:
-        action = 'prev';
-        break;
-    }
-
-    if (action) {
-      e.preventDefault();
-      this.handorgel.focus(action);
-    }
-  }
-
-  _bindEvents() {
-    this._listeners = {
-      // button listeners
-      bFocus: ['focus', this.button, this._handleFocus.bind(this)],
-      bBlur: ['blur', this.button, this._handleBlur.bind(this)],
-      bClick: ['click', this.button, this._handleButtonClick.bind(this)],
-      bKeydown: ['keydown', this.button, this._handleButtonKeydown.bind(this)],
-      // content listeners
-      cKeydown: ['keydown', this.content, this._handleContentKeydown.bind(this)],
-      cTransition: ['transitionend', this.content, this._handleContentTransitionEnd.bind(this)]
-    };
-
-    for (let key in this._listeners) {
-      if (this._listeners.hasOwnProperty(key)) {
-        const listener = this._listeners[key];
-        listener[1].addEventListener(listener[0], listener[2]);
       }
     }
-  }
-
-  _unbindEvents() {
-    for (let key in this._listeners) {
-      if (this._listeners.hasOwnProperty(key)) {
-        const listener = this._listeners[key];
-        listener[1].removeEventListener(listener[0], listener[2]);
+  }, {
+    key: '_unbindEvents',
+    value: function _unbindEvents() {
+      for (var key in this._listeners) {
+        if (this._listeners.hasOwnProperty(key)) {
+          var listener = this._listeners[key];
+          listener[1].removeEventListener(listener[0], listener[2]);
+        }
       }
     }
-  }
+  }]);
+  return HandorgelFold;
+}();
 
-}
+var ID_COUNTER = 0;
 
-let ID_COUNTER = 0;
+var Handorgel = function (_EventEmitter) {
+  inherits(Handorgel, _EventEmitter);
 
-class Handorgel extends evEmitter {
+  function Handorgel(element) {
+    var options = arguments.length > 1 && arguments[1] !== undefined ? arguments[1] : {};
+    classCallCheck(this, Handorgel);
 
-  constructor(element, options = {}) {
-    super();
+    var _this = possibleConstructorReturn(this, (Handorgel.__proto__ || Object.getPrototypeOf(Handorgel)).call(this));
 
     if (element.handorgel) {
-      return;
+      return possibleConstructorReturn(_this);
     }
 
-    this.element = element;
-    this.element.handorgel = this;
-    this.id = `handorgel${++ID_COUNTER}`;
-    this.element.setAttribute('id', this.id);
-    this.folds = [];
-    this.options = extend({}, Handorgel.defaultOptions, options);
+    _this.element = element;
+    _this.element.handorgel = _this;
+    _this.id = 'handorgel' + ++ID_COUNTER;
+    _this.element.setAttribute('id', _this.id);
+    _this.folds = [];
+    _this.options = extend({}, Handorgel.defaultOptions, options);
 
-    this._listeners = {};
-    this._resizing = false;
+    _this._listeners = {};
+    _this._resizing = false;
 
-    this._bindEvents();
-    this._initAria();
-    this.update();
+    _this._bindEvents();
+    _this._initAria();
+    _this.update();
+    return _this;
   }
 
-  update() {
-    this.folds = [];
-    const children = this.element.children;
+  createClass(Handorgel, [{
+    key: 'update',
+    value: function update() {
+      this.folds = [];
+      var children = this.element.children;
 
-    for (let i = 0, childrenLength = children.length; i < childrenLength; i = i + 2) {
-      const header = children[i];
-      let fold = header.handorgelFold;
+      for (var i = 0, childrenLength = children.length; i < childrenLength; i = i + 2) {
+        var header = children[i];
+        var content = children[i + 1];
+        var fold = header.handorgelFold;
 
-      if (!fold) {
-        fold = new HandorgelFold(this, children[i], children[i + 1]);
+        if (!fold) {
+          fold = new HandorgelFold(this, header, content);
+        }
+
+        this.folds.push(fold);
+      }
+    }
+  }, {
+    key: 'resize',
+    value: function resize() {
+      var transition = arguments.length > 0 && arguments[0] !== undefined ? arguments[0] : false;
+
+      // resize each fold
+      this.folds.forEach(function (fold) {
+        fold.resize(transition);
+      });
+
+      this._resizing = false;
+    }
+  }, {
+    key: 'focus',
+    value: function focus(target) {
+      var foldsLength = this.folds.length;
+      var currentFocusedIndex = null;
+
+      for (var i = 0; i < foldsLength && currentFocusedIndex === null; i++) {
+        if (this.folds[i].focused) currentFocusedIndex = i;
       }
 
-      this.folds.push(fold);
-    }
-  }
-
-  resize(transition = false) {
-    // resize each fold
-    this.folds.forEach(fold => {
-      fold.resize(transition);
-    });
-
-    this._resizing = false;
-  }
-
-  focus(target) {
-    const foldsLength = this.folds.length;
-    let currentFocusedIndex = null;
-
-    for (let i = 0; i < foldsLength && currentFocusedIndex === null; i++) {
-      if (this.folds[i].focused) currentFocusedIndex = i;
-    }
-
-    if ((target == 'prev' || target == 'next') && currentFocusedIndex === null) {
-      target = target == 'prev' ? 'last' : 'first';
-    }
-
-    if (target == 'prev' && currentFocusedIndex == 0) {
-      if (!this.options.carouselFocus) return;
-      target = 'last';
-    }
-
-    if (target == 'next' && currentFocusedIndex == foldsLength - 1) {
-      if (!this.options.carouselFocus) return;
-      target = 'first';
-    }
-
-    switch (target) {
-      case 'prev':
-        this.folds[--currentFocusedIndex].focus();
-        break;
-      case 'next':
-        this.folds[++currentFocusedIndex].focus();
-        break;
-      case 'last':
-        this.folds[foldsLength - 1].focus();
-        break;
-      case 'first':
-      default:
-        this.folds[0].focus();
-    }
-  }
-
-  destroy() {
-    this.emitEvent('destroy');
-    this.element.removeAttribute('id');
-
-    this.folds.forEach(fold => {
-      fold.destroy();
-    });
-
-    this._unbindEvents();
-    this._cleanAria();
-
-    // clean reference to handorgel instance
-    this.element.handorgel = null;
-    this.emitEvent('destroyed');
-  }
-
-  _handleFoldOpen(openFold) {
-    if (this.options.multiSelectable) {
-      return;
-    }
-
-    this.folds.forEach(fold => {
-      if (openFold !== fold) {
-        fold.close();
+      if ((target === 'prev' || target === 'next') && currentFocusedIndex === null) {
+        target = target === 'prev' ? 'last' : 'first';
       }
-    });
-  }
 
-  _handleResize() {
-    if (!this._resizing) {
-      this._resizing = true;
+      if (target === 'prev' && currentFocusedIndex === 0) {
+        if (!this.options.carouselFocus) return;
+        target = 'last';
+      }
 
-      rAF(() => {
-        this.resize();
+      if (target === 'next' && currentFocusedIndex === foldsLength - 1) {
+        if (!this.options.carouselFocus) return;
+        target = 'first';
+      }
+
+      switch (target) {
+        case 'prev':
+          this.folds[--currentFocusedIndex].focus();
+          break;
+        case 'next':
+          this.folds[++currentFocusedIndex].focus();
+          break;
+        case 'last':
+          this.folds[foldsLength - 1].focus();
+          break;
+        case 'first':
+        default:
+          this.folds[0].focus();
+      }
+    }
+  }, {
+    key: 'destroy',
+    value: function destroy() {
+      this.emitEvent('destroy');
+      this.element.removeAttribute('id');
+
+      this.folds.forEach(function (fold) {
+        fold.destroy();
+      });
+
+      this._unbindEvents();
+      this._cleanAria();
+
+      // clean reference to handorgel instance
+      this.element.handorgel = null;
+      this.emitEvent('destroyed');
+    }
+  }, {
+    key: '_handleFoldOpen',
+    value: function _handleFoldOpen(openFold) {
+      if (this.options.multiSelectable) {
+        return;
+      }
+
+      this.folds.forEach(function (fold) {
+        if (openFold !== fold) {
+          fold.close();
+        }
       });
     }
-  }
+  }, {
+    key: '_handleResize',
+    value: function _handleResize() {
+      var _this2 = this;
 
-  _initAria() {
-    if (!this.options.ariaEnabled) {
-      return;
+      if (!this._resizing) {
+        this._resizing = true;
+
+        rAF(function () {
+          _this2.resize();
+        });
+      }
     }
+  }, {
+    key: '_initAria',
+    value: function _initAria() {
+      if (!this.options.ariaEnabled) {
+        return;
+      }
 
-    this.element.setAttribute('role', 'presentation');
+      this.element.setAttribute('role', 'presentation');
 
-    if (this.options.multiSelectable) {
-      this.element.setAttribute('aria-multiselectable', 'true');
+      if (this.options.multiSelectable) {
+        this.element.setAttribute('aria-multiselectable', 'true');
+      }
     }
-  }
+  }, {
+    key: '_cleanAria',
+    value: function _cleanAria() {
+      this.element.removeAttribute('role');
+      this.element.removeAttribute('aria-multiselectable');
+    }
+  }, {
+    key: '_bindEvents',
+    value: function _bindEvents() {
+      this._listeners.resize = this._handleResize.bind(this);
+      window.addEventListener('resize', this._listeners.resize);
 
-  _cleanAria() {
-    this.element.removeAttribute('role');
-    this.element.removeAttribute('aria-multiselectable');
-  }
-
-  _bindEvents() {
-    this._listeners.resize = this._handleResize.bind(this);
-    window.addEventListener('resize', this._listeners.resize);
-
-    this._listeners.foldOpen = this._handleFoldOpen.bind(this);
-    this.on('fold:open', this._listeners.foldOpen);
-  }
-
-  _unbindEvents() {
-    window.removeEventListener('resize', this._listeners.resize);
-    this.off('fold:open', this._listeners.foldOpen);
-  }
-
-}
+      this._listeners.foldOpen = this._handleFoldOpen.bind(this);
+      this.on('fold:open', this._listeners.foldOpen);
+    }
+  }, {
+    key: '_unbindEvents',
+    value: function _unbindEvents() {
+      window.removeEventListener('resize', this._listeners.resize);
+      this.off('fold:open', this._listeners.foldOpen);
+    }
+  }]);
+  return Handorgel;
+}(evEmitter);
 
 Handorgel.defaultOptions = {
   keyboardInteraction: true,
@@ -770,13 +1017,13 @@ Handorgel.defaultOptions = {
   contentNoTransitionClass: 'handorgel__content--notransition'
 };
 
-var accordeon = new Handorgel(document.querySelector('.default'));
+var accordion = new Handorgel(document.querySelector('.default'));
 
-var accordeon2 = new Handorgel(document.querySelector('.single-select'), {
+var accordion2 = new Handorgel(document.querySelector('.single-select'), {
   multiSelectable: false
 });
 
-var accordeon3 = new Handorgel(document.querySelector('.single-select-not-collapsible'), {
+var accordion3 = new Handorgel(document.querySelector('.single-select-not-collapsible'), {
   multiSelectable: false,
   collapsible: false
 });

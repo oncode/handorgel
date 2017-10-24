@@ -7,8 +7,8 @@ import babelConfig from './babel.config'
 import pkg from '../package.json'
 
 const COPYRIGHT = `/** ${pkg.name} v${pkg.version}, @license MIT */`
-const INPUT = `${process.env.SOURCE_PATH}/js/index.js`
-const OUTPUT = `${process.env.LIBRARY_PATH}/js/${process.env.LIBRARY_NAME}.js`
+const INPUT = `${process.env.INPUT_PATH}/index.js`
+const OUTPUT = `${process.env.OUTPUT_PATH}/${pkg.name}.js`
 
 export default [
   {

@@ -12,63 +12,54 @@
   background-color: #eee;
 }
 .handorgel__header--notransition .handorgel__header__button {
-  -webkit-transition: none;
   transition: none;
 }
 .handorgel__header--focus .handorgel__header__button {
-  outline: none;
   background-color: #dfdfdf;
+  outline: none;
 }
 .handorgel__header__button {
-  color: inherit;
-  cursor: pointer;
   display: block;
   width: 100%;
-  -webkit-user-select: none;
-     -moz-user-select: none;
-      -ms-user-select: none;
-          user-select: none;
-  background-color: #fff;
-  border: none;
   padding: 20px 24px;
+  border: none;
+  border-top: 1px solid #eee;
+  margin: 0;
+  background-color: #fff;
+  color: inherit;
+  cursor: pointer;
   font-size: inherit;
   text-align: left;
-  border-top: 1px solid #eee;
-  -webkit-transition: background-color 0.2s ease;
   transition: background-color 0.2s ease;
+  user-select: none;
 }
 .handorgel__header__button::-moz-focus-inner {
   border: 0;
 }
 .handorgel__content {
-  height: 0;
-  overflow: hidden;
   display: none;
-  background-color: #fff;
-  -webkit-transition: height 0.1s ease 0.1s;
-  transition: height 0.1s ease 0.1s;
+  overflow: hidden;
+  height: 0;
   border-top: 1px solid #eee;
+  background-color: #fff;
+  transition: height 0.1s ease 0.1s;
 }
 .handorgel__content--open {
   display: block;
-  -webkit-transition: height 0.2s ease;
   transition: height 0.2s ease;
 }
 .handorgel__content--opened {
   overflow: visible;
 }
 .handorgel__content--notransition {
-  -webkit-transition: none;
   transition: none;
 }
 .handorgel__content__inner {
-  opacity: 0;
   padding: 20px 24px;
-  -webkit-transition: opacity 0.1s ease;
+  opacity: 0;
   transition: opacity 0.1s ease;
 }
 .handorgel__content--opened .handorgel__content__inner {
   opacity: 1;
-  -webkit-transition: opacity 0.3s ease;
   transition: opacity 0.3s ease;
 }

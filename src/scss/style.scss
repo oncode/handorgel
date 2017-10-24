@@ -1,4 +1,4 @@
-// Styling variables
+// Variables
 
 $handorgel-border-color: #eee !default;
 $handorgel-border-width: 1px !default;
@@ -14,48 +14,42 @@ $handorgel__content-background: #fff !default;
 
 // Variables for closing transition
 
-$handorgel__content-transition-opacity-time: .1s !default;
+$handorgel__content-transition-opacity-time: 0.1s !default;
 $handorgel__content-transition-opacity-method: ease !default;
 
-$handorgel__content-transition-height-time: .1s !default;
+$handorgel__content-transition-height-time: 0.1s !default;
 $handorgel__content-transition-height-delay: $handorgel__content-transition-opacity-time !default;
 $handorgel__content-transition-height-method: ease !default;
 
-$handorgel__header__button-transition-background-color-time: .2s !default;
+$handorgel__header__button-transition-background-color-time: 0.2s !default;
 $handorgel__header__button-transition-background-color-method: ease !default;
 
-$handorgel__content-transition:
-  height $handorgel__content-transition-height-time $handorgel__content-transition-height-method $handorgel__content-transition-height-delay
-  !default;
+$handorgel__content-transition: height $handorgel__content-transition-height-time
+  $handorgel__content-transition-height-method $handorgel__content-transition-height-delay !default;
 
-$handorgel__header__button-transition:
-  background-color $handorgel__header__button-transition-background-color-time $handorgel__header__button-transition-background-color-method
-  !default;
+$handorgel__header__button-transition: background-color
+  $handorgel__header__button-transition-background-color-time
+  $handorgel__header__button-transition-background-color-method !default;
 
-$handorgel__content__inner-transition:
-  opacity $handorgel__content-transition-opacity-time $handorgel__content-transition-opacity-method
-  !default;
-
+$handorgel__content__inner-transition: opacity $handorgel__content-transition-opacity-time
+  $handorgel__content-transition-opacity-method !default;
 
 // Variables for opening transition
 
-$handorgel__content--open-transition-height-time: .2s !default;
+$handorgel__content--open-transition-height-time: 0.2s !default;
 $handorgel__content--open-transition-height-method: ease !default;
 
-$handorgel__content--open-transition-opacity-time: .3s !default;
+$handorgel__content--open-transition-opacity-time: 0.3s !default;
 $handorgel__content--open-transition-opacity-method: ease !default;
 
-$handorgel__content--open-transition:
-  height $handorgel__content--open-transition-height-time $handorgel__content--open-transition-height-method,
-  !default;
+$handorgel__content--open-transition: height $handorgel__content--open-transition-height-time
+  $handorgel__content--open-transition-height-method !default;
 
-$handorgel__content--opened__inner-transition:
-  opacity $handorgel__content--open-transition-opacity-time $handorgel__content--open-transition-opacity-method
-  !default;
-
+$handorgel__content--opened__inner-transition: opacity
+  $handorgel__content--open-transition-opacity-time
+  $handorgel__content--open-transition-opacity-method !default;
 
 .handorgel {
-
   & {
     display: block;
     width: 100%;
@@ -77,23 +71,24 @@ $handorgel__content--opened__inner-transition:
   }
 
   &__header--focus &__header__button {
-    outline: none;
     background-color: $handorgel__header--focus__button-background-color;
+    outline: none;
   }
 
   &__header__button {
-    color: inherit;
-    cursor: pointer;
     display: block;
     width: 100%;
-    user-select: none;
-    background-color: $handorgel__header__button-background-color;
-    border: none;
     padding: $handorgel__header__button-padding;
+    border: none;
+    border-top: $handorgel-border-width solid $handorgel-border-color;
+    margin: 0;
+    background-color: $handorgel__header__button-background-color;
+    color: inherit;
+    cursor: pointer;
     font-size: inherit;
     text-align: left;
-    border-top: $handorgel-border-width solid $handorgel-border-color;
     transition: $handorgel__header__button-transition;
+    user-select: none;
 
     &::-moz-focus-inner {
       border: 0;
@@ -101,12 +96,12 @@ $handorgel__content--opened__inner-transition:
   }
 
   &__content {
-    height: 0;
-    overflow: hidden;
     display: none;
+    overflow: hidden;
+    height: 0;
+    border-top: $handorgel-border-width solid $handorgel-border-color;
     background-color: $handorgel__content-background;
     transition: $handorgel__content-transition;
-    border-top: $handorgel-border-width solid $handorgel-border-color;
 
     &--open {
       display: block;
@@ -123,8 +118,8 @@ $handorgel__content--opened__inner-transition:
   }
 
   &__content__inner {
-    opacity: 0;
     padding: $handorgel__content__inner-padding;
+    opacity: 0;
     transition: $handorgel__content__inner-transition;
   }
 
@@ -132,5 +127,4 @@ $handorgel__content--opened__inner-transition:
     opacity: 1;
     transition: $handorgel__content--opened__inner-transition;
   }
-
 }
