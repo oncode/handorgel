@@ -1,5 +1,6 @@
 # Handorgel
 
+[![Love][love-image]][love-url]
 [![NPM version][npm-image]][npm-url]
 [![Dependencies][deps-image]][deps-url]
 [![Coding Style][style-image]][style-url]
@@ -241,3 +242,6 @@ Released under the [MIT LICENSE](http://opensource.org/licenses/MIT)
 
 [license-image]: http://img.shields.io/badge/license-MIT-000000.svg
 [license-url]: LICENSE
+
+[love-image]: https://img.shields.io/badge/made%20with-love-E760A4.svg
+[love-url]: https://oncode.github.io/handorgel/
