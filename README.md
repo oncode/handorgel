@@ -3,6 +3,7 @@
 [![Love][love-image]][love-url]
 [![NPM version][npm-image]][npm-url]
 [![Dependencies][deps-image]][deps-url]
+[![Build Status][travis-image]][travis-url]
 [![Coding Style][style-image]][style-url]
 [![MIT License][license-image]][license-url]
 
@@ -245,3 +246,6 @@ Released under the [MIT LICENSE](http://opensource.org/licenses/MIT)
 
 [love-image]: https://img.shields.io/badge/made%20with-love-E760A4.svg
 [love-url]: https://oncode.github.io/handorgel/
+
+[travis-image]: https://travis-ci.org/oncode/handorgel.svg?branch=master
+[travis-url]: https://travis-ci.org/oncode/handorgel
