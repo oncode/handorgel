@@ -95,7 +95,7 @@ Alternatively you can just include the built CSS file inside the `/lib` folder f
 Initialization (with all options and their defaults):
 
 ```javascript
-var accordion = new Handorgel(document.querySelector('.accordon'), {
+var accordion = new handorgel(document.querySelector('.accordon'), {
 
   // whether multiple folds can be opened at once
   multiSelectable: true,
@@ -157,20 +157,20 @@ Event | Description | Parameters
 How to listen for events:
 
 ```javascript
-var handorgel = new Handorgel(document.querySelector('.handorgel'))
+var accordion = new handorgel(document.querySelector('.handorgel'))
 
 // listen for event
-handorgel.on('fold:open', (fold) => {
+accordion.on('fold:open', (fold) => {
   // ...
 })
 
 // listen for event once
-handorgel.once('fold:open', (fold) => {
+accordion.once('fold:open', (fold) => {
   // ...
 })
 
 // remove event listener
-handorgel.off('fold:open', fn)
+accordion.off('fold:open', fn)
 ```
 
 ### Methods
@@ -187,10 +187,10 @@ Method | Description | Parameters
 Example:
 
 ```javascript
-var handorgel = new Handorgel(document.querySelector('.handorgel'))
+var accordion = new handorgel(document.querySelector('.handorgel'))
 
 // resize
-handorgel.resize()
+accordion.resize()
 ```
 
 #### HandorgelFold Class
@@ -210,10 +210,10 @@ Method | Description | Parameters
 Example:
 
 ```javascript
-var handorgel = new Handorgel(document.querySelector('.handorgel'))
+var accordion = new handorgel(document.querySelector('.handorgel'))
 
 // close first fold
-handorgel.folds[0].close()
+accordion.folds[0].close()
 ```
 
 ## Browser compatibility
