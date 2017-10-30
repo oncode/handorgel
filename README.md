@@ -95,7 +95,7 @@ Alternatively you can just include the built CSS file inside the `/lib` folder f
 Initialization (with all options and their defaults):
 
 ```javascript
-var accordion = new handorgel(document.querySelector('.accordon'), {
+var accordion = new handorgel(document.querySelector('.handorgel'), {
 
   // whether multiple folds can be opened at once
   multiSelectable: true,
@@ -114,7 +114,7 @@ var accordion = new handorgel(document.querySelector('.accordon'), {
   // whether to use transition at initial open
   initialOpenTransition: true,
   // delay used to show initial transition
-  initialOpenTransitionDelay: 200
+  initialOpenTransitionDelay: 200,
 
   // header/content class if fold is open
   headerOpenClass: 'handorgel__header--open',
