@@ -18,6 +18,7 @@
   width: 100%;
   padding: 20px 24px;
   border: none;
+  border-radius: 0;
   border-top: 1px solid #eee;
   margin: 0;
   background-color: #fff;
