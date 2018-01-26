@@ -17,9 +17,10 @@
   "author": "Manuel Sommerhalder",
   "license": "MIT",
   "scripts": {
-    "build": "run-s build:* minify:*",
-    "build:scripts": "cross-env INPUT_PATH='src/js' OUTPUT_PATH='lib/js' rollup --config '.config/rollup.config.js'",
-    "build:styles": "scss --load-path 'node_modules' 'src/scss/style.scss':'src/scss/style.scss.css' --sourcemap=none --style=expanded && postcss --config '.config/postcss.config.js' 'src/scss/style.scss.css' --output 'lib/css/handorgel.css' --no-map",
+    "build": "run-s compile minify",
+    "compile": "run-p compile:*",
+    "compile:scripts": "cross-env INPUT_PATH='src/js' OUTPUT_PATH='lib/js' rollup --config '.config/rollup.config.js'",
+    "compile:styles": "scss --load-path 'node_modules' 'src/scss/style.scss':'src/scss/style.scss.css' --sourcemap=none --style=expanded && postcss --config '.config/postcss.config.js' 'src/scss/style.scss.css' --output 'lib/css/handorgel.css' --no-map",
     "minify": "run-p minify:*",
     "minify:js": "run-p minify:js:*",
     "minify:js:stage2": "uglifyjs 'lib/js/handorgel.js' --compress --mangle --toplevel --output 'lib/js/handorgel.min.js' --comments '/@preserve|@license|@cc_on/i'",
