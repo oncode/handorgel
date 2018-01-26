@@ -19,7 +19,7 @@ Accessible [W3C](https://www.w3.org/TR/wai-aria-practices/#accordion) conform ac
 * Animated collapsing
 * Fully customizable via CSS
 * No external dependencies
-* Lightweight (~3.5kb minified and gziped)
+* Lightweight (~3.2kb minified and gziped)
 
 ## Installation
 
