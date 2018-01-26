@@ -12,6 +12,7 @@
   background-color: #eee;
 }
 .handorgel__header--notransition .handorgel__header__button {
+  -webkit-transition: none;
   transition: none;
 }
 .handorgel__header--focus .handorgel__header__button {
@@ -31,8 +32,12 @@
   cursor: pointer;
   font-size: inherit;
   text-align: left;
+  -webkit-transition: background-color 0.2s ease;
   transition: background-color 0.2s ease;
-  user-select: none;
+  -webkit-user-select: none;
+     -moz-user-select: none;
+      -ms-user-select: none;
+          user-select: none;
 }
 .handorgel__header__button::-moz-focus-inner {
   border: 0;
@@ -43,24 +48,29 @@
   height: 0;
   border-top: 1px solid #eee;
   background-color: #fff;
+  -webkit-transition: height 0.1s ease 0.1s;
   transition: height 0.1s ease 0.1s;
 }
 .handorgel__content--open {
   display: block;
+  -webkit-transition: height 0.2s ease;
   transition: height 0.2s ease;
 }
 .handorgel__content--opened {
   overflow: visible;
 }
 .handorgel__content--notransition {
+  -webkit-transition: none;
   transition: none;
 }
 .handorgel__content__inner {
   padding: 20px 24px;
   opacity: 0;
+  -webkit-transition: opacity 0.1s ease;
   transition: opacity 0.1s ease;
 }
 .handorgel__content--opened .handorgel__content__inner {
   opacity: 1;
+  -webkit-transition: opacity 0.3s ease;
   transition: opacity 0.3s ease;
 }

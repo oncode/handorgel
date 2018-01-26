@@ -9,6 +9,7 @@
 .handorgel__header--open .handorgel__header__button {
   background-color: #eee; }
 .handorgel__header--notransition .handorgel__header__button {
+  -webkit-transition: none;
   transition: none; }
 .handorgel__header--focus .handorgel__header__button {
   background-color: #dfdfdf;
@@ -26,9 +27,13 @@
   cursor: pointer;
   font-size: inherit;
   text-align: left;
+  -webkit-transition: background-color 0.2s ease;
   transition: background-color 0.2s ease;
-  user-select: none; }
-  .handorgel__header__button::-moz-focus-inner {
+  -webkit-user-select: none;
+     -moz-user-select: none;
+      -ms-user-select: none;
+          user-select: none; }
+.handorgel__header__button::-moz-focus-inner {
     border: 0; }
 .handorgel__content {
   display: none;
@@ -36,89 +41,85 @@
   height: 0;
   border-top: 1px solid #eee;
   background-color: #fff;
+  -webkit-transition: height 0.1s ease 0.1s;
   transition: height 0.1s ease 0.1s; }
-  .handorgel__content--open {
+.handorgel__content--open {
     display: block;
+    -webkit-transition: height 0.2s ease;
     transition: height 0.2s ease; }
-  .handorgel__content--opened {
+.handorgel__content--opened {
     overflow: visible; }
-  .handorgel__content--notransition {
+.handorgel__content--notransition {
+    -webkit-transition: none;
     transition: none; }
 .handorgel__content__inner {
   padding: 20px 24px;
   opacity: 0;
+  -webkit-transition: opacity 0.1s ease;
   transition: opacity 0.1s ease; }
 .handorgel__content--opened .handorgel__content__inner {
   opacity: 1;
+  -webkit-transition: opacity 0.3s ease;
   transition: opacity 0.3s ease; }
-
 *,
 *::after,
 *::before {
-  box-sizing: inherit; }
-
+  -webkit-box-sizing: inherit;
+          box-sizing: inherit; }
 body {
-  box-sizing: border-box;
+  -webkit-box-sizing: border-box;
+          box-sizing: border-box;
   margin: 80px 60px;
   background-color: #202328;
   color: #dadada;
   font-family: 'Helvetica Neue', Helvetica, sans-serif;
-  font-size: 16px;
+  font-size: 1rem;
   -moz-osx-font-smoothing: grayscale;
   -webkit-font-smoothing: antialiased;
   line-height: 1.4;
-  text-size-adjust: 100%; }
-  @media (max-width: 600px) {
-    body {
-      margin: 80px 40px; } }
-
+  -webkit-text-size-adjust: 100%;
+     -moz-text-size-adjust: 100%;
+      -ms-text-size-adjust: 100%;
+          text-size-adjust: 100%; }
 a {
   color: #dadada; }
-
 p {
   margin-top: 0;
   margin-bottom: 15px; }
-  p:last-child {
+p:last-child {
     margin-bottom: 0; }
-
 .description {
   margin-bottom: 60px;
   text-align: center; }
-
 .wrapper {
   width: 80%;
   max-width: 700px;
   margin: 0 auto; }
-  @media (max-width: 600px) {
-    .wrapper {
-      width: 100%; } }
-
 .wrapper .example {
   margin-bottom: 30px; }
-
 .usage {
   margin-top: 80px; }
-
 h1 {
   margin-top: 0;
   margin-bottom: 10px;
-  font-size: 40px;
+  font-size: 2.5rem;
   text-align: center; }
-
 h2 {
   margin-top: 40px;
   margin-bottom: 10px;
-  font-size: 28px; }
-
+  font-size: 1.75rem; }
 h3 {
   margin-top: 20px;
   margin-bottom: 10px;
-  font-size: 20px; }
-
+  font-size: 1.25rem; }
 pre {
   margin: 0;
   margin-bottom: 30px; }
-
 .handorgel {
   margin-bottom: 80px;
   color: #333; }
+@media (max-width: 600px) {
+  body {
+    margin: 80px 40px; }
+  .wrapper {
+    width: 100%; } }

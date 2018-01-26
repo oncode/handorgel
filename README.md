@@ -223,13 +223,13 @@ accordion.folds[0].close()
 
 ## Development
 
-* `yarn build` - Build production version of the feature.
-* `yarn demo` - Build demo of the feature, run watchers and start browser-sync.
-* `yarn test` - Test the feature.
+* `npm run build` - Build production version of the feature.
+* `npm run demo` - Build demo of the feature, run watchers and start browser-sync.
+* `npm run test` - Test the feature.
 
 ## License
 
-© 2016 [Manuel Sommerhalder](https://github.com/oncode)
+© 2018 [Manuel Sommerhalder](https://github.com/oncode)
 Released under the [MIT LICENSE](http://opensource.org/licenses/MIT)
 
 [npm-image]: https://img.shields.io/npm/v/handorgel.svg
