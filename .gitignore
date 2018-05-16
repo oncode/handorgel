@@ -2,7 +2,4 @@
 /npm-debug.log
 /.sass-cache
 
-/src/scss/style.scss.css
-/src/scss/style.scss.css.map
-
 .env
