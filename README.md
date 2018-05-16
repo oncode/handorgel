@@ -1,6 +1,5 @@
 # Handorgel
 
-[![Love][love-image]][love-url]
 [![NPM version][npm-image]][npm-url]
 [![Dependencies][deps-image]][deps-url]
 [![Build Status][travis-image]][travis-url]
@@ -27,7 +26,7 @@ Accessible [W3C](https://www.w3.org/TR/wai-aria-practices/#accordion) conform ac
 
 Manager | Command
 --- | ---
-npm | `npm install handorgel --save`
+npm | `npm install handorgel`
 yarn | `yarn add handorgel`
 
 ### CDN / Download
@@ -71,7 +70,7 @@ JS (minified) | [handorgel.min.js](https://unpkg.com/handorgel@0.4/lib/js/umd/ha
 </div>
 ```
 
-**Note**: Use the heading tags that fit into your content to output semantic markup.
+**Note**: Use the [heading tags](https://developer.paciellogroup.com/blog/2013/10/html5-document-outline/) that fit into your content to output semantic markup.
 
 ### CSS
 
@@ -232,6 +231,8 @@ accordion.folds[0].close()
 © 2018 [Manuel Sommerhalder](https://github.com/oncode)
 Released under the [MIT LICENSE](http://opensource.org/licenses/MIT)
 
+<a href="https://www.buymeacoffee.com/oncode" target="_blank"><img src="https://www.buymeacoffee.com/assets/img/custom_images/orange_img.png" alt="Buy Me A Coffee" style="height: auto !important;width: auto !important;" ></a>
+
 [npm-image]: https://img.shields.io/npm/v/handorgel.svg
 [npm-url]: https://npmjs.com/package/handorgel
 
@@ -243,9 +244,6 @@ Released under the [MIT LICENSE](http://opensource.org/licenses/MIT)
 
 [license-image]: http://img.shields.io/badge/license-MIT-000000.svg
 [license-url]: LICENSE
-
-[love-image]: https://img.shields.io/badge/made%20with-love-E760A4.svg
-[love-url]: https://oncode.github.io/handorgel/
 
 [travis-image]: https://travis-ci.org/oncode/handorgel.svg?branch=master
 [travis-url]: https://travis-ci.org/oncode/handorgel
