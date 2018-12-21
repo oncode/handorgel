@@ -38,9 +38,8 @@ export default class Handorgel extends EventEmitter {
 
       if (!fold && header && content) {
         fold = new Fold(this, header, content)
+        this.folds.push(fold)
       }
-
-      this.folds.push(fold)
     }
   }
 
