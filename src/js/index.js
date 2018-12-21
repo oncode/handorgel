@@ -36,7 +36,7 @@ export default class Handorgel extends EventEmitter {
       const content = children[i + 1]
       let fold = header.handorgelFold
 
-      if (!fold) {
+      if (!fold && header && content) {
         fold = new Fold(this, header, content)
       }
 
