@@ -91,7 +91,7 @@
   "bundlesize": [
     {
       "path": "./lib/js/umd/handorgel.min.js",
-      "maxSize": "4 kB"
+      "maxSize": "3 kB"
     }
   ],
   "prettier": {
