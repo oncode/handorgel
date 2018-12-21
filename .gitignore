@@ -2,4 +2,7 @@
 /npm-debug.log
 /.sass-cache
 
+/tests/screenshots
+/tests/videos
+
 .env
