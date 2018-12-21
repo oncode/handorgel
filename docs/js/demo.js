@@ -1,4 +1,4 @@
-import Handorgel from '../src/js'
+import Handorgel from '../../src/js'
 
 const accordion = new Handorgel(document.querySelector('.default'))
 

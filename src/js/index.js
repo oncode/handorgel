@@ -4,10 +4,8 @@ import Fold from './fold'
 
 let ID_COUNTER = 0
 
-export default class Handorgel extends EventEmitter {
+export default class Handorgel {
   constructor(element, options = {}) {
-    super()
-
     if (element.handorgel) {
       return
     }
@@ -34,13 +32,18 @@ export default class Handorgel extends EventEmitter {
     for (let i = 0, childrenLength = children.length; i < childrenLength; i = i + 2) {
       const header = children[i]
       const content = children[i + 1]
+
+      // get fold instance if there is already one
       let fold = header.handorgelFold
 
-      if (!fold) {
+      // create new one when header and content exist
+      if (!fold && header && content) {
         fold = new Fold(this, header, content)
       }
 
-      this.folds.push(fold)
+      if (fold) {
+        this.folds.push(fold)
+      }
     }
   }
 
@@ -159,6 +162,9 @@ export default class Handorgel extends EventEmitter {
     this.off('fold:open', this._listeners.foldOpen)
   }
 }
+
+// extend the prototype manually to fix IE10
+extend(Handorgel.prototype, EventEmitter.prototype)
 
 Handorgel.defaultOptions = {
   keyboardInteraction: true,
