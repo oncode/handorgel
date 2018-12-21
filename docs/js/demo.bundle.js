@@ -23,49 +23,6 @@
     return Constructor;
   }
 
-  function _inherits(subClass, superClass) {
-    if (typeof superClass !== "function" && superClass !== null) {
-      throw new TypeError("Super expression must either be null or a function");
-    }
-
-    _setPrototypeOf(subClass.prototype, superClass && superClass.prototype);
-
-    if (superClass) _setPrototypeOf(subClass, superClass);
-  }
-
-  function _getPrototypeOf(o) {
-    _getPrototypeOf = Object.getPrototypeOf || function _getPrototypeOf(o) {
-      return o.__proto__;
-    };
-
-    return _getPrototypeOf(o);
-  }
-
-  function _setPrototypeOf(o, p) {
-    _setPrototypeOf = Object.setPrototypeOf || function _setPrototypeOf(o, p) {
-      o.__proto__ = p;
-      return o;
-    };
-
-    return _setPrototypeOf(o, p);
-  }
-
-  function _assertThisInitialized(self) {
-    if (self === void 0) {
-      throw new ReferenceError("this hasn't been initialised - super() hasn't been called");
-    }
-
-    return self;
-  }
-
-  function _possibleConstructorReturn(self, call) {
-    if (call && (typeof call === "object" || typeof call === "function")) {
-      return call;
-    }
-
-    return _assertThisInitialized(self);
-  }
-
   var commonjsGlobal = typeof window !== 'undefined' ? window : typeof global !== 'undefined' ? global : typeof self !== 'undefined' ? self : {};
 
   function createCommonjsModule(fn, module) {
@@ -699,38 +656,30 @@
 
   var Handorgel =
   /*#__PURE__*/
-  function (_EventEmitter) {
+  function () {
     function Handorgel(element) {
-      var _this;
-
       var options = arguments.length > 1 && arguments[1] !== undefined ? arguments[1] : {};
 
       _classCallCheck(this, Handorgel);
 
-      _this = _possibleConstructorReturn(this, _getPrototypeOf(Handorgel).call(this));
-
       if (element.handorgel) {
-        return _possibleConstructorReturn(_this);
+        return;
       }
 
-      _this.element = element;
-      _this.element.handorgel = _assertThisInitialized(_assertThisInitialized(_this));
-      _this.id = "handorgel".concat(++ID_COUNTER$1);
+      this.element = element;
+      this.element.handorgel = this;
+      this.id = "handorgel".concat(++ID_COUNTER$1);
+      this.element.setAttribute('id', this.id);
+      this.folds = [];
+      this.options = extend({}, Handorgel.defaultOptions, options);
+      this._listeners = {};
+      this._resizing = false;
 
-      _this.element.setAttribute('id', _this.id);
+      this._bindEvents();
 
-      _this.folds = [];
-      _this.options = extend({}, Handorgel.defaultOptions, options);
-      _this._listeners = {};
-      _this._resizing = false;
+      this._initAria();
 
-      _this._bindEvents();
-
-      _this._initAria();
-
-      _this.update();
-
-      return _this;
+      this.update();
     }
 
     _createClass(Handorgel, [{
@@ -836,12 +785,12 @@
     }, {
       key: "_handleResize",
       value: function _handleResize() {
-        var _this2 = this;
+        var _this = this;
 
         if (!this._resizing) {
           this._resizing = true;
           rAF(function () {
-            _this2.resize();
+            _this.resize();
           });
         }
       }
@@ -880,10 +829,9 @@
       }
     }]);
 
-    _inherits(Handorgel, _EventEmitter);
-
     return Handorgel;
-  }(evEmitter);
+  }(); // extend the prototype manually to fix IE10
+  extend(Handorgel.prototype, evEmitter.prototype);
   Handorgel.defaultOptions = {
     keyboardInteraction: true,
     multiSelectable: true,

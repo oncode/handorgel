@@ -4,10 +4,8 @@ import Fold from './fold'
 
 let ID_COUNTER = 0
 
-export default class Handorgel extends EventEmitter {
+export default class Handorgel {
   constructor(element, options = {}) {
-    super()
-
     if (element.handorgel) {
       return
     }
@@ -158,6 +156,9 @@ export default class Handorgel extends EventEmitter {
     this.off('fold:open', this._listeners.foldOpen)
   }
 }
+
+// extend the prototype manually to fix IE10
+extend(Handorgel.prototype, EventEmitter.prototype)
 
 Handorgel.defaultOptions = {
   keyboardInteraction: true,
