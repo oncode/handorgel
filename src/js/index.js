@@ -32,10 +32,16 @@ export default class Handorgel {
     for (let i = 0, childrenLength = children.length; i < childrenLength; i = i + 2) {
       const header = children[i]
       const content = children[i + 1]
+
+      // get fold instance if there is already one
       let fold = header.handorgelFold
 
+      // create new one when header and content exist
       if (!fold && header && content) {
         fold = new Fold(this, header, content)
+      }
+
+      if (fold) {
         this.folds.push(fold)
       }
     }
