@@ -43,8 +43,7 @@
     "demo:watch:sass": "node-sass 'docs/scss' --include-path 'node_modules' --output 'docs/scss/.css' --watch --recursive",
     "demo:watch:postcss": "postcss --config '.config/postcss.config.js' 'docs/scss/.css/demo.css' --output 'docs/css/demo.css' --no-map --watch",
     "demo:browsersync": "cross-env DEMO_PATH='docs' browser-sync start --config '.config/demo/browsersync.config.js'",
-    "precommit": "run-p format test build",
-    "prepublishOnly": "npm run precommit"
+    "prepublishOnly": "run-p format test build"
   },
   "devDependencies": {
     "@babel/core": "^7.2.2",
@@ -130,6 +129,11 @@
     "plugins": [
       "stylelint-scss"
     ]
+  },
+  "husky": {
+    "hooks": {
+      "pre-commit": "run-p format test"
+    }
   },
   "bugs": {
     "url": "https://github.com/oncode/handorgel/issues"
