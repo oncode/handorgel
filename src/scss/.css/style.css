@@ -27,9 +27,9 @@
   display: block;
   width: 100%;
   padding: 20px 24px;
+  margin: 0;
   border: none;
   border-top: 1px solid #eee;
-  margin: 0;
   background-color: #fff;
   border-radius: 0;
   color: inherit;

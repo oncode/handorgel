@@ -41,10 +41,7 @@
   ( function( global, factory ) {
     // universal module definition
     /* jshint strict: false */ /* globals define, module, window */
-    if ( typeof undefined == 'function' && undefined.amd ) {
-      // AMD - RequireJS
-      undefined( factory );
-    } else if ( module.exports ) {
+    if ( module.exports ) {
       // CommonJS - Browserify, Webpack
       module.exports = factory();
     } else {
@@ -690,14 +687,17 @@
 
         for (var i = 0, childrenLength = children.length; i < childrenLength; i = i + 2) {
           var header = children[i];
-          var content = children[i + 1];
-          var fold = header.handorgelFold;
+          var content = children[i + 1]; // get fold instance if there is already one
 
-          if (!fold) {
+          var fold = header.handorgelFold; // create new one when header and content exist
+
+          if (!fold && header && content) {
             fold = new HandorgelFold(this, header, content);
           }
 
-          this.folds.push(fold);
+          if (fold) {
+            this.folds.push(fold);
+          }
         }
       }
     }, {

@@ -1,5 +1,4 @@
 import env from '@babel/preset-env'
-import stage2 from '@babel/preset-stage-2'
 
 export default {
   esEnv: {
@@ -10,8 +9,12 @@ export default {
   },
   esStage2: {
     exclude: 'node_modules/**',
-    presets: [
-      [stage2, { decoratorsLegacy: true }]
+    plugins: [
+      ['@babel/plugin-proposal-decorators', { legacy: true }],
+      '@babel/plugin-proposal-function-sent',
+      '@babel/plugin-proposal-export-namespace-from',
+      '@babel/plugin-proposal-numeric-separator',
+      '@babel/plugin-proposal-throw-expressions',
     ]
   }
 }
