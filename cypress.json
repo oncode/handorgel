@@ -2,7 +2,7 @@
   "baseUrl": "http://localhost:3000/docs/",
   "fixturesFolder": false,
   "supportFile": false,
-  "videoRecording": false,
+  "video": false,
   "integrationFolder": "tests/integration",
   "screenshotsFolder": "tests/screenshots",
   "videosFolder": "tests/videos",

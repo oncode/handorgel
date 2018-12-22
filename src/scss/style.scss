@@ -79,9 +79,9 @@ $handorgel__content--opened__inner-transition: opacity
     display: block;
     width: 100%;
     padding: $handorgel__header__button-padding;
+    margin: 0;
     border: none;
     border-top: $handorgel-border-width solid $handorgel-border-color;
-    margin: 0;
     background-color: $handorgel__header__button-background-color;
     border-radius: 0;
     color: inherit;
