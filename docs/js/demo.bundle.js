@@ -801,8 +801,6 @@
           return;
         }
 
-        this.element.setAttribute('role', 'presentation');
-
         if (this.options.multiSelectable) {
           this.element.setAttribute('aria-multiselectable', 'true');
         }
@@ -810,7 +808,6 @@
     }, {
       key: "_cleanAria",
       value: function _cleanAria() {
-        this.element.removeAttribute('role');
         this.element.removeAttribute('aria-multiselectable');
       }
     }, {
