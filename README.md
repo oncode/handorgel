@@ -84,7 +84,7 @@ $handorgel__content-transition-height-time: .05s;
 $handorgel__content-transition-opacity-time: .05s;
 //...
 
-@import '~handorgel/src/style';
+@import '~handorgel/src/scss/style';
 ```
 
 Alternatively you can just include the built CSS file inside the `/lib` folder file or from the CDN.
