@@ -1,6 +1,6 @@
 {
   "name": "handorgel",
-  "version": "0.4.9",
+  "version": "0.5.0",
   "description": "Accessible W3C conform accordion written in ES6.",
   "main": "lib/js/umd/handorgel.js",
   "module": "lib/js/esm/handorgel.js",
@@ -98,7 +98,7 @@
   "bundlesize": [
     {
       "path": "./lib/js/umd/handorgel.min.js",
-      "maxSize": "3.5 kB"
+      "maxSize": "3 kB"
     }
   ],
   "prettier": {

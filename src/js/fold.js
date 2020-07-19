@@ -84,10 +84,11 @@ export default class HandorgelFold {
     this.header.classList.add(this.handorgel.options.headerOpenClass)
     this.content.classList.add(this.handorgel.options.contentOpenClass)
 
-    this.resize(transition)
-
     if (!transition) {
       this._opened()
+    } else {
+      const height = this.content.firstElementChild.offsetHeight
+      this.content.style.height = `${height}px`
     }
   }
 
@@ -108,10 +109,17 @@ export default class HandorgelFold {
     this.header.classList.remove(this.handorgel.options.headerOpenedClass)
     this.content.classList.remove(this.handorgel.options.contentOpenedClass)
 
-    this.resize(transition)
-
     if (!transition) {
       this._closed()
+    } else {
+      // if we want to transition when closing we
+      // have to set the current height and replace auto
+      const height = this.content.firstElementChild.offsetHeight
+      this.content.style.height = `${height}px`
+
+      rAF(() => {
+        this.content.style.height = '0px'
+      })
     }
   }
 
@@ -145,28 +153,6 @@ export default class HandorgelFold {
     }
   }
 
-  resize(transition = false) {
-    let height = 0
-
-    if (!transition) {
-      this.header.classList.add(this.handorgel.options.headerNoTransitionClass)
-      this.content.classList.add(this.handorgel.options.contentNoTransitionClass)
-    }
-
-    if (this.expanded) {
-      height = this.content.firstElementChild.offsetHeight
-    }
-
-    this.content.style.height = height + 'px'
-
-    if (!transition) {
-      rAF(() => {
-        this.header.classList.remove(this.handorgel.options.headerNoTransitionClass)
-        this.content.classList.remove(this.handorgel.options.contentNoTransitionClass)
-      })
-    }
-  }
-
   destroy() {
     this._unbindEvents()
     this._cleanAria()
@@ -175,12 +161,10 @@ export default class HandorgelFold {
     this.header.classList.remove(this.handorgel.options.headerOpenClass)
     this.header.classList.remove(this.handorgel.options.headerOpenedClass)
     this.header.classList.remove(this.handorgel.options.headerFocusClass)
-    this.header.classList.remove(this.handorgel.options.headerNoTransitionClass)
 
     this.content.classList.remove(this.handorgel.options.contentOpenClass)
     this.content.classList.remove(this.handorgel.options.contentOpenedClass)
     this.content.classList.remove(this.handorgel.options.contentFocusClass)
-    this.content.classList.remove(this.handorgel.options.contentNoTransitionClass)
 
     // hide content
     this.content.style.height = '0px'
@@ -198,6 +182,7 @@ export default class HandorgelFold {
   }
 
   _opened() {
+    this.content.style.height = 'auto'
     this.header.classList.add(this.handorgel.options.headerOpenedClass)
     this.content.classList.add(this.handorgel.options.contentOpenedClass)
     this.handorgel.emitEvent('fold:opened', [this])
@@ -268,8 +253,6 @@ export default class HandorgelFold {
 
   _handleContentTransitionEnd(e) {
     if (e.target === e.currentTarget && e.propertyName === 'height') {
-      this.handorgel.resize(true)
-
       if (this.expanded) {
         this._opened()
       } else {

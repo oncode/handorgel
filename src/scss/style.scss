@@ -66,10 +66,6 @@ $handorgel__content--opened__inner-transition: opacity
     background-color: $handorgel__header--open__button-background-color;
   }
 
-  &__header--notransition &__header__button {
-    transition: none;
-  }
-
   &__header--focus &__header__button {
     background-color: $handorgel__header--focus__button-background-color;
     outline: none;
@@ -111,10 +107,6 @@ $handorgel__content--opened__inner-transition: opacity
 
     &--opened {
       overflow: visible;
-    }
-
-    &--notransition {
-      transition: none;
     }
   }
 

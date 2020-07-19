@@ -131,10 +131,6 @@ var accordion = new handorgel(document.querySelector('.handorgel'), {
   headerDisabledClass: 'handorgel__header--disabled',
   contentDisabledClass: 'handorgel__content--disabled',
 
-  // header/content class if no transition should be active (applied on resize)
-  headerNoTransitionClass: 'handorgel__header--notransition',
-  contentNoTransitionClass: 'handorgel__content--notransition'
-
 })
 ```
 
@@ -179,7 +175,6 @@ accordion.off('fold:open', fn)
 Method | Description | Parameters
 --- | --- | ---
 `update` | Update fold instances (use if you dynamically append/remove DOM nodes). |
-`resize` | Resize all fold instances. | `transition`: Whether transition should be active during resizing. (default: `false`)
 `focus` | Set focus to a new header button (you can also directly use the native `focus()` method on the button). | `target`: New header button to focus (`next`, `previous`, `last` or `first`)
 `destroy` | Destroy fold instances, remove event listeners and ARIA attributes. |
 
@@ -188,8 +183,8 @@ Example:
 ```javascript
 var accordion = new handorgel(document.querySelector('.handorgel'))
 
-// resize
-accordion.resize()
+// destroy
+accordion.destroy()
 ```
 
 #### HandorgelFold Class
@@ -199,7 +194,6 @@ Method | Description | Parameters
 `open` | Open content. | `transition`: Whether transition should be active during opening (default: `true`).
 `close` | Close content. | `transition`: Whether transition should be active during closing (default: `true`).
 `toggle` | Toggle content. | `transition`: Whether transition should be active during toggling (default: `true`).
-`resize` | Resize content height. | `transition`: Whether transition should be active during resizing (default: `false`).
 `disable` | Disable fold. |
 `enable` | Enable fold. |
 `focus` | Set focus to fold button. |

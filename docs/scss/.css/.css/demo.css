@@ -11,9 +11,6 @@
 .handorgel__header--open .handorgel__header__button {
   background-color: #eee; }
 
-.handorgel__header--notransition .handorgel__header__button {
-  transition: none; }
-
 .handorgel__header--focus .handorgel__header__button {
   background-color: #dfdfdf;
   outline: none; }
@@ -22,9 +19,9 @@
   display: block;
   width: 100%;
   padding: 20px 24px;
+  margin: 0;
   border: none;
   border-top: 1px solid #eee;
-  margin: 0;
   background-color: #fff;
   border-radius: 0;
   color: inherit;
@@ -51,9 +48,6 @@
 
 .handorgel__content--opened {
   overflow: visible; }
-
-.handorgel__content--notransition {
-  transition: none; }
 
 .handorgel__content__inner {
   padding: 20px 24px;

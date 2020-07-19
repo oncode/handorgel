@@ -294,15 +294,19 @@
 
         this.header.classList.add(this.handorgel.options.headerOpenClass);
         this.content.classList.add(this.handorgel.options.contentOpenClass);
-        this.resize(transition);
 
         if (!transition) {
           this._opened();
+        } else {
+          var height = this.content.firstElementChild.offsetHeight;
+          this.content.style.height = "".concat(height, "px");
         }
       }
     }, {
       key: "close",
       value: function close() {
+        var _this = this;
+
         var transition = arguments.length > 0 && arguments[0] !== undefined ? arguments[0] : true;
 
         if (!this.expanded) {
@@ -320,10 +324,17 @@
 
         this.header.classList.remove(this.handorgel.options.headerOpenedClass);
         this.content.classList.remove(this.handorgel.options.contentOpenedClass);
-        this.resize(transition);
 
         if (!transition) {
           this._closed();
+        } else {
+          // if we want to transition when closing we
+          // have to set the current height and replace auto
+          var height = this.content.firstElementChild.offsetHeight;
+          this.content.style.height = "".concat(height, "px");
+          rAF(function () {
+            _this.content.style.height = '0px';
+          });
         }
       }
     }, {
@@ -368,33 +379,6 @@
         }
       }
     }, {
-      key: "resize",
-      value: function resize() {
-        var _this = this;
-
-        var transition = arguments.length > 0 && arguments[0] !== undefined ? arguments[0] : false;
-        var height = 0;
-
-        if (!transition) {
-          this.header.classList.add(this.handorgel.options.headerNoTransitionClass);
-          this.content.classList.add(this.handorgel.options.contentNoTransitionClass);
-        }
-
-        if (this.expanded) {
-          height = this.content.firstElementChild.offsetHeight;
-        }
-
-        this.content.style.height = height + 'px';
-
-        if (!transition) {
-          rAF(function () {
-            _this.header.classList.remove(_this.handorgel.options.headerNoTransitionClass);
-
-            _this.content.classList.remove(_this.handorgel.options.contentNoTransitionClass);
-          });
-        }
-      }
-    }, {
       key: "destroy",
       value: function destroy() {
         this._unbindEvents();
@@ -405,11 +389,9 @@
         this.header.classList.remove(this.handorgel.options.headerOpenClass);
         this.header.classList.remove(this.handorgel.options.headerOpenedClass);
         this.header.classList.remove(this.handorgel.options.headerFocusClass);
-        this.header.classList.remove(this.handorgel.options.headerNoTransitionClass);
         this.content.classList.remove(this.handorgel.options.contentOpenClass);
         this.content.classList.remove(this.handorgel.options.contentOpenedClass);
-        this.content.classList.remove(this.handorgel.options.contentFocusClass);
-        this.content.classList.remove(this.handorgel.options.contentNoTransitionClass); // hide content
+        this.content.classList.remove(this.handorgel.options.contentFocusClass); // hide content
 
         this.content.style.height = '0px'; // clean reference to this instance
 
@@ -424,6 +406,7 @@
     }, {
       key: "_opened",
       value: function _opened() {
+        this.content.style.height = 'auto';
         this.header.classList.add(this.handorgel.options.headerOpenedClass);
         this.content.classList.add(this.handorgel.options.contentOpenedClass);
         this.handorgel.emitEvent('fold:opened', [this]);
@@ -506,8 +489,6 @@
       key: "_handleContentTransitionEnd",
       value: function _handleContentTransitionEnd(e) {
         if (e.target === e.currentTarget && e.propertyName === 'height') {
-          this.handorgel.resize(true);
-
           if (this.expanded) {
             this._opened();
           } else {
@@ -670,7 +651,6 @@
       this.folds = [];
       this.options = extend({}, Handorgel.defaultOptions, options);
       this._listeners = {};
-      this._resizing = false;
 
       this._bindEvents();
 
@@ -699,16 +679,6 @@
             this.folds.push(fold);
           }
         }
-      }
-    }, {
-      key: "resize",
-      value: function resize() {
-        var transition = arguments.length > 0 && arguments[0] !== undefined ? arguments[0] : false;
-        // resize each fold
-        this.folds.forEach(function (fold) {
-          fold.resize(transition);
-        });
-        this._resizing = false;
       }
     }, {
       key: "focus",
@@ -783,18 +753,6 @@
         });
       }
     }, {
-      key: "_handleResize",
-      value: function _handleResize() {
-        var _this = this;
-
-        if (!this._resizing) {
-          this._resizing = true;
-          rAF(function () {
-            _this.resize();
-          });
-        }
-      }
-    }, {
       key: "_initAria",
       value: function _initAria() {
         if (!this.options.ariaEnabled) {
@@ -813,15 +771,12 @@
     }, {
       key: "_bindEvents",
       value: function _bindEvents() {
-        this._listeners.resize = this._handleResize.bind(this);
-        window.addEventListener('resize', this._listeners.resize);
         this._listeners.foldOpen = this._handleFoldOpen.bind(this);
         this.on('fold:open', this._listeners.foldOpen);
       }
     }, {
       key: "_unbindEvents",
       value: function _unbindEvents() {
-        window.removeEventListener('resize', this._listeners.resize);
         this.off('fold:open', this._listeners.foldOpen);
       }
     }]);
@@ -845,12 +800,10 @@
     headerDisabledClass: 'handorgel__header--disabled',
     contentDisabledClass: 'handorgel__content--disabled',
     headerFocusClass: 'handorgel__header--focus',
-    contentFocusClass: 'handorgel__content--focus',
-    headerNoTransitionClass: 'handorgel__header--notransition',
-    contentNoTransitionClass: 'handorgel__content--notransition'
+    contentFocusClass: 'handorgel__content--focus'
   };
 
-  var accordion = new Handorgel(document.querySelector('.default'));
+  window.accordion = new Handorgel(document.querySelector('.default'));
   var accordion2 = new Handorgel(document.querySelector('.single-select'), {
     multiSelectable: false
   });

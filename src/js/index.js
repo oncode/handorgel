@@ -1,5 +1,5 @@
 import EventEmitter from 'ev-emitter'
-import { rAF, extend } from './helpers'
+import { extend } from './helpers'
 import Fold from './fold'
 
 let ID_COUNTER = 0
@@ -18,7 +18,6 @@ export default class Handorgel {
     this.options = extend({}, Handorgel.defaultOptions, options)
 
     this._listeners = {}
-    this._resizing = false
 
     this._bindEvents()
     this._initAria()
@@ -45,15 +44,6 @@ export default class Handorgel {
         this.folds.push(fold)
       }
     }
-  }
-
-  resize(transition = false) {
-    // resize each fold
-    this.folds.forEach(fold => {
-      fold.resize(transition)
-    })
-
-    this._resizing = false
   }
 
   focus(target) {
@@ -122,16 +112,6 @@ export default class Handorgel {
     })
   }
 
-  _handleResize() {
-    if (!this._resizing) {
-      this._resizing = true
-
-      rAF(() => {
-        this.resize()
-      })
-    }
-  }
-
   _initAria() {
     if (!this.options.ariaEnabled) {
       return
@@ -147,15 +127,11 @@ export default class Handorgel {
   }
 
   _bindEvents() {
-    this._listeners.resize = this._handleResize.bind(this)
-    window.addEventListener('resize', this._listeners.resize)
-
     this._listeners.foldOpen = this._handleFoldOpen.bind(this)
     this.on('fold:open', this._listeners.foldOpen)
   }
 
   _unbindEvents() {
-    window.removeEventListener('resize', this._listeners.resize)
     this.off('fold:open', this._listeners.foldOpen)
   }
 }
@@ -184,8 +160,5 @@ Handorgel.defaultOptions = {
   contentDisabledClass: 'handorgel__content--disabled',
 
   headerFocusClass: 'handorgel__header--focus',
-  contentFocusClass: 'handorgel__content--focus',
-
-  headerNoTransitionClass: 'handorgel__header--notransition',
-  contentNoTransitionClass: 'handorgel__content--notransition'
+  contentFocusClass: 'handorgel__content--focus'
 }
