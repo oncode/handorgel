@@ -117,9 +117,12 @@ export default class HandorgelFold {
       const height = this.content.firstElementChild.offsetHeight
       this.content.style.height = `${height}px`
 
-      rAF(() => {
-        this.content.style.height = '0px'
-      })
+      setTimeout( function()
+      {
+        rAF(function () {
+          _this.content.style.height = '0px';
+        });
+      }, 100);
     }
   }
 
