@@ -5,6 +5,7 @@
   "main": "lib/js/umd/handorgel.js",
   "module": "lib/js/esm/handorgel.js",
   "jsnext:main": "lib/js/esm/handorgel.js",
+  "types": "index.d.ts",
   "repository": {
     "type": "git",
     "url": "https://github.com/oncode/handorgel.git"
@@ -15,6 +16,13 @@
     "accessible"
   ],
   "author": "Manuel Sommerhalder",
+  "contributors": [
+    {
+      "name": "Nikolas Savvidis",
+      "email": "n.savvidis@gmx.com",
+      "url": "https://github.com/panoply"
+    }
+  ],
   "license": "MIT",
   "scripts": {
     "build": "run-s compile minify",
