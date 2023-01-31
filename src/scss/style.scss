@@ -110,14 +110,13 @@ $handorgel__content--opened__inner-transition: opacity
     }
   }
 
-  &__content__inner {
+  &__content &__content__inner {
     padding: $handorgel__content__inner-padding;
     opacity: 0;
     transition: $handorgel__content__inner-transition;
   }
 
-  &__content--opened &__content__inner {
+  &__content[aria-hidden='false'] &__content__inner {
     opacity: 1;
-    transition: $handorgel__content--opened__inner-transition;
   }
 }
