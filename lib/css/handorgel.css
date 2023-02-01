@@ -71,6 +71,6 @@
   transition: opacity 0.1s ease;
 }
 
-.handorgel__content[aria-hidden="false"] .handorgel__content__inner {
+.handorgel__content[aria-hidden='false'] .handorgel__content__inner {
   opacity: 1;
 }
