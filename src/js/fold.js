@@ -81,6 +81,7 @@ export default class HandorgelFold {
 
     this._updateAria('button', 'aria-expanded')
 
+    this.content.setAttribute('aria-hidden', false)
     this.header.classList.add(this.handorgel.options.headerOpenClass)
     this.content.classList.add(this.handorgel.options.contentOpenClass)
 
@@ -158,6 +159,8 @@ export default class HandorgelFold {
     this._cleanAria()
 
     // clean classes
+    this.content.removeAttribute('aria-hidden')
+
     this.header.classList.remove(this.handorgel.options.headerOpenClass)
     this.header.classList.remove(this.handorgel.options.headerOpenedClass)
     this.header.classList.remove(this.handorgel.options.headerFocusClass)
@@ -182,6 +185,7 @@ export default class HandorgelFold {
   }
 
   _opened() {
+    this.content.setAttribute('aria-hidden', false)
     this.content.style.height = 'auto'
     this.header.classList.add(this.handorgel.options.headerOpenedClass)
     this.content.classList.add(this.handorgel.options.contentOpenedClass)
@@ -189,6 +193,7 @@ export default class HandorgelFold {
   }
 
   _closed() {
+    this.content.setAttribute('aria-hidden', true)
     this.header.classList.remove(this.handorgel.options.headerOpenClass)
     this.content.classList.remove(this.handorgel.options.contentOpenClass)
     this.handorgel.emitEvent('fold:closed', [this])

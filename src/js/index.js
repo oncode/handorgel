@@ -119,6 +119,7 @@ export default class Handorgel {
 
     if (this.options.multiSelectable) {
       this.element.setAttribute('aria-multiselectable', 'true')
+      this._cleanAria()
     }
   }
 

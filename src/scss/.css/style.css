@@ -58,13 +58,12 @@
   overflow: visible;
 }
 
-.handorgel__content__inner {
+.handorgel__content .handorgel__content__inner {
   padding: 20px 24px;
   opacity: 0;
   transition: opacity 0.1s ease;
 }
 
-.handorgel__content--opened .handorgel__content__inner {
+.handorgel__content[aria-hidden='false'] .handorgel__content__inner {
   opacity: 1;
-  transition: opacity 0.3s ease;
 }
