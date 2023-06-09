@@ -20,7 +20,7 @@
     "build": "run-s compile minify",
     "compile": "run-p compile:*",
     "compile:scripts": "cross-env INPUT_PATH='src/js' OUTPUT_PATH='lib/js' rollup --config '.config/rollup.config.js'",
-    "compile:styles": "node-sass 'src/scss' --include-path 'node_modules' --output 'src/scss/.css' --output-style 'expanded' && postcss 'src/scss/.css/style.css' --output 'lib/css/handorgel.css' --no-map --config '.config/postcss.config.js'",
+    "compile:styles": "sass 'src/scss/style.scss':'src/scss/.css/style.css' --load-path 'node_modules' && postcss 'src/scss/.css/style.css' --output 'lib/css/handorgel.css' --no-map --config '.config/postcss.config.js'",
     "minify": "run-p minify:*",
     "minify:js": "run-p minify:js:*",
     "minify:js:stage2": "uglifyjs 'lib/js/handorgel.js' --compress --mangle --toplevel --output 'lib/js/handorgel.min.js' --comments '/@preserve|@license|@cc_on/i'",
@@ -30,15 +30,14 @@
     "format": "run-p format:*",
     "format:js": "prettier 'src/js/**/*.js' --write && eslint 'src/js' --fix",
     "format:sass": "prettier 'src/scss/**/*.scss' --write && stylelint 'src/scss/**/*.scss' --fix --syntax 'scss'",
-    "test": "run-p bundlesize lint",
-    "bundlesize": "bundlesize",
+    "test": "run-p lint",
     "lint": "run-p lint:*",
     "lint:js": "eslint 'src/js'",
     "lint:sass": "stylelint 'src/scss/**/*.scss' --syntax 'scss'",
     "demo": "run-p demo:*",
     "demo:watch": "run-p demo:watch:*",
     "demo:watch:js": "cross-env DEMO_PATH='docs' rollup --config '.config/demo/rollup.config.js' --watch",
-    "demo:watch:sass": "node-sass 'docs/scss' --include-path 'node_modules' --output 'docs/scss/.css' --watch --recursive",
+    "demo:watch:sass": "sass 'docs/scss/style.scss':'docs/scss/.css/.style.css' --load-path 'node_modules' --watch",
     "demo:watch:postcss": "postcss --config '.config/postcss.config.js' 'docs/scss/.css/demo.css' --output 'docs/css/demo.css' --no-map --watch",
     "demo:browsersync": "cross-env DEMO_PATH='docs' browser-sync start --config '.config/demo/browsersync.config.js'",
     "prepublishOnly": "run-p format test build"
@@ -57,7 +56,6 @@
     "@babel/preset-env": "^7.2.3",
     "autoprefixer": "^9.4.3",
     "browser-sync": "^2.26.3",
-    "bundlesize": "^0.17.0",
     "cross-env": "^5.2.0",
     "css-mqpacker": "^7.0.0",
     "cssnano": "^4.1.7",
@@ -70,7 +68,6 @@
     "eslint-plugin-promise": "^4.0.1",
     "eslint-plugin-standard": "^4.0.0",
     "husky": "^1.2.1",
-    "node-sass": "^4.11.0",
     "npm-run-all": "^4.1.5",
     "postcss-assets": "^5.0.0",
     "postcss-cli": "^6.1.0",
@@ -88,18 +85,13 @@
     "uglify-es": "^3.3.9"
   },
   "dependencies": {
-    "ev-emitter": "^1.1.1"
+    "ev-emitter": "^1.1.1",
+    "sass": "^1.63.3"
   },
   "browserslist": [
     "> 5%",
     "last 2 versions",
     "ie 10-11"
-  ],
-  "bundlesize": [
-    {
-      "path": "./lib/js/umd/handorgel.min.js",
-      "maxSize": "3 kB"
-    }
   ],
   "prettier": {
     "printWidth": 100,

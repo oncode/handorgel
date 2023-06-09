@@ -4,21 +4,17 @@
   border: 1px solid #eee;
   border-top: none;
 }
-
 .handorgel__header {
   display: block;
   margin: 0;
 }
-
 .handorgel__header--open .handorgel__header__button {
   background-color: #eee;
 }
-
 .handorgel__header--focus .handorgel__header__button {
   background-color: #dfdfdf;
   outline: none;
 }
-
 .handorgel__header__button {
   display: block;
   width: 100%;
@@ -35,11 +31,9 @@
   transition: background-color 0.2s ease;
   user-select: none;
 }
-
 .handorgel__header__button::-moz-focus-inner {
   border: 0;
 }
-
 .handorgel__content {
   display: none;
   overflow: hidden;
@@ -48,23 +42,21 @@
   background-color: #fff;
   transition: height 0.1s ease 0.1s;
 }
-
 .handorgel__content--open {
   display: block;
   transition: height 0.2s ease;
 }
-
 .handorgel__content--opened {
   overflow: visible;
 }
-
 .handorgel__content__inner {
   padding: 20px 24px;
   opacity: 0;
   transition: opacity 0.1s ease;
 }
-
 .handorgel__content--opened .handorgel__content__inner {
   opacity: 1;
   transition: opacity 0.3s ease;
 }
+
+/*# sourceMappingURL=style.css.map */

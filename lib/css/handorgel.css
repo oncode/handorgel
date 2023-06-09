@@ -4,21 +4,17 @@
   border: 1px solid #eee;
   border-top: none;
 }
-
 .handorgel__header {
   display: block;
   margin: 0;
 }
-
 .handorgel__header--open .handorgel__header__button {
   background-color: #eee;
 }
-
 .handorgel__header--focus .handorgel__header__button {
   background-color: #dfdfdf;
   outline: none;
 }
-
 .handorgel__header__button {
   display: block;
   width: 100%;
@@ -39,11 +35,9 @@
       -ms-user-select: none;
           user-select: none;
 }
-
 .handorgel__header__button::-moz-focus-inner {
   border: 0;
 }
-
 .handorgel__content {
   display: none;
   overflow: hidden;
@@ -53,24 +47,20 @@
   -webkit-transition: height 0.1s ease 0.1s;
   transition: height 0.1s ease 0.1s;
 }
-
 .handorgel__content--open {
   display: block;
   -webkit-transition: height 0.2s ease;
   transition: height 0.2s ease;
 }
-
 .handorgel__content--opened {
   overflow: visible;
 }
-
 .handorgel__content__inner {
   padding: 20px 24px;
   opacity: 0;
   -webkit-transition: opacity 0.1s ease;
   transition: opacity 0.1s ease;
 }
-
 .handorgel__content--opened .handorgel__content__inner {
   opacity: 1;
   -webkit-transition: opacity 0.3s ease;
