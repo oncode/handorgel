@@ -31,9 +31,9 @@ yarn | `yarn add handorgel`
 
 File | CDN
 --- | ---
-CSS | [handorgel.css](https://unpkg.com/handorgel@0.6/lib/css/handorgel.css)
+CSS | [handorgel.css](https://unpkg.com/handorgel@1.0/lib/css/handorgel.css)
 CSS (minified) | [handorgel.min.css](https://unpkg.com/handorgel@0.6/lib/css/handorgel.min.css)
-JS | [handorgel.js](https://unpkg.com/handorgel@0.6/lib/js/umd/handorgel.js)
+JS | [handorgel.js](https://unpkg.com/handorgel@1.0/lib/js/umd/handorgel.js)
 JS (minified) | [handorgel.min.js](https://unpkg.com/handorgel@0.6/lib/js/umd/handorgel.min.js)
 
 ## Usage
@@ -214,7 +214,6 @@ accordion.folds[0].close()
 ## Browser compatibility
 
 * Newest two browser versions of Chrome, Firefox, Safari and Edge
-* IE 10 and IE 11
 
 ## Development
 

@@ -1,5 +1,3 @@
-import { rAF } from './helpers'
-
 let ID_COUNTER = {}
 
 const ARIA_ATTRIBUTES = {
@@ -117,8 +115,10 @@ export default class HandorgelFold {
       const height = this.content.firstElementChild.offsetHeight
       this.content.style.height = `${height}px`
 
-      rAF(() => {
-        this.content.style.height = '0px'
+      window.requestAnimationFrame(() => {
+        window.requestAnimationFrame(() => {
+          this.content.style.height = '0px'
+        })
       })
     }
   }
