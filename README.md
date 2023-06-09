@@ -1,8 +1,6 @@
 # Handorgel
 
 [![NPM version][npm-image]][npm-url]
-[![Dependencies][deps-image]][deps-url]
-[![Build Status][travis-image]][travis-url]
 [![Coding Style][style-image]][style-url]
 [![MIT License][license-image]][license-url]
 
@@ -33,10 +31,10 @@ yarn | `yarn add handorgel`
 
 File | CDN
 --- | ---
-CSS | [handorgel.css](https://unpkg.com/handorgel@0.5/lib/css/handorgel.css)
-CSS (minified) | [handorgel.min.css](https://unpkg.com/handorgel@0.5/lib/css/handorgel.min.css)
-JS | [handorgel.js](https://unpkg.com/handorgel@0.5/lib/js/umd/handorgel.js)
-JS (minified) | [handorgel.min.js](https://unpkg.com/handorgel@0.5/lib/js/umd/handorgel.min.js)
+CSS | [handorgel.css](https://unpkg.com/handorgel@0.6/lib/css/handorgel.css)
+CSS (minified) | [handorgel.min.css](https://unpkg.com/handorgel@0.6/lib/css/handorgel.min.css)
+JS | [handorgel.js](https://unpkg.com/handorgel@0.6/lib/js/umd/handorgel.js)
+JS (minified) | [handorgel.min.js](https://unpkg.com/handorgel@0.6/lib/js/umd/handorgel.min.js)
 
 ## Usage
 
@@ -114,6 +112,10 @@ var accordion = new handorgel(document.querySelector('.handorgel'), {
   initialOpenTransition: true,
   // delay used to show initial transition
   initialOpenTransitionDelay: 200,
+
+  // header/content element selectors or array of elements
+  headerElements: '.handorgel__header',
+  contentElements: '.handorgel__content',
 
   // header/content class if fold is open
   headerOpenClass: 'handorgel__header--open',
@@ -222,22 +224,13 @@ accordion.folds[0].close()
 
 ## License
 
-© 2018 [Manuel Sommerhalder](https://github.com/oncode)
-Released under the [MIT LICENSE](http://opensource.org/licenses/MIT)
-
-<a href="https://www.buymeacoffee.com/oncode" target="_blank"><img src="https://www.buymeacoffee.com/assets/img/custom_images/orange_img.png" alt="Buy Me A Coffee" style="height: auto !important;width: auto !important;" ></a>
+[MIT LICENSE](http://opensource.org/licenses/MIT)
 
 [npm-image]: https://img.shields.io/npm/v/handorgel.svg
 [npm-url]: https://npmjs.com/package/handorgel
-
-[deps-image]: https://david-dm.org/oncode/handorgel.svg
-[deps-url]: https://david-dm.org/oncode/handorgel
 
 [style-image]: https://img.shields.io/badge/code%20style-standard-yellow.svg
 [style-url]: http://standardjs.com/
 
 [license-image]: http://img.shields.io/badge/license-MIT-000000.svg
 [license-url]: LICENSE
-
-[travis-image]: https://travis-ci.org/oncode/handorgel.svg?branch=master
-[travis-url]: https://travis-ci.org/oncode/handorgel

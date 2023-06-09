@@ -26,18 +26,24 @@ export default class Handorgel {
 
   update() {
     this.folds = []
-    const children = this.element.children
 
-    for (let i = 0, childrenLength = children.length; i < childrenLength; i = i + 2) {
-      const header = children[i]
-      const content = children[i + 1]
+    const headerElements =
+      typeof this.options.headerElements === 'string'
+        ? this.element.querySelectorAll(this.options.headerElements)
+        : this.options.headerElements
 
+    const contentElements =
+      typeof this.options.contentElements === 'string'
+        ? this.element.querySelectorAll(this.options.contentElements)
+        : this.options.contentElements
+
+    for (let i = 0; i < headerElements.length; i = i + 1) {
       // get fold instance if there is already one
-      let fold = header.handorgelFold
+      let fold = headerElements[i].handorgelFold
 
       // create new one when header and content exist
-      if (!fold && header && content) {
-        fold = new Fold(this, header, content)
+      if (!fold && headerElements[i] && contentElements[i]) {
+        fold = new Fold(this, headerElements[i], contentElements[i])
       }
 
       if (fold) {
@@ -149,6 +155,9 @@ Handorgel.defaultOptions = {
   initialOpenAttribute: 'data-open',
   initialOpenTransition: true,
   initialOpenTransitionDelay: 200,
+
+  headerElements: '.handorgel__header',
+  contentElements: '.handorgel__content',
 
   headerOpenClass: 'handorgel__header--open',
   contentOpenClass: 'handorgel__content--open',

@@ -615,17 +615,15 @@
       key: "update",
       value: function update() {
         this.folds = [];
-        var children = this.element.children;
-        for (var i = 0, childrenLength = children.length; i < childrenLength; i = i + 2) {
-          var header = children[i];
-          var content = children[i + 1];
-
+        var headerElements = typeof this.options.headerElements === 'string' ? this.element.querySelectorAll(this.options.headerElements) : this.options.headerElements;
+        var contentElements = typeof this.options.contentElements === 'string' ? this.element.querySelectorAll(this.options.contentElements) : this.options.contentElements;
+        for (var i = 0; i < headerElements.length; i = i + 1) {
           // get fold instance if there is already one
-          var fold = header.handorgelFold;
+          var fold = headerElements[i].handorgelFold;
 
           // create new one when header and content exist
-          if (!fold && header && content) {
-            fold = new HandorgelFold(this, header, content);
+          if (!fold && headerElements[i] && contentElements[i]) {
+            fold = new HandorgelFold(this, headerElements[i], contentElements[i]);
           }
           if (fold) {
             this.folds.push(fold);
@@ -732,6 +730,8 @@
     initialOpenAttribute: 'data-open',
     initialOpenTransition: true,
     initialOpenTransitionDelay: 200,
+    headerElements: '.handorgel__header',
+    contentElements: '.handorgel__content',
     headerOpenClass: 'handorgel__header--open',
     contentOpenClass: 'handorgel__content--open',
     headerOpenedClass: 'handorgel__header--opened',
