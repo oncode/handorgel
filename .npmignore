@@ -2,5 +2,6 @@
 *
 
 # except the lib and src files
+!index.d.ts
 !lib/**/*
 !src/**/*
