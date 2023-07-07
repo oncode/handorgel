@@ -78,7 +78,7 @@
     "rollup-plugin-babel": "^4.1.0",
     "rollup-plugin-commonjs": "^9.2.0",
     "rollup-plugin-node-resolve": "^4.0.0",
-    "stylelint": "^9.9.0",
+    "stylelint": "^15.10.1",
     "stylelint-config-idiomatic-order": "^6.2.0",
     "stylelint-config-prettier": "^4.0.0",
     "stylelint-scss": "^3.4.2",
