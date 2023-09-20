@@ -18,6 +18,12 @@ const ARIA_ATTRIBUTES = {
     },
     'aria-labelledby': function() {
       return this.id + '-header'
+    },
+    'aria-hidden': function() {
+      return this.expanded ? 'false' : 'true'
+    },
+    tabindex: function() {
+      return this.expanded ? 0 : -1
     }
   }
 }
@@ -182,6 +188,8 @@ export default class HandorgelFold {
   }
 
   _opened() {
+    this._updateAria('content', 'tabindex')
+    this._updateAria('content', 'aria-hidden')
     this.content.style.height = 'auto'
     this.header.classList.add(this.handorgel.options.headerOpenedClass)
     this.content.classList.add(this.handorgel.options.contentOpenedClass)
@@ -189,6 +197,8 @@ export default class HandorgelFold {
   }
 
   _closed() {
+    this._updateAria('content', 'tabindex')
+    this._updateAria('content', 'aria-hidden')
     this.header.classList.remove(this.handorgel.options.headerOpenClass)
     this.content.classList.remove(this.handorgel.options.contentOpenClass)
     this.handorgel.emitEvent('fold:closed', [this])
